@@ -24,7 +24,9 @@ import urllib.request
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_PATH = os.path.join(BASE_DIR, "data", "osm-layers.json")
 MIN_ELEVATION = 2000  # metres
-MIN_WATER_POINTS = 8  # ignore ponds mapped with a handful of nodes
+MIN_WATER_POINTS = 8      # ignore ponds mapped with a handful of nodes
+SIMPLIFY_DEGREES = 0.0008  # about 80 m, plenty for a map of a whole country
+MIN_EXTENT_DEGREES = 0.002  # drop anything under roughly 200 m across
 
 ENDPOINTS = [
     "https://overpass-api.de/api/interpreter",
@@ -39,7 +41,7 @@ PEAKS_QUERY = (
     '[out:json][timeout:180];'
     'area["ISO3166-1"="CH"][admin_level=2]->.ch;'
     'node["natural"="peak"]["name"](area.ch);'
-    'out tags;'
+    'out body;'
 )
 WATER_QUERY = (
     '[out:json][timeout:300];'
@@ -93,6 +95,43 @@ def parse_peaks(data):
     return out
 
 
+def simplify(points, epsilon):
+    """Ramer-Douglas-Peucker, iterative so a 37000 point river cannot blow the stack."""
+    if len(points) < 3:
+        return points
+    keep = [False] * len(points)
+    keep[0] = keep[-1] = True
+    stack = [(0, len(points) - 1)]
+    while stack:
+        start, end = stack.pop()
+        if end <= start + 1:
+            continue
+        x1, y1 = points[start]
+        x2, y2 = points[end]
+        dx, dy = x2 - x1, y2 - y1
+        denom = (dx * dx + dy * dy) ** 0.5
+        worst, index = 0.0, start
+        for i in range(start + 1, end):
+            x, y = points[i]
+            if denom == 0:
+                dist = ((x - x1) ** 2 + (y - y1) ** 2) ** 0.5
+            else:
+                dist = abs(dy * x - dx * y + x2 * y1 - y2 * x1) / denom
+            if dist > worst:
+                worst, index = dist, i
+        if worst > epsilon:
+            keep[index] = True
+            stack.append((start, index))
+            stack.append((index, end))
+    return [p for p, k in zip(points, keep) if k]
+
+
+def extent(ring):
+    xs = [p[0] for p in ring]
+    ys = [p[1] for p in ring]
+    return max(max(xs) - min(xs), max(ys) - min(ys))
+
+
 def ring_from(geometry):
     ring = [[round(p["lon"], 4), round(p["lat"], 4)] for p in geometry if "lat" in p]
     if len(ring) < 4:
@@ -121,6 +160,18 @@ def parse_water(data):
                     if ring:
                         rings.append(ring)
         rings = [r for r in rings if len(r) >= MIN_WATER_POINTS]
+        # Raw OpenStreetMap outlines are far more detailed than a national map
+        # needs. Unsimplified this file runs to several megabytes, which is a
+        # painful download on mobile data in the field.
+        simplified = []
+        for ring in rings:
+            small = simplify(ring, SIMPLIFY_DEGREES)
+            if len(small) < 6 or extent(small) < MIN_EXTENT_DEGREES:
+                continue
+            if small[0] != small[-1]:
+                small.append(small[0])
+            simplified.append([[round(x, 4), round(y, 4)] for x, y in small])
+        rings = simplified
         if not rings:
             continue
         if name.lower() in seen:
