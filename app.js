@@ -90,7 +90,7 @@ function halfPlane(A,B,towardB){const lat0=(A[1]+B[1])/2,k=Math.cos(lat0*Math.PI
   const mx=(ax+bx)/2,my=(ay+by)/2;let dx=wx-cx,dy=wy-cy;const L=Math.hypot(dx,dy)||1;dx/=L;dy/=L;const px=-dy,py=dx,BIG=6;
   const pts=[[mx+px*BIG,my+py*BIG],[mx-px*BIG,my-py*BIG],[mx-px*BIG+dx*BIG*2,my-py*BIG+dy*BIG*2],[mx+px*BIG+dx*BIG*2,my+py*BIG+dy*BIG*2]];
   const ring=pts.map(p=>[p[0]/k,p[1]]);ring.push(ring[0]);return turf.polygon([ring]);}
-function outerRings(region){const g=region.geometry||region;const ps=g.type==="Polygon"?[g.coordinates]:g.coordinates;return ps.map(poly=>poly[0].map(([lng,lat])=>[lat,lng]));}
+const WORLD_MASK=turf.polygon([[[3,44],[13,44],[13,49],[3,49],[3,44]]]);
 
 function setFor(ref){
   if(ref==="station") return STATIONS.map(s=>({name:s[0]||"Station",lat:s[1],lng:s[2]}));
@@ -265,7 +265,8 @@ function drawDeduction(){
     }
     activeFilter=computeViableStations(region);
     render();
-    L.polygon([OUTER,...outerRings(region)],{stroke:false,fillColor:"#0b0f14",fillOpacity:.6,interactive:false,pane:"maskPane"}).addTo(maskLayer);
+    const mask=turf.difference(WORLD_MASK,region);
+    if(mask) L.geoJSON(mask,{style:{stroke:false,fillColor:"#0b0f14",fillOpacity:.6},interactive:false,pane:"maskPane"}).addTo(maskLayer);
     L.geoJSON(region,{style:{color:"#e30613",weight:2,fill:false},interactive:false}).addTo(survLayer);
     const km=Math.round(turf.area(region)/1e6).toLocaleString();
     st.innerHTML=`Possible area: <b>${km} km\u00b2</b> \u00b7 ${clues.length} clue${clues.length>1?"s":""} \u00b7 <b>${activeFilter.size.toLocaleString()}</b> of ${STATIONS.length.toLocaleString()} stations in play`;
