@@ -52,6 +52,7 @@
     background:var(--red-soft);border:1px solid rgba(227,6,19,.25)}
   .zone-row .name{font-size:13.5px;font-weight:600;flex:1}
   .zone-row .name span{display:block;font-weight:400;font-size:11px;color:var(--ink-dim)}
+  .zone-row.disabled{opacity:.45;pointer-events:none}
   .slider-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
   .slider-top .val{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px}
   input[type=range]{width:100%;accent-color:var(--red)}
