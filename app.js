@@ -463,6 +463,19 @@ function buildMatchClue(mode,lat,lng,same){
       label:`<span class="idx">M</span> Matching · ${same?"same":"different"} canton · ${f.properties.code}<br><span class="hint">${f.properties.name}</span>`,
       poly:turf.feature(f.geometry), mode:same?"i":"d", share:{t:"M",mode,lat,lng,same}}};
   }
+  if(mode==="stationlen"){
+    const pts=setFor("station");
+    if(pts.length<2) return {error:"Not enough station data loaded for that question."};
+    const near=nearestOf(pts,lat,lng);
+    const len=near.place.name.length;
+    const group=pts.filter(p=>p.name.length===len);
+    const cells=group.map(p=>voronoiCellFor("station",p)).filter(Boolean);
+    const poly=dissolveUnion(cells);
+    if(!poly) return {error:"Could not compute that area."};
+    return {clue:{kind:"match",
+      label:`<span class="idx">M</span> Matching · ${same?"same":"different"} station name length · ${len} characters<br><span class="hint">${near.place.name} · ${group.length} station${group.length===1?"":"s"} share that length</span>`,
+      poly, mode:same?"i":"d", share:{t:"M",mode,lat,lng,same}}};
+  }
   const pts=setFor(mode);
   if(pts.length<2) return {error:"Not enough "+(REF_LABEL[mode]||mode)+" data loaded for that question."};
   const near=nearestOf(pts,lat,lng);
