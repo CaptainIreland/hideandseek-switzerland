@@ -32,10 +32,10 @@ const UNIT_TABLE={
   tentLong:{mi:15,km:25},
   thermo:{mi:[0.5,3,10,50],km:[1,5,15,75]}
 };
-// The card the group says they played, i.e. the minimum distance the asker
+// The question the group says they played, i.e. the minimum distance the asker
 // must have moved for the thermometer answer to be valid. Canonical km,
 // like every other distance; the toggle only changes which values it can be.
-let THERMO_CARD_KM=UNIT_TABLE.thermo.km[0];
+let THERMO_QUESTION_KM=UNIT_TABLE.thermo.km[0];
 function toKm(v,unit){return unit==="mi"?v*MI:v;}
 function fromKm(km,unit){return unit==="mi"?km/MI:km;}
 function fmtDist(km,unit){
@@ -128,7 +128,7 @@ function renderThermoPresets(){
   const kms=UNIT_TABLE.thermo.km, mis=UNIT_TABLE.thermo.mi;
   box.innerHTML=kms.map((kv,i)=>{
     const text=UNITS==="mi"?presetGlyph(mis[i])+" mi":(kv<1?Math.round(kv*1000)+" m":kv+" km");
-    return `<button data-km="${kv}" class="${kv===THERMO_CARD_KM?"on":""}">${text}</button>`;
+    return `<button data-km="${kv}" class="${kv===THERMO_QUESTION_KM?"on":""}">${text}</button>`;
   }).join("");
 }
 // Shared by the units toggle and by startEdit() restoring a clue's creation
@@ -433,15 +433,15 @@ function buildRadarClue(lat,lng,km,unit,hit){
     label:`<span class="idx">R</span> Radar · ${hit?"hit, inside":"miss, outside"} · ${disp} ${unit}<br><span class="hint">@ ${lat.toFixed(3)}, ${lng.toFixed(3)}</span>`,
     poly:circle(lat,lng,km), mode:hit?"i":"d", share:{t:"R",lat,lng,km,hit,unit}}};
 }
-function buildThermoClue(aLat,aLng,bLat,bLng,hotter,cardKm,unit){
+function buildThermoClue(aLat,aLng,bLat,bLng,hotter,questionKm,unit){
   if([aLat,aLng,bLat,bLng].some(v=>v==null)) return {error:"Thermometer needs both a start and an end point."};
   unit=unit||UNITS;
   const distKm=turf.distance(turf.point([aLng,aLat]),turf.point([bLng,bLat]),{units:"kilometers"});
-  const short=cardKm!=null&&distKm<cardKm;
-  const shortTxt=short?` <b style="color:#ffb020">(short of the ${fmtDist(cardKm,unit)} card)</b>`:"";
+  const short=questionKm!=null&&distKm<questionKm;
+  const shortTxt=short?` <b style="color:#ffb020">(short of the ${fmtDist(questionKm,unit)} question)</b>`:"";
   return {clue:{kind:"thermo",
     label:`<span class="idx">T</span> Thermometer · ${hotter?"hotter":"colder"} · ${fmtDist(distKm,unit)} travelled${shortTxt}<br><span class="hint">${aLat.toFixed(3)},${aLng.toFixed(3)} → ${bLat.toFixed(3)},${bLng.toFixed(3)}</span>`,
-    poly:halfPlane([aLng,aLat],[bLng,bLat],hotter), mode:"i", share:{t:"T",aLat,aLng,bLat,bLng,hotter,cardKm,unit}}};
+    poly:halfPlane([aLng,aLat],[bLng,bLat],hotter), mode:"i", share:{t:"T",aLat,aLng,bLat,bLng,hotter,questionKm,unit}}};
 }
 function buildMatchClue(mode,lat,lng,same){
   if(lat==null||lng==null) return {error:"Matching needs your location."};
@@ -605,7 +605,7 @@ function startEdit(i){
       document.getElementById("th-blat").value=s.bLat.toFixed(5);
       document.getElementById("th-blng").value=s.bLng.toFixed(5);
       showDraft("thermoA",s.aLat,s.aLng); showDraft("thermoB",s.bLat,s.bLng);
-      UNITS=s.unit||UNITS; THERMO_CARD_KM=s.cardKm!=null?s.cardKm:THERMO_CARD_KM; refreshUnitUI();
+      UNITS=s.unit||UNITS; THERMO_QUESTION_KM=s.questionKm!=null?s.questionKm:THERMO_QUESTION_KM; refreshUnitUI();
       setAns("thermo",s.hotter?"hotter":"colder");
       break;
     case "M":
@@ -675,11 +675,11 @@ function updateThermoDistance(){
   const aLat=num("th-alat"),aLng=num("th-alng"),bLat=num("th-blat"),bLng=num("th-blng");
   if(aLat==null||aLng==null||bLat==null||bLng==null){el.innerHTML="";return;}
   const distKm=turf.distance(turf.point([aLng,aLat]),turf.point([bLng,bLat]),{units:"kilometers"});
-  const short=distKm<THERMO_CARD_KM;
-  const distTxt=fmtDist(distKm,UNITS), cardTxt=fmtDist(THERMO_CARD_KM,UNITS);
+  const short=distKm<THERMO_QUESTION_KM;
+  const distTxt=fmtDist(distKm,UNITS), questionTxt=fmtDist(THERMO_QUESTION_KM,UNITS);
   el.innerHTML=short
-    ? `<b style="color:#ffb020">${distTxt} travelled, short of the ${cardTxt} card</b>`
-    : `${distTxt} travelled · ${cardTxt} card`;
+    ? `<b style="color:#ffb020">${distTxt} travelled, short of the ${questionTxt} question</b>`
+    : `${distTxt} travelled · ${questionTxt} question`;
 }
 
 document.getElementById("add-radar").addEventListener("click",()=>{
@@ -694,7 +694,7 @@ document.getElementById("add-radar").addEventListener("click",()=>{
 });
 document.getElementById("th-presets").addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
-  THERMO_CARD_KM=parseFloat(b.dataset.km);
+  THERMO_QUESTION_KM=parseFloat(b.dataset.km);
   document.querySelectorAll("#th-presets button").forEach(x=>x.classList.toggle("on",x===b));
   updateThermoDistance();
 });
@@ -703,7 +703,7 @@ document.getElementById("add-thermo").addEventListener("click",()=>{
   const alat=num("th-alat"),alng=num("th-alng"),blat=num("th-blat"),blng=num("th-blng");
   if([alat,alng,blat,blng].some(v=>v===null)){flash("Set both the start and end points.");return;}
   const hotter=ans.thermo==="hotter";
-  const r=buildThermoClue(alat,alng,blat,blng,hotter,THERMO_CARD_KM,UNITS);
+  const r=buildThermoClue(alat,alng,blat,blng,hotter,THERMO_QUESTION_KM,UNITS);
   if(r.error){flash(r.error);return;}
   addClue(r.clue);
   clearDraft(["thermoA","thermoB"]);
@@ -937,7 +937,7 @@ function encodeClueShare(s){
   if(!s) return null;
   switch(s.t){
     case "R": return ["R",fmt5(s.lat),fmt5(s.lng),s.km,s.hit?1:0,s.unit].join("|");
-    case "T": return ["T",fmt5(s.aLat),fmt5(s.aLng),fmt5(s.bLat),fmt5(s.bLng),s.hotter?1:0,s.cardKm,s.unit].join("|");
+    case "T": return ["T",fmt5(s.aLat),fmt5(s.aLng),fmt5(s.bLat),fmt5(s.bLng),s.hotter?1:0,s.questionKm,s.unit].join("|");
     case "M": return ["M",s.mode,fmt5(s.lat),fmt5(s.lng),s.same?1:0].join("|");
     case "S": return ["S",s.ref,fmt5(s.lat),fmt5(s.lng),s.closer?1:0,s.unit].join("|");
     case "N": return ["N",s.ref,fmt5(s.lat),fmt5(s.lng),s.km,s.pLat!=null?fmt5(s.pLat):"",s.pLng!=null?fmt5(s.pLng):"",s.unit].join("|");
