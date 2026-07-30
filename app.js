@@ -117,15 +117,21 @@ function renderTentacleOptions(){
   sel.innerHTML=TENT_CATS.map(([id,label])=>`<option value="${id}">${label} (${tentDefaultDisplay(id)} ${UNITS})</option>`).join("");
   sel.value=prev||"museum";
 }
-document.getElementById("units-seg").addEventListener("click",e=>{
-  const b=e.target.closest("button"); if(!b) return;
-  const u=b.dataset.u; if(!u||u===UNITS) return;
-  setUnits(u);
-  document.querySelectorAll("#units-seg button").forEach(x=>x.classList.toggle("on",x.dataset.u===u));
+// Shared by the units toggle and by startEdit() restoring a clue's creation
+// unit, so both leave every unit-dependent control (labels, presets,
+// selects) in a consistent state.
+function refreshUnitUI(){
+  document.querySelectorAll("#units-seg button").forEach(x=>x.classList.toggle("on",x.dataset.u===UNITS));
   updateUnitLabels(); renderRadarPresets(); renderZoneOptions(); renderTentacleOptions();
   const tnRef=document.getElementById("tn-ref");
   const tnMi=document.getElementById("tn-mi");
   if(tnRef&&tnMi) tnMi.value=tentDefaultDisplay(tnRef.value);
+}
+document.getElementById("units-seg").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  const u=b.dataset.u; if(!u||u===UNITS) return;
+  setUnits(u);
+  refreshUnitUI();
   if(clues.length){
     shareBanner("Switching units mid-game. Existing clues keep the distances they were created with.","warn");
     drawDeduction();
@@ -370,15 +376,27 @@ function armPick(key,latFld,lngFld,color,btn){
 const PICKS={radar:["rad-lat","rad-lng","#e30613"],thermoA:["th-alat","th-alng","#f0a500"],thermoB:["th-blat","th-blng","#22c55e"],match:["mt-lat","mt-lng","#a855f7"],measure:["ms-lat","ms-lng","#22c55e"],tentacle:["tn-lat","tn-lng","#ec4899"]};
 document.querySelectorAll(".pick").forEach(btn=>{const k=btn.dataset.pick;const m=PICKS[k];if(m)btn.addEventListener("click",()=>armPick(k,m[0],m[1],m[2],btn));});
 function clearDraft(keys){ (keys||Object.keys(draftMarks)).forEach(k=>{if(draftMarks[k]){draftLayer.removeLayer(draftMarks[k]);delete draftMarks[k];}}); }
+function showDraft(key,lat,lng){
+  const m=PICKS[key]; if(!m) return;
+  if(draftMarks[key]) draftLayer.removeLayer(draftMarks[key]);
+  draftMarks[key]=L.circleMarker([lat,lng],{radius:6,color:"#fff",weight:2,fillColor:m[2],fillOpacity:1}).addTo(draftLayer);
+}
 
 /* ---- Tool + answer selection ---- */
 const TOOLS=["radar","thermo","match","measure","tentacle","station"];
-let tool="radar";
+let tool="radar", editingIndex=null;
 const ans={radar:"miss",thermo:"hotter",match:"same",matchmode:"canton",measure:"closer",tent:"named"};
+function setTool(t){
+  tool=t;
+  document.querySelectorAll("#tool-seg button").forEach(x=>x.classList.toggle("on",x.dataset.tool===t));
+  TOOLS.forEach(tt=>{const f=document.getElementById("form-"+tt);if(f)f.hidden=(tt!==tool);});
+}
+function setAns(group,val){
+  ans[group]=val;
+  document.querySelectorAll(`.ans[data-ans="${group}"] button`).forEach(x=>x.classList.toggle("on",x.dataset.v===val));
+}
 document.getElementById("tool-seg").addEventListener("click",e=>{
-  const b=e.target.closest("button"); if(!b) return; tool=b.dataset.tool;
-  document.querySelectorAll("#tool-seg button").forEach(x=>x.classList.toggle("on",x===b));
-  TOOLS.forEach(t=>{const f=document.getElementById("form-"+t);if(f)f.hidden=(t!==tool);});
+  const b=e.target.closest("button"); if(!b) return; setTool(b.dataset.tool);
 });
 document.querySelectorAll(".ans").forEach(g=>g.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return; ans[g.dataset.ans]=b.dataset.v;
@@ -507,18 +525,111 @@ function highlightStation(lat,lng){
 }
 function addClue(clue){
   if(!clue||!clue.poly){flash("Could not build that clue. Check the inputs.");return false;}
-  clues.push(clue); renderClues(); return true;
+  if(editingIndex!=null){
+    clues[editingIndex]=clue;
+    exitEditUI();
+  } else {
+    clues.push(clue);
+  }
+  renderClues();
+  return true;
+}
+function exitEditUI(){
+  editingIndex=null;
+  const cb=document.getElementById("cancel-edit"); if(cb) cb.hidden=true;
+  document.querySelectorAll(".add").forEach(b=>b.textContent="Add clue");
 }
 function renderClues(){
   const list=document.getElementById("clue-list");
   document.getElementById("clear-clues").hidden=!clues.length;
   if(!clues.length){ list.innerHTML='<p class="hint" id="clue-empty">No clues yet. Add one above and the map narrows down.</p>'; drawDeduction(); return; }
   list.innerHTML="";
-  clues.forEach((c,i)=>{const d=document.createElement("div");d.className="clue";
-    d.innerHTML=`<div>${c.label}</div><button class="x" data-i="${i}" title="Remove">×</button>`;
+  clues.forEach((c,i)=>{const d=document.createElement("div");d.className="clue"+(i===editingIndex?" editing":"");
+    d.innerHTML=`<div>${c.label}</div><div class="clue-actions"><button class="edit" data-i="${i}" title="Edit">✏️</button><button class="x" data-i="${i}" title="Remove">×</button></div>`;
     list.appendChild(d);});
-  list.querySelectorAll(".x").forEach(x=>x.addEventListener("click",()=>{clues.splice(+x.dataset.i,1);renderClues();}));
+  list.querySelectorAll(".edit").forEach(x=>x.addEventListener("click",()=>{startEdit(+x.dataset.i);}));
+  list.querySelectorAll(".x").forEach(x=>x.addEventListener("click",()=>{
+    const idx=+x.dataset.i;
+    clues.splice(idx,1);
+    if(editingIndex===idx){ exitEditUI(); }
+    else if(editingIndex!=null&&idx<editingIndex){ editingIndex--; }
+    renderClues();
+  }));
   drawDeduction();
+}
+// Repopulates the form for the clue's own kind from clue.share, which holds
+// exactly the inputs a builder needs, then hands off to the normal add-*
+// handler via editingIndex so committing runs through the same builder.
+function startEdit(i){
+  const c=clues[i]; if(!c||!c.share) return;
+  const s=c.share;
+  clearDraft();
+  switch(s.t){
+    case "R":
+      setTool("radar");
+      document.getElementById("rad-lat").value=s.lat.toFixed(5);
+      document.getElementById("rad-lng").value=s.lng.toFixed(5);
+      showDraft("radar",s.lat,s.lng);
+      UNITS=s.unit; refreshUnitUI();
+      document.getElementById("rad-mi").value=Math.round(fromKm(s.km,s.unit)*100)/100;
+      setAns("radar",s.hit?"hit":"miss");
+      break;
+    case "T":
+      setTool("thermo");
+      document.getElementById("th-alat").value=s.aLat.toFixed(5);
+      document.getElementById("th-alng").value=s.aLng.toFixed(5);
+      document.getElementById("th-blat").value=s.bLat.toFixed(5);
+      document.getElementById("th-blng").value=s.bLng.toFixed(5);
+      showDraft("thermoA",s.aLat,s.aLng); showDraft("thermoB",s.bLat,s.bLng);
+      UNITS=s.unit||UNITS; refreshUnitUI();
+      setAns("thermo",s.hotter?"hotter":"colder");
+      break;
+    case "M":
+      setTool("match");
+      document.getElementById("mt-lat").value=s.lat.toFixed(5);
+      document.getElementById("mt-lng").value=s.lng.toFixed(5);
+      showDraft("match",s.lat,s.lng);
+      document.getElementById("mt-ref").value=s.mode;
+      setAns("match",s.same?"same":"different");
+      break;
+    case "S":
+      setTool("measure");
+      document.getElementById("ms-lat").value=s.lat.toFixed(5);
+      document.getElementById("ms-lng").value=s.lng.toFixed(5);
+      showDraft("measure",s.lat,s.lng);
+      document.getElementById("ms-ref").value=s.ref;
+      setAns("measure",s.closer?"closer":"further");
+      break;
+    case "N": {
+      setTool("tentacle");
+      document.getElementById("tn-ref").value=s.ref;
+      document.getElementById("tn-lat").value=s.lat.toFixed(5);
+      document.getElementById("tn-lng").value=s.lng.toFixed(5);
+      showDraft("tentacle",s.lat,s.lng);
+      UNITS=s.unit; refreshUnitUI();
+      document.getElementById("tn-mi").value=Math.round(fromKm(s.km,s.unit)*100)/100;
+      setAns("tent",s.pLat!=null?"named":"none");
+      if(s.pLat!=null){
+        const place=nearestOf(setFor(s.ref),s.pLat,s.pLng).place;
+        document.getElementById("tn-name").value=place?place.name:"";
+      } else {
+        document.getElementById("tn-name").value="";
+      }
+      break;
+    }
+    case "P": {
+      setTool("station");
+      const place=nearestOf(setFor("station"),s.lat,s.lng).place;
+      document.getElementById("st-name").value=place?place.name:"";
+      break;
+    }
+    default: return;
+  }
+  editingIndex=i;
+  document.querySelectorAll(".add").forEach(b=>b.textContent="Update clue");
+  const cb=document.getElementById("cancel-edit"); if(cb) cb.hidden=false;
+  renderClues();
+  document.body.classList.remove("nav-open");
 }
 function rebuildTnList(){
   const sel=document.getElementById("tn-ref"); if(!sel) return;
@@ -618,7 +729,10 @@ document.getElementById("add-station").addEventListener("click",()=>{
   highlightStation(station.lat,station.lng);
   document.getElementById("st-name").value="";
 });
-document.getElementById("clear-clues").addEventListener("click",()=>{clues=[];clearDraft();renderClues();});
+document.getElementById("cancel-edit").addEventListener("click",()=>{
+  exitEditUI(); clearDraft(); renderClues();
+});
+document.getElementById("clear-clues").addEventListener("click",()=>{clues=[];exitEditUI();clearDraft();renderClues();});
 
 /* ---- My location ---- */
 const LocateControl=L.Control.extend({
@@ -870,11 +984,6 @@ document.getElementById("share-map").addEventListener("click",async()=>{
   }
 });
 
-updateUnitLabels(); renderRadarPresets(); renderZoneOptions(); renderTentacleOptions();
-document.querySelectorAll("#units-seg button").forEach(x=>x.classList.toggle("on",x.dataset.u===UNITS));
-{
-  const tnRefInit=document.getElementById("tn-ref"), tnMiInit=document.getElementById("tn-mi");
-  if(tnRefInit&&tnMiInit) tnMiInit.value=tentDefaultDisplay(tnRefInit.value);
-}
+refreshUnitUI();
 render();
 if(location.hash){ replayShareLink(); } else { loadStations(); loadPlaces(); loadOsm(); drawDeduction(); }

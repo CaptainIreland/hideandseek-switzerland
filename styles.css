@@ -81,8 +81,12 @@
   .add:hover{filter:brightness(1.08)}
   .clue{display:flex;align-items:flex-start;gap:8px;background:var(--panel-2);border:1px solid var(--line);
     border-radius:8px;padding:9px 10px;margin-bottom:7px;font-size:12.5px;line-height:1.35}
+  .clue.editing{border-color:var(--red);background:rgba(227,6,19,.1)}
   .clue .idx{color:var(--red);font-weight:700;font-family:'Space Grotesk',sans-serif}
-  .clue .x{margin-left:auto;background:none;border:none;color:var(--ink-dim);cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
+  .clue-actions{display:flex;gap:2px;margin-left:auto;flex:0 0 auto}
+  .clue .edit{background:none;border:none;color:var(--ink-dim);cursor:pointer;font-size:13px;line-height:1;padding:2px 4px}
+  .clue .edit:hover{color:#fff}
+  .clue .x{background:none;border:none;color:var(--ink-dim);cursor:pointer;font-size:15px;line-height:1;padding:2px 4px}
   .clue .x:hover{color:#ff6b6b}
   .ghost{width:100%;background:none;border:1px solid var(--line);color:var(--ink-dim);border-radius:8px;padding:9px;
     font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:4px}
