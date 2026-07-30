@@ -358,7 +358,7 @@ function drawDeduction(){
 }
 
 /* ---- Point picking ---- */
-let picking=null; const draftMarks={};
+let picking=null, mePending=null; const draftMarks={};
 map.on("click",e=>{ if(picking){ picking(e.latlng); } });
 function armPick(key,latFld,lngFld,color,btn){
   document.querySelectorAll(".pick").forEach(b=>b.classList.remove("arm"));
@@ -375,6 +375,10 @@ function armPick(key,latFld,lngFld,color,btn){
 }
 const PICKS={radar:["rad-lat","rad-lng","#e30613"],thermoA:["th-alat","th-alng","#f0a500"],thermoB:["th-blat","th-blng","#22c55e"],match:["mt-lat","mt-lng","#a855f7"],measure:["ms-lat","ms-lng","#22c55e"],tentacle:["tn-lat","tn-lng","#ec4899"]};
 document.querySelectorAll(".pick").forEach(btn=>{const k=btn.dataset.pick;const m=PICKS[k];if(m)btn.addEventListener("click",()=>armPick(k,m[0],m[1],m[2],btn));});
+document.querySelectorAll(".me").forEach(btn=>{
+  const k=btn.dataset.pick; if(!PICKS[k]) return;
+  btn.addEventListener("click",()=>{ mePending=k; map.locate({setView:true,maxZoom:14,enableHighAccuracy:true}); });
+});
 function clearDraft(keys){ (keys||Object.keys(draftMarks)).forEach(k=>{if(draftMarks[k]){draftLayer.removeLayer(draftMarks[k]);delete draftMarks[k];}}); }
 function showDraft(key,lat,lng){
   const m=PICKS[key]; if(!m) return;
@@ -749,8 +753,22 @@ map.on("locationfound",e=>{
   if(meDot){map.removeLayer(meDot);map.removeLayer(meRing);}
   meDot=L.circleMarker(e.latlng,{radius:6,color:"#fff",weight:2,fillColor:"#2875c7",fillOpacity:1}).addTo(map);
   meRing=L.circle(e.latlng,{radius:Math.max(e.accuracy,8),color:"#2875c7",weight:1,opacity:.5,fillOpacity:.08}).addTo(map);
+  if(mePending){
+    const key=mePending, m=PICKS[key];
+    mePending=null;
+    if(m){
+      document.getElementById(m[0]).value=e.latlng.lat.toFixed(5);
+      document.getElementById(m[1]).value=e.latlng.lng.toFixed(5);
+      showDraft(key,e.latlng.lat,e.latlng.lng);
+      if(e.accuracy>100){
+        flash(`Location accuracy is about ${Math.round(e.accuracy)} m, worse than the recommended 100 m. Consider waiting for a better fix or picking manually.`);
+      }
+      document.body.classList.remove("nav-open");
+    }
+  }
 });
 map.on("locationerror",()=>{
+  mePending=null;
   setStatus("Location unavailable. It needs HTTPS (or localhost) and permission.",false); hideStatus(3500);
 });
 
