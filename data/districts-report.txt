@@ -1,0 +1,26 @@
+=== OSM DISTRICT FETCH (admin_level=6) ===
+Relations returned by Overpass: 156
+Districts kept (named, with outer geometry, inside the Swiss outline): 135
+Dropped, centroid outside the Swiss outline - a neighbouring country's district that leaked in via a shared border way (21):
+  - Ain
+  - Haut-Rhin
+  - Haute-Savoie
+  - Territoire-de-Belfort
+  - Jura
+  - Doubs
+  - Varese
+  - Como
+  - Verbano-Cusio-Ossola
+  - Sondrio
+  - Bolzano - Bozen
+  - Landkreis Lörrach
+  - Landkreis Konstanz
+  - Schwarzwald-Baar-Kreis
+  - Landkreis Waldshut
+  - Bezirk Bludenz
+  - Bezirk Feldkirch
+  - Bezirk Landeck
+  - Unterland
+  - Oberland
+  - Vercelli
+=== END ===
