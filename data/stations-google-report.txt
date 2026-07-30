@@ -1,7 +1,9 @@
 === GOOGLE STATION SWEEP ===
 Requests made: 601 (54 top-level tiles plus subdivisions)
 Unique Google places found: 2278
-  Kept, typed train_station: 1932
+  Kept, typed train_station: 1931 (1932 fetched; "Appenzeller Bahnen AG",
+    ChIJaYVUwnAfm0cR1NmXzdhXoSU, manually removed 2026-07-30 - Google types the
+    operator's office as train_station, confirmed off Google Maps that it is not one)
   Kept, narrow-gauge on the keep list: 2
   Light-rail excluded as city tram: 9
   Outside the Swiss outline, dropped: 335
