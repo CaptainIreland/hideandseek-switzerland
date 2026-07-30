@@ -42,10 +42,10 @@ function stationPopup(s){return `<div class="pop-name">${s[0]||"Train station"}<
 function render(){
   markerLayer.clearLayers(); zoneLayer.clearLayers();
   const counts={}; CATS.forEach(c=>counts[c.id]=0);
+  if(state.zones) STATIONS.forEach((s,i)=>{if(activeFilter&&!activeFilter.has(i))return;L.circle([s[1],s[2]],{radius:hideRadiusM(),color:"#e30613",weight:.5,opacity:.35,fillColor:"#e30613",fillOpacity:.07,interactive:false}).addTo(zoneLayer);});
   TARGETS.forEach(p=>{ if(!state.enabled[p[3]]||p[5]<state.minReviews) return; counts[p[3]]++;
     L.circleMarker([p[1],p[2]],{radius:5,color:"#fff",weight:1.2,fillColor:COLOR[p[3]],fillOpacity:.95}).bindPopup(targetPopup(p)).addTo(markerLayer);});
   if(state.stationsOn) STATIONS.forEach((s,i)=>{if(activeFilter&&!activeFilter.has(i))return;L.circleMarker([s[1],s[2]],{radius:4,color:"#fff",weight:1,fillColor:COLOR.station,fillOpacity:.95}).bindPopup(stationPopup(s)).addTo(markerLayer);});
-  if(state.zones) STATIONS.forEach((s,i)=>{if(activeFilter&&!activeFilter.has(i))return;L.circle([s[1],s[2]],{radius:hideRadiusM(),color:"#e30613",weight:.5,opacity:.35,fillColor:"#e30613",fillOpacity:.07}).addTo(zoneLayer);});
   CATS.forEach(c=>{const el=document.getElementById("count-"+c.id); if(el) el.textContent=state.enabled[c.id]?counts[c.id]:"";});
   const sc=document.getElementById("count-station"); if(sc) sc.textContent=state.stationsOn?((activeFilter?activeFilter.size.toLocaleString()+" / ":"")+STATIONS.length.toLocaleString()):"";
 }
