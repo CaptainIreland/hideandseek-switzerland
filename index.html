@@ -66,10 +66,10 @@
         <div class="seg" id="tool-seg">
           <button data-tool="radar" class="on">Radar</button>
           <button data-tool="thermo">Thermo</button>
-          <button data-tool="radius">Within</button>
           <button data-tool="match">Match</button>
           <button data-tool="measure">Measure</button>
           <button data-tool="tentacle">Tentacle</button>
+          <button data-tool="station">Station</button>
         </div>
 
         <div class="tool-form" id="form-radar">
@@ -92,13 +92,6 @@
             <div class="coord"><input id="th-blat" inputmode="decimal" placeholder="lat"><input id="th-blng" inputmode="decimal" placeholder="lng"><button class="pick" data-pick="thermoB">Pick</button></div></label>
           <div class="ans" data-ans="thermo"><button data-v="hotter" class="on">Hotter · toward end</button><button data-v="colder">Colder · toward start</button></div>
           <button class="add" id="add-thermo">Add clue</button>
-        </div>
-
-        <div class="tool-form" id="form-radius" hidden>
-          <label class="fld">Point (lat, lng)
-            <div class="coord"><input id="wr-lat" inputmode="decimal" placeholder="lat"><input id="wr-lng" inputmode="decimal" placeholder="lng"><button class="pick" data-pick="radius">Pick</button></div></label>
-          <label class="fld"><span id="wr-mi-label">Within (miles)</span><input id="wr-mi" type="number" value="1" min="0" step="0.25"></label>
-          <button class="add" id="add-radius">Add clue</button>
         </div>
 
         <div class="tool-form" id="form-match" hidden>
@@ -138,6 +131,12 @@
           <label class="fld">Place the hider named<input id="tn-name" type="text" list="tn-list" placeholder="Start typing a name"><datalist id="tn-list"></datalist></label>
           <button class="add" id="add-tentacle">Add clue</button>
           <p class="hint">The radius is measured from you, matching the rulebook. Named keeps the ground inside your radius that is nearer to that place than to any other in range. Not in range removes your whole radius. Metro lines are not included, since the app holds no metro line data.</p>
+        </div>
+
+        <div class="tool-form" id="form-station" hidden>
+          <label class="fld">Station<input id="st-name" type="text" list="st-list" placeholder="Start typing a station name"><datalist id="st-list"></datalist></label>
+          <button class="add" id="add-station">Add clue</button>
+          <p class="hint">Marks the hider's hiding zone as confirmed. The possible area collapses to that station's zone at the current hiding-zone radius.</p>
         </div>
 
         <div class="divide"></div>

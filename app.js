@@ -92,7 +92,6 @@ document.getElementById("zone-radius").addEventListener("change",e=>{HIDE_RADIUS
 function updateUnitLabels(){
   const suf=UNITS==="mi"?"miles":"kilometres";
   const radL=document.getElementById("rad-mi-label"); if(radL) radL.textContent=`Radius (${suf})`;
-  const wrL=document.getElementById("wr-mi-label"); if(wrL) wrL.textContent=`Within (${suf})`;
   const tnL=document.getElementById("tn-mi-label"); if(tnL) tnL.textContent=`Radius (${suf})`;
 }
 function renderRadarPresets(){
@@ -368,12 +367,12 @@ function armPick(key,latFld,lngFld,color,btn){
     picking=null; map.getContainer().style.cursor=""; if(btn) btn.classList.remove("arm");
   };
 }
-const PICKS={radar:["rad-lat","rad-lng","#e30613"],thermoA:["th-alat","th-alng","#f0a500"],thermoB:["th-blat","th-blng","#22c55e"],radius:["wr-lat","wr-lng","#06b6d4"],match:["mt-lat","mt-lng","#a855f7"],measure:["ms-lat","ms-lng","#22c55e"],tentacle:["tn-lat","tn-lng","#ec4899"]};
+const PICKS={radar:["rad-lat","rad-lng","#e30613"],thermoA:["th-alat","th-alng","#f0a500"],thermoB:["th-blat","th-blng","#22c55e"],match:["mt-lat","mt-lng","#a855f7"],measure:["ms-lat","ms-lng","#22c55e"],tentacle:["tn-lat","tn-lng","#ec4899"]};
 document.querySelectorAll(".pick").forEach(btn=>{const k=btn.dataset.pick;const m=PICKS[k];if(m)btn.addEventListener("click",()=>armPick(k,m[0],m[1],m[2],btn));});
 function clearDraft(keys){ (keys||Object.keys(draftMarks)).forEach(k=>{if(draftMarks[k]){draftLayer.removeLayer(draftMarks[k]);delete draftMarks[k];}}); }
 
 /* ---- Tool + answer selection ---- */
-const TOOLS=["radar","thermo","radius","match","measure","tentacle"];
+const TOOLS=["radar","thermo","match","measure","tentacle","station"];
 let tool="radar";
 const ans={radar:"miss",thermo:"hotter",match:"same",matchmode:"canton",measure:"closer",tent:"named"};
 document.getElementById("tool-seg").addEventListener("click",e=>{
@@ -401,13 +400,6 @@ function buildThermoClue(aLat,aLng,bLat,bLng,hotter){
   return {clue:{kind:"thermo",
     label:`<span class="idx">T</span> Thermometer · ${hotter?"hotter":"colder"}<br><span class="hint">${aLat.toFixed(3)},${aLng.toFixed(3)} → ${bLat.toFixed(3)},${bLng.toFixed(3)}</span>`,
     poly:halfPlane([aLng,aLat],[bLng,bLat],hotter), mode:"i", share:{t:"T",aLat,aLng,bLat,bLng,hotter}}};
-}
-function buildRadiusClue(lat,lng,km,unit){
-  if(lat==null||lng==null||km==null||!(km>0)) return {error:"The Within clue needs a point and a positive distance."};
-  const disp=Math.round(fromKm(km,unit)*100)/100;
-  return {clue:{kind:"radius",
-    label:`<span class="idx">W</span> Within ${disp} ${unit}<br><span class="hint">@ ${lat.toFixed(3)}, ${lng.toFixed(3)}</span>`,
-    poly:circle(lat,lng,km), mode:"i", share:{t:"W",lat,lng,km,unit}}};
 }
 function buildMatchClue(mode,lat,lng,same){
   if(lat==null||lng==null) return {error:"Matching needs your location."};
@@ -498,6 +490,21 @@ function buildTentacleClue(ref,lat,lng,km,unit,pLat,pLng){
     label:`<span class="idx">Tn</span> Tentacles · ${REF_LABEL[ref]} · ${disp} ${unit} · ${cands.length} in range<br><span class="hint">${place.name}</span>`,
     poly, mode:"i", share:{t:"N",ref,lat,lng,km,unit,pLat:place.lat,pLng:place.lng}}};
 }
+function buildStationClue(lat,lng){
+  if(lat==null||lng==null) return {error:"Pick a station from the list."};
+  const pts=setFor("station");
+  if(!pts.length) return {error:"No stations loaded."};
+  const station=nearestOf(pts,lat,lng).place;
+  return {clue:{kind:"station",
+    label:`<span class="idx">!</span> Station identified · ${station.name}<br><span class="hint">@ ${station.lat.toFixed(3)}, ${station.lng.toFixed(3)}</span>`,
+    poly:circle(station.lat,station.lng,HIDE_RADIUS_KM), mode:"i", share:{t:"P",lat:station.lat,lng:station.lng}}};
+}
+let stationHighlight=null;
+function highlightStation(lat,lng){
+  if(stationHighlight) map.removeLayer(stationHighlight);
+  stationHighlight=L.circleMarker([lat,lng],{radius:11,color:"#fff",weight:3,fillColor:"#e30613",fillOpacity:1}).addTo(map);
+  map.flyTo([lat,lng],Math.max(map.getZoom(),14));
+}
 function addClue(clue){
   if(!clue||!clue.poly){flash("Could not build that clue. Check the inputs.");return false;}
   clues.push(clue); renderClues(); return true;
@@ -522,6 +529,11 @@ function rebuildTnList(){
   pts=pts.slice().sort((a,b)=>a.name.localeCompare(b.name)).slice(0,400);
   dl.innerHTML=pts.map(p=>`<option value="${String(p.name).replace(/"/g,"&quot;")}"></option>`).join("");
 }
+function rebuildStList(){
+  const dl=document.getElementById("st-list"); if(!dl) return;
+  const pts=setFor("station").slice().sort((a,b)=>a.name.localeCompare(b.name)).slice(0,400);
+  dl.innerHTML=pts.map(p=>`<option value="${String(p.name).replace(/"/g,"&quot;")}"></option>`).join("");
+}
 
 document.getElementById("add-radar").addEventListener("click",()=>{
   const lat=num("rad-lat"),lng=num("rad-lng"),dist=num("rad-mi");
@@ -542,15 +554,6 @@ document.getElementById("add-thermo").addEventListener("click",()=>{
   addClue(r.clue);
   clearDraft(["thermoA","thermoB"]);
   ["th-alat","th-alng","th-blat","th-blng"].forEach(id=>document.getElementById(id).value="");
-});
-document.getElementById("add-radius").addEventListener("click",()=>{
-  const lat=num("wr-lat"),lng=num("wr-lng"),dist=num("wr-mi");
-  if(lat===null||lng===null){flash("Set a point first (Pick or type lat, lng).");return;}
-  if(dist===null||dist<=0){flash("Enter a distance.");return;}
-  const r=buildRadiusClue(lat,lng,toKm(dist,UNITS),UNITS);
-  if(r.error){flash(r.error);return;}
-  addClue(r.clue);
-  clearDraft(["radius"]); document.getElementById("wr-lat").value="";document.getElementById("wr-lng").value="";
 });
 document.getElementById("add-match").addEventListener("click",()=>{
   const lat=num("mt-lat"),lng=num("mt-lng");
@@ -601,6 +604,19 @@ document.getElementById("add-tentacle").addEventListener("click",()=>{
 document.getElementById("rad-presets").addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
   document.getElementById("rad-mi").value=b.dataset.v;
+});
+document.getElementById("st-name").addEventListener("focus",rebuildStList);
+document.getElementById("add-station").addEventListener("click",()=>{
+  const q=(document.getElementById("st-name").value||"").trim().toLowerCase();
+  if(!q){flash("Type or pick the station name.");return;}
+  const pts=setFor("station");
+  const station=pts.find(p=>p.name.toLowerCase()===q)||pts.find(p=>p.name.toLowerCase().includes(q));
+  if(!station){flash("No station matches that name.");return;}
+  const r=buildStationClue(station.lat,station.lng);
+  if(r.error){flash(r.error);return;}
+  addClue(r.clue);
+  highlightStation(station.lat,station.lng);
+  document.getElementById("st-name").value="";
 });
 document.getElementById("clear-clues").addEventListener("click",()=>{clues=[];clearDraft();renderClues();});
 
@@ -741,7 +757,7 @@ async function loadOsm(){
 // the unit it was created in, purely so its label can still read the way the
 // sender saw it -- imperial and metric are parallel rule sets, not
 // conversions, so that label must never be silently re-derived.
-const SHARE_VERSION=2;
+const SHARE_VERSION=3;
 function fmt5(n){return Number(n).toFixed(5);}
 function parseNum(s){if(s===undefined||s===null||s==="")return null;const n=parseFloat(s);return Number.isFinite(n)?n:null;}
 function encodeClueShare(s){
@@ -749,10 +765,10 @@ function encodeClueShare(s){
   switch(s.t){
     case "R": return ["R",fmt5(s.lat),fmt5(s.lng),s.km,s.hit?1:0,s.unit].join("|");
     case "T": return ["T",fmt5(s.aLat),fmt5(s.aLng),fmt5(s.bLat),fmt5(s.bLng),s.hotter?1:0].join("|");
-    case "W": return ["W",fmt5(s.lat),fmt5(s.lng),s.km,s.unit].join("|");
     case "M": return ["M",s.mode,fmt5(s.lat),fmt5(s.lng),s.same?1:0].join("|");
     case "S": return ["S",s.ref,fmt5(s.lat),fmt5(s.lng),s.closer?1:0,s.unit].join("|");
     case "N": return ["N",s.ref,fmt5(s.lat),fmt5(s.lng),s.km,s.pLat!=null?fmt5(s.pLat):"",s.pLng!=null?fmt5(s.pLng):"",s.unit].join("|");
+    case "P": return ["P",fmt5(s.lat),fmt5(s.lng)].join("|");
     default: return null;
   }
 }
@@ -771,10 +787,10 @@ async function decodeClueShare(fields){
   switch(t){
     case "R": return buildRadarClue(lat(1),lng(2),parseNum(fields[3]),fields[5]||"mi",fields[4]==="1");
     case "T": return buildThermoClue(lat(1),lng(2),lat(3),lng(4),fields[5]==="1");
-    case "W": return buildRadiusClue(lat(1),lng(2),parseNum(fields[3]),fields[4]||"mi");
     case "M": return buildMatchClue(fields[1],lat(2),lng(3),fields[4]==="1");
     case "S": return await buildMeasureClue(fields[1],lat(2),lng(3),fields[4]==="1",fields[5]||"mi");
     case "N": return buildTentacleClue(fields[1],lat(2),lng(3),parseNum(fields[4]),fields[7]||"mi",parseNum(fields[5]),parseNum(fields[6]));
+    case "P": return buildStationClue(lat(1),lng(2));
     default: return {error:"Unrecognised clue type '"+t+"'."};
   }
 }
