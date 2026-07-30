@@ -154,6 +154,7 @@
 .chips button{flex:1 1 18%;background:var(--panel-2);border:1px solid var(--line);color:var(--ink-dim);
   border-radius:6px;padding:6px 2px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit}
 .chips button:hover{color:#fff;border-color:var(--red)}
+.chips button.on{background:var(--red);color:#fff;border-color:var(--red)}
 
 .osm-note{border-left:2px solid #f0a500;padding-left:8px;margin-bottom:10px}
 select option:disabled{color:#5b6775}
