@@ -1,0 +1,30 @@
+=== GOOGLE PLACES SWEEP ===
+museum: 1968 kept, 596 outside Switzerland dropped, 0 excluded by rulebook name rules, 673 requests
+library: 1515 kept, 557 outside Switzerland dropped, 0 excluded by rulebook name rules, 578 requests
+cinema: 456 kept, 157 outside Switzerland dropped, 0 excluded by rulebook name rules, 156 requests
+hospital: 2046 kept, 381 outside Switzerland dropped, 0 excluded by rulebook name rules, 960 requests
+  WARNING: Dense cell still capped at 265 m near 47.4309, 9.3875
+  WARNING: Dense cell still capped at 265 m near 47.4643, 9.0598
+  WARNING: Dense cell still capped at 265 m near 47.4643, 9.0563
+  WARNING: Dense cell still capped at 265 m near 47.4500, 8.5683
+  WARNING: Dense cell still capped at 265 m near 47.4500, 8.5648
+  WARNING: Dense cell still capped at 265 m near 47.3784, 8.5509
+  WARNING: Dense cell still capped at 265 m near 47.3760, 8.5509
+  WARNING: Dense cell still capped at 265 m near 47.3760, 8.5474
+  WARNING: Dense cell still capped at 265 m near 47.1732, 9.4502
+  WARNING: Dense cell still capped at 265 m near 47.1732, 9.4467
+  WARNING: Dense cell still capped at 265 m near 47.2233, 8.9971
+  WARNING: Dense cell still capped at 265 m near 47.2233, 8.9936
+  WARNING: Dense cell still capped at 265 m near 46.9489, 7.4250
+  WARNING: Dense cell still capped at 265 m near 46.9465, 7.4250
+  WARNING: Dense cell still capped at 265 m near 46.2283, 6.0691
+zoo: 184 kept, 82 outside Switzerland dropped, 0 excluded by rulebook name rules, 82 requests
+aquarium: 16 kept, 6 outside Switzerland dropped, 0 excluded by rulebook name rules, 54 requests
+themepark: 134 kept, 80 outside Switzerland dropped, 0 excluded by rulebook name rules, 54 requests
+golf: 135 kept, 72 outside Switzerland dropped, 30 excluded by rulebook name rules, 101 requests
+park: 4661 kept, 1221 outside Switzerland dropped, 0 excluded by rulebook name rules, 1563 requests
+airport: 279 kept, 209 outside Switzerland dropped, 0 excluded by rulebook name rules, 115 requests
+consulate: 384 kept, 27 outside Switzerland dropped, 35 excluded by rulebook name rules, 262 requests
+Total requests this run: 4598
+Categories now in the file: airport, aquarium, cinema, consulate, golf, hospital, library, museum, park, themepark, zoo
+=== END ===

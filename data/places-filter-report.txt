@@ -1,0 +1,27 @@
+=== PLACE FILTER ===
+Mode: per-category thresholds
+category       raw   kept   type  medical  reviews
+airport        279     17      6        0      256  (min 100)
+            excluded mostly by: store (3), restaurant (2), travel_agency (1)
+aquarium        16     13      3        0        0  (min 0)
+            excluded mostly by: pet_store (3), store (3)
+cinema         456    281     26        0      149  (min 5)
+            excluded mostly by: bar (21), restaurant (8), store (4)
+consulate      384    188      0        0      196  (min 5)
+golf           135     75     17        0       43  (min 5)
+            excluded mostly by: restaurant (12), store (11), hotel (3), lodging (3)
+hospital      2046    278     73        0     1695  (min 50)
+            excluded mostly by: physiotherapist (45), massage (14), chiropractor (8), gym (7)
+library       1515    476      4        0     1035  (min 5)
+            excluded mostly by: store (4), book_store (3)
+museum        1968    894     50        0     1024  (min 10)
+            excluded mostly by: store (27), restaurant (23), cafe (14), lodging (4)
+park          4661    847     94        0     3720  (min 20)
+            excluded mostly by: dog_park (84), playground (7), restaurant (3), lodging (1)
+themepark      134     52     29        0       53  (min 20)
+            excluded mostly by: restaurant (11), sports_complex (10), store (8), gym (6)
+zoo            184    113      6        0       65  (min 10)
+            excluded mostly by: restaurant (3), lodging (2), hotel (2), store (2)
+Columns: raw, kept, then dropped by secondary type, by medical practice rule, by review count.
+Airports need a manual pass: the rulebook counts an airport as commercial only if Google Flights shows flights to or from it.
+=== END ===

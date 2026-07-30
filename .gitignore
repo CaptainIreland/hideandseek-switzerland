@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+# Large intermediate sweep output. Commit it only if you want others to be able
+# to re-filter without paying for their own sweep.
+# data/places-raw.json

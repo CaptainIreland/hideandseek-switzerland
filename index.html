@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Hide + Seek Switzerland · Planning and Deduction Map</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <button id="menu-btn" aria-label="Toggle controls">☰</button>
+  <div id="scrim"></div>
+  <aside id="panel">
+    <div class="phead">
+      <p class="kicker">Jet Lag · Hide + Seek</p>
+      <h1>Switzerland</h1>
+      <div class="tabs">
+        <button id="tab-btn-places" class="on">Places</button>
+        <button id="tab-btn-narrow">Narrow down</button>
+      </div>
+    </div>
+    <div class="pbody">
+      <!-- PLACES TAB -->
+      <div id="tab-places">
+        <div class="poc"><b>Stations:</b> every train station Google Maps lists in Switzerland, baked in.<br><b>Target places:</b> a built-in Google sample, upgraded to live Google data when you add a key below.</div>
+        <div class="zone-row">
+          <label class="row" style="padding:0;flex:0 0 auto"><input type="checkbox" id="zones" checked><span class="box"></span></label>
+          <span class="name">Hiding zones<span>Ring around each station</span></span>
+          <select id="zone-radius" aria-label="Hiding zone radius">
+            <option value="0.25">¼ mi</option>
+            <option value="0.5" selected>½ mi</option>
+            <option value="1">1 mi</option>
+          </select>
+        </div>
+        <div class="divide"></div>
+        <p class="section-label">Places</p>
+        <div class="quick"><button id="all-on">All on</button><button id="all-off">All off</button></div>
+        <div id="layers"></div>
+        <div class="divide"></div>
+        <p class="section-label">Minimum Google reviews</p>
+        <div class="slider-top"><span style="font-size:12px;color:var(--ink-dim)">Hide sparse or unverified places</span><span class="val" id="rev-val">5</span></div>
+        <input type="range" id="reviews" min="0" max="50" step="1" value="5">
+        <p class="hint">Applies to target places, not stations. Set to 0 to show everything.</p>
+        <div class="divide"></div>
+        <p class="section-label">Google live data</p>
+        <input id="gkey" type="password" placeholder="Paste your Google API key" autocomplete="off">
+        <button class="ghost" id="gload" style="margin-top:8px;color:var(--ink)">Load Google places for this view</button>
+        <p class="hint" id="gstatus">Without a key the map uses the built-in sample. The key stays on this device.</p>
+      </div>
+
+      <!-- NARROW DOWN TAB -->
+      <div id="tab-narrow" hidden>
+        <p class="sub">Enter each answer the hider gives. The map keeps only the area that fits every clue and dims the rest.</p>
+        <div class="seg" id="tool-seg">
+          <button data-tool="radar" class="on">Radar</button>
+          <button data-tool="thermo">Thermo</button>
+          <button data-tool="radius">Within</button>
+          <button data-tool="match">Match</button>
+          <button data-tool="measure">Measure</button>
+          <button data-tool="tentacle">Tentacle</button>
+        </div>
+
+        <div class="tool-form" id="form-radar">
+          <label class="fld">Centre (lat, lng)
+            <div class="coord"><input id="rad-lat" inputmode="decimal" placeholder="lat"><input id="rad-lng" inputmode="decimal" placeholder="lng"><button class="pick" data-pick="radar">Pick</button></div></label>
+          <label class="fld">Radius (miles)<input id="rad-mi" type="number" value="1" min="0" step="0.25"></label>
+          <div class="chips" id="rad-presets">
+            <button data-mi="0.25">¼</button><button data-mi="0.5">½</button><button data-mi="1">1</button>
+            <button data-mi="3">3</button><button data-mi="5">5</button><button data-mi="10">10</button>
+            <button data-mi="25">25</button><button data-mi="50">50</button><button data-mi="100">100</button>
+          </div>
+          <div class="ans" data-ans="radar"><button data-v="miss" class="on">Miss · outside</button><button data-v="hit">Hit · inside</button></div>
+          <button class="add" id="add-radar">Add clue</button>
+        </div>
+
+        <div class="tool-form" id="form-thermo" hidden>
+          <label class="fld">From · start point (lat, lng)
+            <div class="coord"><input id="th-alat" inputmode="decimal" placeholder="lat"><input id="th-alng" inputmode="decimal" placeholder="lng"><button class="pick" data-pick="thermoA">Pick</button></div></label>
+          <label class="fld">To · end point (lat, lng)
+            <div class="coord"><input id="th-blat" inputmode="decimal" placeholder="lat"><input id="th-blng" inputmode="decimal" placeholder="lng"><button class="pick" data-pick="thermoB">Pick</button></div></label>
+          <div class="ans" data-ans="thermo"><button data-v="hotter" class="on">Hotter · toward end</button><button data-v="colder">Colder · toward start</button></div>
+          <button class="add" id="add-thermo">Add clue</button>
+        </div>
+
+        <div class="tool-form" id="form-radius" hidden>
+          <label class="fld">Point (lat, lng)
+            <div class="coord"><input id="wr-lat" inputmode="decimal" placeholder="lat"><input id="wr-lng" inputmode="decimal" placeholder="lng"><button class="pick" data-pick="radius">Pick</button></div></label>
+          <label class="fld">Within (miles)<input id="wr-mi" type="number" value="1" min="0" step="0.25"></label>
+          <button class="add" id="add-radius">Add clue</button>
+        </div>
+
+        <div class="tool-form" id="form-match" hidden>
+          <label class="fld">Matching on<select id="mt-ref"><option value="canton">Canton (1st admin division)</option><option value="municipality">Municipality (3rd admin division)</option><option value="mountain" data-osm disabled>Nearest mountain (OpenStreetMap)</option><option value="station">Nearest train station</option><option value="hospital">Nearest hospital</option><option value="museum">Nearest museum</option><option value="library">Nearest library</option><option value="cinema">Nearest movie theatre</option><option value="zoo">Nearest zoo</option><option value="aquarium">Nearest aquarium</option><option value="themepark">Nearest amusement park</option><option value="golf">Nearest golf course</option><option value="park">Nearest park</option><option value="airport">Nearest airport</option><option value="consulate">Nearest consulate</option></select></label>
+          <label class="fld">Your location as the asker (lat, lng)
+            <div class="coord"><input id="mt-lat" inputmode="decimal" placeholder="lat"><input id="mt-lng" inputmode="decimal" placeholder="lng"><button class="pick" data-pick="match">Pick</button></div></label>
+          <div class="ans" data-ans="match"><button data-v="same" class="on">Same as me</button><button data-v="different">Different</button></div>
+          <button class="add" id="add-match">Add clue</button>
+          <p class="hint">Canton uses the canton containing your point. Nearest station uses the station closest to your point.</p>
+        </div>
+
+        <div class="tool-form" id="form-measure" hidden>
+          <label class="fld">Measured to
+            <select id="ms-ref"><option value="station">Nearest train station</option><option value="border">International border</option><option value="cantonborder">Canton border (1st admin division)</option><option value="mountain" data-osm disabled>Nearest mountain (OpenStreetMap)</option><option value="water" data-osm disabled>Body of water (OpenStreetMap)</option><option value="hospital">Nearest hospital</option><option value="museum">Nearest museum</option><option value="library">Nearest library</option><option value="cinema">Nearest movie theatre</option><option value="zoo">Nearest zoo</option><option value="aquarium">Nearest aquarium</option><option value="themepark">Nearest amusement park</option><option value="golf">Nearest golf course</option><option value="park">Nearest park</option><option value="airport">Nearest airport</option><option value="consulate">Nearest consulate</option></select></label>
+          <label class="fld">Your location as the asker (lat, lng)
+            <div class="coord"><input id="ms-lat" inputmode="decimal" placeholder="lat"><input id="ms-lng" inputmode="decimal" placeholder="lng"><button class="pick" data-pick="measure">Pick</button></div></label>
+          <div class="ans" data-ans="measure"><button data-v="closer" class="on">Hider closer</button><button data-v="further">Hider further</button></div>
+          <button class="add" id="add-measure">Add clue</button>
+          <p class="hint">Compares the hider's distance with yours. Place categories use the places currently shown, so the review filter applies.</p>
+        </div>
+
+        <div class="tool-form" id="form-tentacle" hidden>
+          <label class="fld">Category
+            <select id="tn-ref">
+              <option value="museum">Museums (1 mi)</option>
+              <option value="library">Libraries (1 mi)</option>
+              <option value="cinema">Movie theatres (1 mi)</option>
+              <option value="hospital">Hospitals (1 mi)</option>
+              <option value="zoo">Zoos (15 mi)</option>
+              <option value="aquarium">Aquariums (15 mi)</option>
+              <option value="themepark">Amusement parks (15 mi)</option>
+            </select></label>
+          <label class="fld">Your location as the asker (lat, lng)
+            <div class="coord"><input id="tn-lat" inputmode="decimal" placeholder="lat"><input id="tn-lng" inputmode="decimal" placeholder="lng"><button class="pick" data-pick="tentacle">Pick</button></div></label>
+          <label class="fld">Radius (miles)<input id="tn-mi" type="number" value="1" min="0" step="0.5"></label>
+          <div class="ans" data-ans="tent"><button data-v="named" class="on">They named a place</button><button data-v="none">Not in range</button></div>
+          <label class="fld">Place the hider named<input id="tn-name" type="text" list="tn-list" placeholder="Start typing a name"><datalist id="tn-list"></datalist></label>
+          <button class="add" id="add-tentacle">Add clue</button>
+          <p class="hint">The radius is measured from you, matching the rulebook. Named keeps the ground inside your radius that is nearer to that place than to any other in range. Not in range removes your whole radius. Metro lines are not included, since the app holds no metro line data.</p>
+        </div>
+
+        <div class="divide"></div>
+        <p class="section-label">Active clues</p>
+        <p class="hint osm-note" id="osm-note"></p>
+        <div id="clue-list"><p class="hint" id="clue-empty">No clues yet. Add one above and the map narrows down.</p></div>
+        <button class="ghost" id="clear-clues" hidden>Clear all clues</button>
+        <div class="area-status" id="area-status"></div>
+      </div>
+    </div>
+    <div class="pfoot">
+      Base map and stations &copy; OpenStreetMap contributors · Target place details from Google.<br>
+      Unofficial fan project. Not affiliated with Jet Lag: The Game.
+    </div>
+  </aside>
+  <div id="map"></div>
+  <div id="status"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

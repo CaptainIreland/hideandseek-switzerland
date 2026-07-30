@@ -1,0 +1,82 @@
+=== GOOGLE STATION SWEEP ===
+Requests made: 601 (54 top-level tiles plus subdivisions)
+Unique Google places found: 2278
+  Kept, typed train_station: 1932
+  Kept, narrow-gauge on the keep list: 2
+  Light-rail excluded as city tram: 9
+  Outside the Swiss outline, dropped: 335
+Dropped just outside the outline, within 1.5 km. Sanity-check these are truly foreign (44):
+  - Dogern Bahnhof (0.04 km outside)
+  - Laufenburg (0.04 km outside)
+  - Dogern (0.07 km outside)
+  - Waldshut (0.09 km outside)
+  - Laufenburg (Baden) Ost (0.1 km outside)
+  - Porto Ceresio (0.1 km outside)
+  - Wyhlen (0.12 km outside)
+  - Pino-Tronzano (0.13 km outside)
+  - Lörrach Dammstrasse (0.17 km outside)
+  - Lörrach Dammstrasse (0.17 km outside)
+  - Vallorcine (0.17 km outside)
+  - Schwörstadt (0.19 km outside)
+  - Eberfingen (0.2 km outside)
+  - Weizen (0.21 km outside)
+  - Steckborn (0.22 km outside)
+  - Gare de Saint Julien en Genevois (0.35 km outside)
+  - Saint Julien en Genevois (0.36 km outside)
+  - Konstanz Petershausen (0.4 km outside)
+  - Grenzach (0.41 km outside)
+  - Grenzach (0.41 km outside)
+  - Wehr-Brennet (0.41 km outside)
+  - Monte Generoso Vetta (0.45 km outside)
+  - Generoso Vetta (0.46 km outside)
+  - Pougny-Chancy (0.48 km outside)
+  - Weil am Rhein (0.49 km outside)
+Core check: 345 of 381 major stations matched
+MISSING from Google, these vanish from the game under strict mode (36):
+  - Anzere poste
+  - Arolla poste
+  - Ascona
+  - Bluche-Randogne
+  - Braunwald
+  - Campocologno
+  - Champex Lac
+  - Chandolin Poste
+  - Chiasso
+  - Churwalden
+  - Crans Montana Gare
+  - Crans-sur-Sierre Poste
+  - Darnona
+  - Davos Dorf DKB
+  - Faulensee
+  - Grimentz Poste
+  - Haute-Nendaz Village
+  - Luzern SGV
+  - Maloja
+  - Marigny
+  - Melchtal
+  - Morgins Poste
+  - Neuchâtel Université
+  - Sedrun Tgesa Communala
+  - Sierre Muraz
+  - Sils/Segl Maria
+  - St-Luc Poste
+  - St-Maurice-de-Laques
+  - Steckborn
+  - Trübbach
+  - Valbella
+  - Venthône
+  - Vissoie Poste
+  - Weggis
+  - Weite
+  - Zinal Poste
+Light-rail-only entries, excluded, rule on these:
+  - Hirschwiesenstrasse
+  - Milchbuck
+  - Muttenz, Wartenberg Schlaufe
+  - Ottikerstrasse
+  - Paradeplatz
+  - Strassenverkehrsamt
+  - Technopark
+  - Toni Areal
+  - Werd
+=== END ===

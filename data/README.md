@@ -1,0 +1,1 @@
+Generated data lives here. Run python scripts/fetch_stations_google.py (Google, canonical) and commit stations.json, stations-google.json and the report. fetch_stations.py (OpenStreetMap) is an optional comparison.
