@@ -257,6 +257,7 @@ function withinOf(pts,lat,lng,km){
   return pts.filter(p=>turf.distance(from,turf.point([p.lng,p.lat]),{units:"kilometers"})<=km);
 }
 let OSM={peaks:[],waters:[],loaded:false,minElevation:0};
+let DISTRICTS=[];
 function municipalityAt(lat,lng){
   const pt=turf.point([lng,lat]);
   for(const f of MUNICIPALITIES){
@@ -336,7 +337,29 @@ function bandAroundPolys(features,km){
   return dissolveUnion(parts);
 }
 function cantonAt(lat,lng){const pt=turf.point([lng,lat]);for(const f of CANTONS.features){if(turf.booleanPointInPolygon(pt,f))return f;}return null;}
-const REF_LABEL={station:"train station",border:"international border",canton:"canton",municipality:"municipality",mountain:"mountain",water:"body of water",cantonborder:"canton border",hospital:"hospital",museum:"museum",library:"library",cinema:"movie theatre",zoo:"zoo",aquarium:"aquarium",themepark:"amusement park",golf:"golf course",park:"park",airport:"airport",consulate:"consulate"};
+function districtAt(lat,lng){const pt=turf.point([lng,lat]);for(const d of DISTRICTS){try{if(turf.booleanPointInPolygon(pt,d.feature))return d;}catch(e){}}return null;}
+let districtLineCache=null;
+function districtLines(){
+  if(!DISTRICTS.length) return null;
+  if(districtLineCache) return districtLineCache;
+  const out=[];
+  for(const d of DISTRICTS){ try{ pushLines(out,turf.polygonToLine(d.feature)); }catch(e){} }
+  districtLineCache=ringsToMulti(out);
+  return districtLineCache;
+}
+function districtBorderBand(km){
+  const d=Math.max(km,0.02), parts=[];
+  for(const dist of DISTRICTS){
+    try{
+      const s=coarse(dist.feature);
+      const inner=turf.buffer(s,-d,{units:"kilometers",steps:4});
+      const ring=inner?turf.difference(s,inner):s;
+      if(ring) parts.push(ring);
+    }catch(e){}
+  }
+  return dissolveUnion(parts);
+}
+const REF_LABEL={station:"train station",border:"international border",canton:"canton",municipality:"municipality",district:"district",mountain:"mountain",water:"body of water",cantonborder:"canton border",districtborder:"district border",hospital:"hospital",museum:"museum",library:"library",cinema:"movie theatre",zoo:"zoo",aquarium:"aquarium",themepark:"amusement park",golf:"golf course",park:"park",airport:"airport",consulate:"consulate"};
 // Official Large-game tentacle radii from the rulebook question pad, in
 // UNIT_TABLE above (paired imperial/metric values, not conversions).
 
@@ -463,6 +486,14 @@ function buildMatchClue(mode,lat,lng,same){
       label:`<span class="idx">M</span> Matching · ${same?"same":"different"} canton · ${f.properties.code}<br><span class="hint">${f.properties.name}</span>`,
       poly:turf.feature(f.geometry), mode:same?"i":"d", share:{t:"M",mode,lat,lng,same}}};
   }
+  if(mode==="district"){
+    if(!DISTRICTS.length) return {error:"District data is not loaded. Run scripts/fetch_districts.py first."};
+    const f=districtAt(lat,lng);
+    if(!f) return {error:"That point is not inside any district. Some cantons have abolished districts, which is a valid null answer under the rulebook - no area can be cut from this question."};
+    return {clue:{kind:"match",
+      label:`<span class="idx">M</span> Matching · ${same?"same":"different"} district · not Google-verified<br><span class="hint">${f.name}</span>`,
+      poly:f.feature, mode:same?"i":"d", share:{t:"M",mode,lat,lng,same}}};
+  }
   if(mode==="stationlen"){
     const pts=setFor("station");
     if(pts.length<2) return {error:"Not enough station data loaded for that question."};
@@ -489,16 +520,19 @@ function buildMeasureClue(ref,lat,lng,closer,unit){
   unit=unit||UNITS;
   return new Promise(resolve=>{
     if(lat==null||lng==null){resolve({error:"Measuring needs your location."});return;}
-    if(ref==="cantonborder"||ref==="water"){
-      const multi=ref==="water"?waterLines():cantonLines();
-      if(!multi){resolve({error:"That layer is not loaded. Run scripts/fetch_osm_layers.py first."});return;}
+    if(ref==="cantonborder"||ref==="water"||ref==="districtborder"){
+      const multi=ref==="water"?waterLines():ref==="districtborder"?districtLines():cantonLines();
+      if(!multi){
+        const script=ref==="districtborder"?"fetch_districts.py":"fetch_osm_layers.py";
+        resolve({error:`That layer is not loaded. Run scripts/${script} first.`});return;
+      }
       const km=multiLineDistKm(lat,lng,multi);
       if(km===null){resolve({error:"Could not measure to that layer."});return;}
       setTimeout(()=>{
         try{
-          const band=ref==="water"?bandAroundPolys(waterFeatures(),km):cantonBorderBand(km);
+          const band=ref==="water"?bandAroundPolys(waterFeatures(),km):ref==="districtborder"?districtBorderBand(km):cantonBorderBand(km);
           resolve({clue:{kind:"measure",
-            label:`<span class="idx">Ms</span> Measuring · hider ${closer?"closer":"further"} · ${REF_LABEL[ref]}<br><span class="hint">you: ${fmtDist(km,unit)}${ref==="water"?" · not Google-verified":""}</span>`,
+            label:`<span class="idx">Ms</span> Measuring · hider ${closer?"closer":"further"} · ${REF_LABEL[ref]}<br><span class="hint">you: ${fmtDist(km,unit)}${ref==="water"||ref==="districtborder"?" · not Google-verified":""}</span>`,
             poly:band, mode:closer?"i":"d", share:{t:"S",ref,lat,lng,closer,unit}}});
         }catch(err){resolve({error:"Could not build that measuring clue. "+err.message});}
       },0);
@@ -936,6 +970,24 @@ async function loadOsm(){
     osmStatus("Mountain and water questions need data/osm-layers.json. Run scripts/fetch_osm_layers.py to enable them.");
   }
 }
+function districtStatus(msg){const el=document.getElementById("district-note"); if(el) el.textContent=msg;}
+async function loadDistricts(){
+  try{
+    const r=await fetch("data/districts.json",{cache:"no-cache"});
+    if(!r.ok) throw new Error("missing");
+    const d=await r.json();
+    DISTRICTS=(d.districts||[]).map(x=>({
+      name:x.n,
+      feature:x.r.length===1?turf.polygon(x.r):turf.multiPolygon(x.r.map(ring=>[ring]))
+    }));
+    districtLineCache=null; voronoiCache.clear();
+    document.querySelectorAll("[data-district]").forEach(o=>{o.disabled=false;});
+    districtStatus(`${DISTRICTS.length} districts loaded from OpenStreetMap. Not Google-verified, so settle disputes on Google Maps. Some cantons have none, which is a valid null answer.`);
+  }catch(e){
+    document.querySelectorAll("[data-district]").forEach(o=>{o.disabled=true;});
+    districtStatus("District questions need data/districts.json. Run scripts/fetch_districts.py to enable them.");
+  }
+}
 
 
 /* ========================= SHARE LINK ========================= */
@@ -998,7 +1050,7 @@ async function replayShareLink(){
   const v=params.get("v");
   if(v!==String(SHARE_VERSION)){
     shareBanner(`This link uses share format v=${v||"?"}, which this build of the map does not understand. Loading the map normally instead.`,"warn");
-    loadStations(); loadPlaces(); loadOsm();
+    loadStations(); loadPlaces(); loadOsm(); loadDistricts();
     return;
   }
   const z=parseNum(params.get("z"));
@@ -1006,7 +1058,7 @@ async function replayShareLink(){
   const f=params.get("f")||"";
   const cRaw=params.get("c")||"";
   shareBanner("Loading shared map…","");
-  await Promise.allSettled([loadStations(),loadPlaces(),loadOsm()]);
+  await Promise.allSettled([loadStations(),loadPlaces(),loadOsm(),loadDistricts()]);
   if(z!==null&&UNIT_TABLE.zone.km.includes(z)){
     HIDE_RADIUS_KM=z;
     renderZoneOptions();
@@ -1062,4 +1114,4 @@ document.getElementById("share-map").addEventListener("click",async()=>{
 
 refreshUnitUI();
 render();
-if(location.hash){ replayShareLink(); } else { loadStations(); loadPlaces(); loadOsm(); drawDeduction(); }
+if(location.hash){ replayShareLink(); } else { loadStations(); loadPlaces(); loadOsm(); loadDistricts(); drawDeduction(); }
