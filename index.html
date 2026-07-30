@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Hide + Seek Switzerland · Planning and Deduction Map</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.min.css" onerror="this.onerror=null;this.href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -148,8 +148,10 @@
   <div id="map"></div>
   <div id="status"></div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+<script src="vendor/leaflet/leaflet.min.js"></script>
+<script>window.L || document.write('\x3Cscript src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js">\x3C/script>')</script>
+<script src="vendor/turf/turf.min.js"></script>
+<script>window.turf || document.write('\x3Cscript src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js">\x3C/script>')</script>
 <script src="config.js"></script>
 <script src="app.js"></script>
 </body>
