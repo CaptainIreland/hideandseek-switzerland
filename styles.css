@@ -16,6 +16,9 @@
   .kicker{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:11px;letter-spacing:.22em;
     text-transform:uppercase;color:var(--red);margin:0 0 6px}
   h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;line-height:1.15;margin:0}
+  .units-row{display:flex;align-items:center;gap:10px;margin-top:12px}
+  .units-label{font-size:11px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.08em;flex:0 0 auto}
+  #units-seg{margin-bottom:0;flex:1 1 auto}
   .tabs{display:flex;gap:2px;margin-top:14px}
   .tabs button{flex:1;background:none;border:none;border-bottom:2px solid transparent;color:var(--ink-dim);
     font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:12.5px;letter-spacing:.03em;padding:10px 4px;
@@ -88,6 +91,10 @@
     border-radius:8px;min-height:0;line-height:1.4}
   .area-status:empty{display:none}
   .area-status b{font-family:'Space Grotesk',sans-serif}
+  .btn-row{display:flex;gap:8px}
+  .btn-row .ghost{width:auto;flex:1}
+  #share-msg{min-height:0}
+  #share-msg:empty{display:none}
   #map{flex:1;height:100%;background:#e9eef2}
   .leaflet-popup-content-wrapper{border-radius:10px}
   .leaflet-popup-content{margin:12px 14px;font-family:Inter,sans-serif}
@@ -102,6 +109,18 @@
   #status.show{display:flex}
   .spin{width:12px;height:12px;border:2px solid var(--ink-dim);border-top-color:var(--red);border-radius:50%;animation:sp .7s linear infinite}
   @keyframes sp{to{transform:rotate(360deg)}}
+  #share-banner{position:fixed;top:0;left:0;right:0;z-index:2100;display:none;align-items:center;gap:10px;
+    padding:11px 44px 11px 16px;font-size:13px;line-height:1.5;background:var(--panel-2);
+    border-bottom:1px solid var(--line);color:var(--ink);box-shadow:0 6px 18px rgba(0,0,0,.3)}
+  #share-banner.show{display:flex}
+  #share-banner.warn{background:rgba(255,176,32,.16);border-bottom-color:#ffb020}
+  #share-banner.mismatch{background:rgba(227,6,19,.16);border-bottom-color:var(--red)}
+  #share-banner .share-banner-msg{flex:1}
+  #share-banner b{font-family:'Space Grotesk',sans-serif}
+  #share-banner .share-banner-x{position:absolute;right:10px;top:8px;background:none;border:none;
+    color:var(--ink-dim);font-size:18px;line-height:1;cursor:pointer;padding:3px 7px}
+  #share-banner .share-banner-x:hover{color:#fff}
+  #share-banner.show ~ #app #status{top:68px}
   #menu-btn{display:none;position:absolute;top:12px;left:12px;z-index:1300;background:var(--panel);color:#fff;
     border:1px solid var(--line);border-radius:10px;width:44px;height:44px;font-size:19px;cursor:pointer}
   #scrim{display:none}

@@ -17,7 +17,34 @@ const CATS=[
 ];
 const COLOR=Object.fromEntries(CATS.map(c=>[c.id,c.color])); COLOR.station="#e30613";
 const LABEL=Object.fromEntries(CATS.map(c=>[c.id,c.label])); LABEL.station="Train station";
-let HIDE_RADIUS_MI=0.5; const MI=1.609344; const hideRadiusM=()=>HIDE_RADIUS_MI*1609.344;
+let HIDE_RADIUS_KM=1; const MI=1.609344; const hideRadiusM=()=>HIDE_RADIUS_KM*1000;
+// Imperial and metric are parallel official rule sets, not conversions of each
+// other (10 mi radar != 16.1 km radar; the metric card says 15 km). UNIT_TABLE
+// holds the paired values from the Large-game question pad. Geometry is always
+// built from a plain kilometre number; "unit" travels alongside only so a
+// clue's label can keep showing whatever card it was actually created from.
+let UNITS=(function(){try{const v=localStorage.getItem("units");return (v==="mi"||v==="km")?v:"mi";}catch(e){return "mi";}})();
+function setUnits(u){UNITS=u;try{localStorage.setItem("units",u);}catch(e){}}
+const UNIT_TABLE={
+  zone:{mi:[0.25,0.5,1],km:[0.5,1,2]},
+  radar:{mi:[0.25,0.5,1,3,5,10,25,50,100],km:[0.5,1,2,5,10,15,40,80,180]},
+  tentShort:{mi:1,km:2},
+  tentLong:{mi:15,km:25}
+};
+function toKm(v,unit){return unit==="mi"?v*MI:v;}
+function fromKm(km,unit){return unit==="mi"?km/MI:km;}
+function fmtDist(km,unit){
+  unit=unit||UNITS;
+  if(unit==="km") return km<1?Math.round(km*1000)+" m":km.toFixed(1)+" km";
+  return (km/MI).toFixed(1)+" mi";
+}
+function fmtArea(km2){
+  if(UNITS==="km") return Math.round(km2).toLocaleString()+" km²";
+  return Math.round(km2/(MI*MI)).toLocaleString()+" mi²";
+}
+function presetGlyph(v){return v===0.25?"¼":v===0.5?"½":String(v);}
+function tentLongRef(ref){return ref==="zoo"||ref==="aquarium"||ref==="themepark";}
+function tentDefaultDisplay(ref){return (tentLongRef(ref)?UNIT_TABLE.tentLong:UNIT_TABLE.tentShort)[UNITS];}
 
 let STATIONS = STATIONS_GOOGLE.slice();
 const state={enabled:{},stationsOn:true,zones:true,minReviews:5};
@@ -59,7 +86,52 @@ addRow("station","Train stations",COLOR.station,true).addEventListener("change",
 CATS.forEach(c=>addRow(c.id,c.label,c.color,false).addEventListener("change",e=>{state.enabled[c.id]=e.target.checked;render();}));
 document.getElementById("zones").addEventListener("change",e=>{state.zones=e.target.checked;render();});
 document.getElementById("reviews").addEventListener("input",e=>{state.minReviews=+e.target.value;document.getElementById("rev-val").textContent=e.target.value;render();});
-document.getElementById("zone-radius").addEventListener("change",e=>{HIDE_RADIUS_MI=parseFloat(e.target.value);if(clues.length){drawDeduction();}else{render();}});
+document.getElementById("zone-radius").addEventListener("change",e=>{HIDE_RADIUS_KM=parseFloat(e.target.value);if(clues.length){drawDeduction();}else{render();}});
+
+/* ---- Units ---- */
+function updateUnitLabels(){
+  const suf=UNITS==="mi"?"miles":"kilometres";
+  const radL=document.getElementById("rad-mi-label"); if(radL) radL.textContent=`Radius (${suf})`;
+  const wrL=document.getElementById("wr-mi-label"); if(wrL) wrL.textContent=`Within (${suf})`;
+  const tnL=document.getElementById("tn-mi-label"); if(tnL) tnL.textContent=`Radius (${suf})`;
+}
+function renderRadarPresets(){
+  const box=document.getElementById("rad-presets");
+  if(!box) return;
+  box.innerHTML=UNIT_TABLE.radar[UNITS].map(v=>`<button data-v="${v}">${presetGlyph(v)}</button>`).join("");
+}
+function renderZoneOptions(){
+  const sel=document.getElementById("zone-radius");
+  if(!sel) return;
+  const kms=UNIT_TABLE.zone.km, mis=UNIT_TABLE.zone.mi;
+  sel.innerHTML=kms.map((kv,i)=>{
+    const text=UNITS==="mi"?presetGlyph(mis[i])+" mi":(kv<1?Math.round(kv*1000)+" m":kv+" km");
+    return `<option value="${kv}">${text}</option>`;
+  }).join("");
+  sel.value=String(HIDE_RADIUS_KM);
+}
+const TENT_CATS=[["museum","Museums"],["library","Libraries"],["cinema","Movie theatres"],["hospital","Hospitals"],["zoo","Zoos"],["aquarium","Aquariums"],["themepark","Amusement parks"]];
+function renderTentacleOptions(){
+  const sel=document.getElementById("tn-ref");
+  if(!sel) return;
+  const prev=sel.value;
+  sel.innerHTML=TENT_CATS.map(([id,label])=>`<option value="${id}">${label} (${tentDefaultDisplay(id)} ${UNITS})</option>`).join("");
+  sel.value=prev||"museum";
+}
+document.getElementById("units-seg").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  const u=b.dataset.u; if(!u||u===UNITS) return;
+  setUnits(u);
+  document.querySelectorAll("#units-seg button").forEach(x=>x.classList.toggle("on",x.dataset.u===u));
+  updateUnitLabels(); renderRadarPresets(); renderZoneOptions(); renderTentacleOptions();
+  const tnRef=document.getElementById("tn-ref");
+  const tnMi=document.getElementById("tn-mi");
+  if(tnRef&&tnMi) tnMi.value=tentDefaultDisplay(tnRef.value);
+  if(clues.length){
+    shareBanner("Switching units mid-game. Existing clues keep the distances they were created with.","warn");
+    drawDeduction();
+  }
+});
 document.getElementById("all-on").addEventListener("click",()=>{state.stationsOn=true;CATS.forEach(c=>state.enabled[c.id]=true);document.querySelectorAll('#layers input').forEach(i=>i.checked=true);render();});
 document.getElementById("all-off").addEventListener("click",()=>{state.stationsOn=false;CATS.forEach(c=>state.enabled[c.id]=false);document.querySelectorAll('#layers input').forEach(i=>i.checked=false);render();});
 
@@ -84,13 +156,16 @@ const SWISS_LINE=turf.polygonToLine(SWISS_FEATURE);
 let clues=[];
 function polys(region){const g=region.geometry||region;return g.type==="Polygon"?[turf.polygon(g.coordinates)]:g.coordinates.map(c=>turf.polygon(c));}
 function clip(region,poly,mode){let out=[];for(const p of polys(region)){let r=mode==="i"?turf.intersect(p,poly):turf.difference(p,poly);if(r)out.push(r);}if(!out.length)return null;let u=out[0];for(let i=1;i<out.length;i++)u=turf.union(u,out[i]);return u;}
-function circle(lat,lng,mi){return turf.circle([lng,lat],mi*MI,{units:"kilometers",steps:64});}
+function circle(lat,lng,km){return turf.circle([lng,lat],km,{units:"kilometers",steps:64});}
 function halfPlane(A,B,towardB){const lat0=(A[1]+B[1])/2,k=Math.cos(lat0*Math.PI/180);
   const ax=A[0]*k,ay=A[1],bx=B[0]*k,by=B[1];const wx=towardB?bx:ax,wy=towardB?by:ay,cx=towardB?ax:bx,cy=towardB?ay:by;
   const mx=(ax+bx)/2,my=(ay+by)/2;let dx=wx-cx,dy=wy-cy;const L=Math.hypot(dx,dy)||1;dx/=L;dy/=L;const px=-dy,py=dx,BIG=6;
   const pts=[[mx+px*BIG,my+py*BIG],[mx-px*BIG,my-py*BIG],[mx-px*BIG+dx*BIG*2,my-py*BIG+dy*BIG*2],[mx+px*BIG+dx*BIG*2,my+py*BIG+dy*BIG*2]];
   const ring=pts.map(p=>[p[0]/k,p[1]]);ring.push(ring[0]);return turf.polygon([ring]);}
-const WORLD_MASK=turf.polygon([[[3,44],[13,44],[13,49],[3,49],[3,44]]]);
+// Wide enough that a few zoom-out steps never run past the grey. Kept short of
+// the antimeridian (+/-180) and the poles, since a polygon touching either
+// makes Turf's boolean ops misbehave.
+const WORLD_MASK=turf.polygon([[[-179,-85],[179,-85],[179,85],[-179,85],[-179,-85]]]);
 
 function setFor(ref){
   if(ref==="station") return STATIONS.map(s=>({name:s[0]||"Station",lat:s[1],lng:s[2]}));
@@ -153,9 +228,9 @@ function voronoiCellForSet(pts,place){
   const i=pts.findIndex(p=>p.lat===place.lat&&p.lng===place.lng);
   return (i>=0&&vor.features[i])?vor.features[i]:null;
 }
-function withinOf(pts,lat,lng,mi){
+function withinOf(pts,lat,lng,km){
   const from=turf.point([lng,lat]);
-  return pts.filter(p=>turf.distance(from,turf.point([p.lng,p.lat]),{units:"kilometers"})<=mi*MI);
+  return pts.filter(p=>turf.distance(from,turf.point([p.lng,p.lat]),{units:"kilometers"})<=km);
 }
 let OSM={peaks:[],waters:[],loaded:false,minElevation:0};
 function municipalityAt(lat,lng){
@@ -238,8 +313,8 @@ function bandAroundPolys(features,km){
 }
 function cantonAt(lat,lng){const pt=turf.point([lng,lat]);for(const f of CANTONS.features){if(turf.booleanPointInPolygon(pt,f))return f;}return null;}
 const REF_LABEL={station:"train station",border:"international border",canton:"canton",municipality:"municipality",mountain:"mountain",water:"body of water",cantonborder:"canton border",hospital:"hospital",museum:"museum",library:"library",cinema:"movie theatre",zoo:"zoo",aquarium:"aquarium",themepark:"amusement park",golf:"golf course",park:"park",airport:"airport",consulate:"consulate"};
-// Official Large-game tentacle radii from the rulebook question pad.
-const TENT_DEFAULT={museum:1,library:1,cinema:1,hospital:1,zoo:15,aquarium:15,themepark:15};
+// Official Large-game tentacle radii from the rulebook question pad, in
+// UNIT_TABLE above (paired imperial/metric values, not conversions).
 
 function compute(){let region=turf.feature(JSON.parse(JSON.stringify(SWISS_GEO)));
   for(const c of clues){region=clip(region,c.poly,c.mode);if(!region)return null;}
@@ -248,18 +323,22 @@ let drawToken=0;
 function drawDeduction(){
   maskLayer.clearLayers();survLayer.clearLayers();
   const st=document.getElementById("area-status");
-  if(!clues.length){activeFilter=null;lastRegion=null;st.innerHTML="";render();return;}
+  if(!clues.length){
+    activeFilter=null;lastRegion=null;st.innerHTML="";render();
+    const mask0=turf.difference(WORLD_MASK,SWISS_FEATURE);
+    if(mask0) L.geoJSON(mask0,{style:{stroke:false,fillColor:"#0b0f14",fillOpacity:.6},interactive:false,pane:"maskPane"}).addTo(maskLayer);
+    return;
+  }
   st.innerHTML="Computing\u2026";
   const my=++drawToken;
   setTimeout(()=>{
     if(my!==drawToken)return;
-    const OUTER=[[44,3],[44,13],[49,13],[49,3]];
     const region=compute();
     if(my!==drawToken)return;
     lastRegion=region;
     if(!region){
       activeFilter=new Set();render();
-      L.polygon([OUTER],{stroke:false,fillColor:"#0b0f14",fillOpacity:.62,interactive:false,pane:"maskPane"}).addTo(maskLayer);
+      L.geoJSON(WORLD_MASK,{style:{stroke:false,fillColor:"#0b0f14",fillOpacity:.62},interactive:false,pane:"maskPane"}).addTo(maskLayer);
       st.innerHTML='<b style="color:#ff6b6b">No area fits these clues.</b><br>Re-check the most recent answer.';
       return;
     }
@@ -268,8 +347,8 @@ function drawDeduction(){
     const mask=turf.difference(WORLD_MASK,region);
     if(mask) L.geoJSON(mask,{style:{stroke:false,fillColor:"#0b0f14",fillOpacity:.6},interactive:false,pane:"maskPane"}).addTo(maskLayer);
     L.geoJSON(region,{style:{color:"#e30613",weight:2,fill:false},interactive:false}).addTo(survLayer);
-    const km=Math.round(turf.area(region)/1e6).toLocaleString();
-    st.innerHTML=`Possible area: <b>${km} km\u00b2</b> \u00b7 ${clues.length} clue${clues.length>1?"s":""} \u00b7 <b>${activeFilter.size.toLocaleString()}</b> of ${STATIONS.length.toLocaleString()} stations in play`;
+    const areaTxt=fmtArea(turf.area(region)/1e6);
+    st.innerHTML=`Possible area: <b>${areaTxt}</b> \u00b7 ${clues.length} clue${clues.length>1?"s":""} \u00b7 <b>${activeFilter.size.toLocaleString()}</b> of ${STATIONS.length.toLocaleString()} stations in play`;
   },25);
 }
 
@@ -310,13 +389,118 @@ document.querySelectorAll(".ans").forEach(g=>g.addEventListener("click",e=>{
 /* ---- Clue add / list / clear ---- */
 function num(id){const v=parseFloat(document.getElementById(id).value);return Number.isFinite(v)?v:null;}
 function flash(msg){document.getElementById("area-status").innerHTML=`<b style="color:#ffb020">${msg}</b>`;}
-function heavy(label,work){
-  document.getElementById("area-status").innerHTML=label;
-  setTimeout(()=>{try{work();}catch(err){flash("Computation failed. "+err.message);}},30);
+function buildRadarClue(lat,lng,km,unit,hit){
+  if(lat==null||lng==null||km==null||!(km>0)) return {error:"Radar needs a centre point and a positive radius."};
+  const disp=Math.round(fromKm(km,unit)*100)/100;
+  return {clue:{kind:"radar",
+    label:`<span class="idx">R</span> Radar · ${hit?"hit, inside":"miss, outside"} · ${disp} ${unit}<br><span class="hint">@ ${lat.toFixed(3)}, ${lng.toFixed(3)}</span>`,
+    poly:circle(lat,lng,km), mode:hit?"i":"d", share:{t:"R",lat,lng,km,hit,unit}}};
 }
-function addClue(kind,label,poly,mode){
-  if(!poly){flash("Could not build that clue. Check the inputs.");return false;}
-  clues.push({kind,label,poly,mode}); renderClues(); return true;
+function buildThermoClue(aLat,aLng,bLat,bLng,hotter){
+  if([aLat,aLng,bLat,bLng].some(v=>v==null)) return {error:"Thermometer needs both a start and an end point."};
+  return {clue:{kind:"thermo",
+    label:`<span class="idx">T</span> Thermometer · ${hotter?"hotter":"colder"}<br><span class="hint">${aLat.toFixed(3)},${aLng.toFixed(3)} → ${bLat.toFixed(3)},${bLng.toFixed(3)}</span>`,
+    poly:halfPlane([aLng,aLat],[bLng,bLat],hotter), mode:"i", share:{t:"T",aLat,aLng,bLat,bLng,hotter}}};
+}
+function buildRadiusClue(lat,lng,km,unit){
+  if(lat==null||lng==null||km==null||!(km>0)) return {error:"The Within clue needs a point and a positive distance."};
+  const disp=Math.round(fromKm(km,unit)*100)/100;
+  return {clue:{kind:"radius",
+    label:`<span class="idx">W</span> Within ${disp} ${unit}<br><span class="hint">@ ${lat.toFixed(3)}, ${lng.toFixed(3)}</span>`,
+    poly:circle(lat,lng,km), mode:"i", share:{t:"W",lat,lng,km,unit}}};
+}
+function buildMatchClue(mode,lat,lng,same){
+  if(lat==null||lng==null) return {error:"Matching needs your location."};
+  if(mode==="municipality"){
+    const f=municipalityAt(lat,lng);
+    if(!f) return {error:"That point does not resolve to a municipality."};
+    return {clue:{kind:"match",
+      label:`<span class="idx">M</span> Matching · ${same?"same":"different"} municipality<br><span class="hint">${f.n} (${f.k}) · not Google-verified</span>`,
+      poly:turf.feature(f.g), mode:same?"i":"d", share:{t:"M",mode,lat,lng,same}}};
+  }
+  if(mode==="canton"){
+    const f=cantonAt(lat,lng);
+    if(!f) return {error:"That point does not resolve to a canton."};
+    return {clue:{kind:"match",
+      label:`<span class="idx">M</span> Matching · ${same?"same":"different"} canton · ${f.properties.code}<br><span class="hint">${f.properties.name}</span>`,
+      poly:turf.feature(f.geometry), mode:same?"i":"d", share:{t:"M",mode,lat,lng,same}}};
+  }
+  const pts=setFor(mode);
+  if(pts.length<2) return {error:"Not enough "+(REF_LABEL[mode]||mode)+" data loaded for that question."};
+  const near=nearestOf(pts,lat,lng);
+  const cell=voronoiCellFor(mode,near.place);
+  if(!cell) return {error:"Could not compute that area."};
+  return {clue:{kind:"match",
+    label:`<span class="idx">M</span> Matching · ${same?"same":"different"} nearest ${REF_LABEL[mode]}<br><span class="hint">${near.place.name}</span>`,
+    poly:cell, mode:same?"i":"d", share:{t:"M",mode,lat,lng,same}}};
+}
+function buildMeasureClue(ref,lat,lng,closer,unit){
+  unit=unit||UNITS;
+  return new Promise(resolve=>{
+    if(lat==null||lng==null){resolve({error:"Measuring needs your location."});return;}
+    if(ref==="cantonborder"||ref==="water"){
+      const multi=ref==="water"?waterLines():cantonLines();
+      if(!multi){resolve({error:"That layer is not loaded. Run scripts/fetch_osm_layers.py first."});return;}
+      const km=multiLineDistKm(lat,lng,multi);
+      if(km===null){resolve({error:"Could not measure to that layer."});return;}
+      setTimeout(()=>{
+        try{
+          const band=ref==="water"?bandAroundPolys(waterFeatures(),km):cantonBorderBand(km);
+          resolve({clue:{kind:"measure",
+            label:`<span class="idx">Ms</span> Measuring · hider ${closer?"closer":"further"} · ${REF_LABEL[ref]}<br><span class="hint">you: ${fmtDist(km,unit)}${ref==="water"?" · not Google-verified":""}</span>`,
+            poly:band, mode:closer?"i":"d", share:{t:"S",ref,lat,lng,closer,unit}}});
+        }catch(err){resolve({error:"Could not build that measuring clue. "+err.message});}
+      },0);
+      return;
+    }
+    if(ref==="border"){
+      const km=borderDistanceKm(lat,lng);
+      setTimeout(()=>{
+        try{
+          resolve({clue:{kind:"measure",
+            label:`<span class="idx">Ms</span> Measuring · hider ${closer?"closer":"further"} · ${REF_LABEL.border}<br><span class="hint">you: ${fmtDist(km,unit)}</span>`,
+            poly:borderBandKm(km), mode:closer?"i":"d", share:{t:"S",ref,lat,lng,closer,unit}}});
+        }catch(err){resolve({error:"Could not build that measuring clue. "+err.message});}
+      },0);
+      return;
+    }
+    const pts=setFor(ref);
+    if(!pts.length){resolve({error:"No places loaded for that category yet."});return;}
+    const near=nearestOf(pts,lat,lng);
+    setTimeout(()=>{
+      try{
+        resolve({clue:{kind:"measure",
+          label:`<span class="idx">Ms</span> Measuring · hider ${closer?"closer":"further"} · nearest ${REF_LABEL[ref]}<br><span class="hint">you: ${fmtDist(near.km,unit)} (${near.place.name})</span>`,
+          poly:multiBufferKm(pts,near.km), mode:closer?"i":"d", share:{t:"S",ref,lat,lng,closer,unit}}});
+      }catch(err){resolve({error:"Could not build that measuring clue. "+err.message});}
+    },0);
+  });
+}
+function buildTentacleClue(ref,lat,lng,km,unit,pLat,pLng){
+  if(lat==null||lng==null) return {error:"Tentacles need your own location. The rulebook measures the radius from the asker."};
+  if(km==null||!(km>0)) return {error:"Enter the tentacle radius."};
+  const disp=Math.round(fromKm(km,unit)*100)/100;
+  const disk=circle(lat,lng,km);
+  if(pLat==null||pLng==null){
+    return {clue:{kind:"tentacle",
+      label:`<span class="idx">Tn</span> Tentacles · not in range · ${REF_LABEL[ref]} · ${disp} ${unit}<br><span class="hint">@ ${lat.toFixed(3)}, ${lng.toFixed(3)}</span>`,
+      poly:disk, mode:"d", share:{t:"N",ref,lat,lng,km,unit,pLat:null,pLng:null}}};
+  }
+  const cands=withinOf(setFor(ref),lat,lng,km);
+  if(!cands.length) return {error:"No "+(REF_LABEL[ref]||ref)+" within range, so this clue has no candidates."};
+  const place=nearestOf(cands,pLat,pLng).place;
+  let poly=disk;
+  if(cands.length>=2){
+    const cell=voronoiCellForSet(cands,place);
+    if(cell){const x=turf.intersect(cell,disk); if(x) poly=x;}
+  }
+  return {clue:{kind:"tentacle",
+    label:`<span class="idx">Tn</span> Tentacles · ${REF_LABEL[ref]} · ${disp} ${unit} · ${cands.length} in range<br><span class="hint">${place.name}</span>`,
+    poly, mode:"i", share:{t:"N",ref,lat,lng,km,unit,pLat:place.lat,pLng:place.lng}}};
+}
+function addClue(clue){
+  if(!clue||!clue.poly){flash("Could not build that clue. Check the inputs.");return false;}
+  clues.push(clue); renderClues(); return true;
 }
 function renderClues(){
   const list=document.getElementById("clue-list");
@@ -324,7 +508,7 @@ function renderClues(){
   if(!clues.length){ list.innerHTML='<p class="hint" id="clue-empty">No clues yet. Add one above and the map narrows down.</p>'; drawDeduction(); return; }
   list.innerHTML="";
   clues.forEach((c,i)=>{const d=document.createElement("div");d.className="clue";
-    d.innerHTML=`<div>${c.label}</div><button class="x" data-i="${i}" title="Remove">\u00d7</button>`;
+    d.innerHTML=`<div>${c.label}</div><button class="x" data-i="${i}" title="Remove">×</button>`;
     list.appendChild(d);});
   list.querySelectorAll(".x").forEach(x=>x.addEventListener("click",()=>{clues.splice(+x.dataset.i,1);renderClues();}));
   drawDeduction();
@@ -333,33 +517,39 @@ function rebuildTnList(){
   const sel=document.getElementById("tn-ref"); if(!sel) return;
   const dl=document.getElementById("tn-list"); if(!dl) return;
   let pts=setFor(sel.value);
-  const lat=num("tn-lat"), lng=num("tn-lng"), mi=num("tn-mi");
-  if(lat!==null&&lng!==null&&mi!==null&&mi>0) pts=withinOf(pts,lat,lng,mi);
+  const lat=num("tn-lat"), lng=num("tn-lng"), dist=num("tn-mi");
+  if(lat!==null&&lng!==null&&dist!==null&&dist>0) pts=withinOf(pts,lat,lng,toKm(dist,UNITS));
   pts=pts.slice().sort((a,b)=>a.name.localeCompare(b.name)).slice(0,400);
   dl.innerHTML=pts.map(p=>`<option value="${String(p.name).replace(/"/g,"&quot;")}"></option>`).join("");
 }
 
 document.getElementById("add-radar").addEventListener("click",()=>{
-  const lat=num("rad-lat"),lng=num("rad-lng"),mi=num("rad-mi");
+  const lat=num("rad-lat"),lng=num("rad-lng"),dist=num("rad-mi");
   if(lat===null||lng===null){flash("Set a centre point first (Pick or type lat, lng).");return;}
-  if(mi===null||mi<=0){flash("Enter a radius in miles.");return;}
+  if(dist===null||dist<=0){flash("Enter a radius.");return;}
   const hit=ans.radar==="hit";
-  addClue("radar",`<span class="idx">R</span> Radar \u00b7 ${hit?"hit, inside":"miss, outside"} \u00b7 ${mi} mi<br><span class="hint">@ ${lat.toFixed(3)}, ${lng.toFixed(3)}</span>`,circle(lat,lng,mi),hit?"i":"d");
+  const r=buildRadarClue(lat,lng,toKm(dist,UNITS),UNITS,hit);
+  if(r.error){flash(r.error);return;}
+  addClue(r.clue);
   clearDraft(["radar"]); document.getElementById("rad-lat").value="";document.getElementById("rad-lng").value="";
 });
 document.getElementById("add-thermo").addEventListener("click",()=>{
   const alat=num("th-alat"),alng=num("th-alng"),blat=num("th-blat"),blng=num("th-blng");
   if([alat,alng,blat,blng].some(v=>v===null)){flash("Set both the start and end points.");return;}
   const hotter=ans.thermo==="hotter";
-  addClue("thermo",`<span class="idx">T</span> Thermometer \u00b7 ${hotter?"hotter":"colder"}<br><span class="hint">${alat.toFixed(3)},${alng.toFixed(3)} \u2192 ${blat.toFixed(3)},${blng.toFixed(3)}</span>`,halfPlane([alng,alat],[blng,blat],hotter),"i");
+  const r=buildThermoClue(alat,alng,blat,blng,hotter);
+  if(r.error){flash(r.error);return;}
+  addClue(r.clue);
   clearDraft(["thermoA","thermoB"]);
   ["th-alat","th-alng","th-blat","th-blng"].forEach(id=>document.getElementById(id).value="");
 });
 document.getElementById("add-radius").addEventListener("click",()=>{
-  const lat=num("wr-lat"),lng=num("wr-lng"),mi=num("wr-mi");
+  const lat=num("wr-lat"),lng=num("wr-lng"),dist=num("wr-mi");
   if(lat===null||lng===null){flash("Set a point first (Pick or type lat, lng).");return;}
-  if(mi===null||mi<=0){flash("Enter a distance in miles.");return;}
-  addClue("radius",`<span class="idx">W</span> Within ${mi} mi<br><span class="hint">@ ${lat.toFixed(3)}, ${lng.toFixed(3)}</span>`,circle(lat,lng,mi),"i");
+  if(dist===null||dist<=0){flash("Enter a distance.");return;}
+  const r=buildRadiusClue(lat,lng,toKm(dist,UNITS),UNITS);
+  if(r.error){flash(r.error);return;}
+  addClue(r.clue);
   clearDraft(["radius"]); document.getElementById("wr-lat").value="";document.getElementById("wr-lng").value="";
 });
 document.getElementById("add-match").addEventListener("click",()=>{
@@ -367,88 +557,50 @@ document.getElementById("add-match").addEventListener("click",()=>{
   if(lat===null||lng===null){flash("Set your point first (Pick or type lat, lng).");return;}
   const same=ans.match==="same";
   const mode=document.getElementById("mt-ref").value;
-  if(mode==="municipality"){
-    const f=municipalityAt(lat,lng);
-    if(!f){flash("That point does not resolve to a municipality. Is it inside Switzerland?");return;}
-    addClue("match",`<span class="idx">M</span> Matching \u00b7 ${same?"same":"different"} municipality<br><span class="hint">${f.n} (${f.k}) \u00b7 not Google-verified</span>`,turf.feature(f.g),same?"i":"d");
-    clearDraft(["match"]); document.getElementById("mt-lat").value="";document.getElementById("mt-lng").value="";
-    return;
-  }
-  if(mode==="canton"){
-    const f=cantonAt(lat,lng);
-    if(!f){flash("That point does not resolve to a canton. Is it inside Switzerland?");return;}
-    addClue("match",`<span class="idx">M</span> Matching \u00b7 ${same?"same":"different"} canton \u00b7 ${f.properties.code}<br><span class="hint">${f.properties.name}</span>`,turf.feature(f.geometry),same?"i":"d");
-  } else {
-    const pts=setFor(mode);
-    if(pts.length<2){flash("Not enough "+REF_LABEL[mode]+" data loaded for that question.");return;}
-    const near=nearestOf(pts,lat,lng);
-    const cell=voronoiCellFor(mode,near.place);
-    if(!cell){flash("Could not compute that area. Move the point slightly and retry.");return;}
-    addClue("match",`<span class="idx">M</span> Matching \u00b7 ${same?"same":"different"} nearest ${REF_LABEL[mode]}<br><span class="hint">${near.place.name}</span>`,cell,same?"i":"d");
-  }
+  const r=buildMatchClue(mode,lat,lng,same);
+  if(r.error){flash(r.error);return;}
+  addClue(r.clue);
   clearDraft(["match"]); document.getElementById("mt-lat").value="";document.getElementById("mt-lng").value="";
 });
 document.getElementById("add-measure").addEventListener("click",()=>{
   const lat=num("ms-lat"),lng=num("ms-lng"); const ref=document.getElementById("ms-ref").value;
   if(lat===null||lng===null){flash("Set your point first (Pick or type lat, lng).");return;}
   const closer=ans.measure==="closer";
-  if(ref==="cantonborder"||ref==="water"){
-    const multi=ref==="water"?waterLines():cantonLines();
-    if(!multi){flash("That layer is not loaded. Run scripts/fetch_osm_layers.py first.");return;}
-    const km=multiLineDistKm(lat,lng,multi);
-    if(km===null){flash("Could not measure to that layer.");return;}
-    heavy("Computing area\u2026 this one takes a second or two.",()=>{
-      const band=ref==="water"?bandAroundPolys(waterFeatures(),km):cantonBorderBand(km);
-      addClue("measure",`<span class="idx">Ms</span> Measuring \u00b7 hider ${closer?"closer":"further"} \u00b7 ${REF_LABEL[ref]}<br><span class="hint">you: ${(km/MI).toFixed(1)} mi${ref==="water"?" \u00b7 not Google-verified":""}</span>`,band,closer?"i":"d");
-    });
+  flash(ref==="border"?"Computing border area…":(ref==="cantonborder"||ref==="water")?"Computing area… this one takes a second or two.":"Computing distance area… stations can take a few seconds.");
+  buildMeasureClue(ref,lat,lng,closer,UNITS).then(r=>{
+    if(r.error){flash(r.error);return;}
+    addClue(r.clue);
     clearDraft(["measure"]); document.getElementById("ms-lat").value="";document.getElementById("ms-lng").value="";
-    return;
-  }
-  if(ref==="border"){
-    const km=borderDistanceKm(lat,lng);
-    heavy("Computing border area\u2026",()=>{
-      addClue("measure",`<span class="idx">Ms</span> Measuring \u00b7 hider ${closer?"closer":"further"} \u00b7 ${REF_LABEL.border}<br><span class="hint">you: ${(km/MI).toFixed(1)} mi</span>`,borderBandKm(km),closer?"i":"d");
-    });
-  } else {
-    const pts=setFor(ref);
-    if(!pts.length){flash("No places loaded for that category yet.");return;}
-    const near=nearestOf(pts,lat,lng);
-    heavy("Computing distance area\u2026 stations can take a few seconds.",()=>{
-      addClue("measure",`<span class="idx">Ms</span> Measuring \u00b7 hider ${closer?"closer":"further"} \u00b7 nearest ${REF_LABEL[ref]}<br><span class="hint">you: ${(near.km/MI).toFixed(1)} mi (${near.place.name})</span>`,multiBufferKm(pts,near.km),closer?"i":"d");
-    });
-  }
-  clearDraft(["measure"]); document.getElementById("ms-lat").value="";document.getElementById("ms-lng").value="";
+  });
 });
-document.getElementById("tn-ref").addEventListener("change",e=>{document.getElementById("tn-mi").value=TENT_DEFAULT[e.target.value]||1;rebuildTnList();});
+document.getElementById("tn-ref").addEventListener("change",e=>{document.getElementById("tn-mi").value=tentDefaultDisplay(e.target.value);rebuildTnList();});
 document.getElementById("tn-name").addEventListener("focus",rebuildTnList);
 document.getElementById("add-tentacle").addEventListener("click",()=>{
   const ref=document.getElementById("tn-ref").value;
   const R=num("tn-mi"), lat=num("tn-lat"), lng=num("tn-lng");
   if(lat===null||lng===null){flash("Set your own location first. The rulebook measures the tentacle radius from the asker.");return;}
-  if(R===null||R<=0){flash("Enter the tentacle radius in miles.");return;}
-  const disk=circle(lat,lng,R);
-  const at=`<span class="hint">@ ${lat.toFixed(3)}, ${lng.toFixed(3)}</span>`;
+  if(R===null||R<=0){flash("Enter the tentacle radius.");return;}
+  const Rkm=toKm(R,UNITS);
   if(ans.tent==="none"){
-    addClue("tentacle",`<span class="idx">Tn</span> Tentacles \u00b7 not in range \u00b7 ${REF_LABEL[ref]} \u00b7 ${R} mi<br>${at}`,disk,"d");
+    const r=buildTentacleClue(ref,lat,lng,Rkm,UNITS,null,null);
+    if(r.error){flash(r.error);return;}
+    addClue(r.clue);
     clearDraft(["tentacle"]); return;
   }
-  const cands=withinOf(setFor(ref),lat,lng,R);
-  if(!cands.length){flash("No "+REF_LABEL[ref]+" within "+R+" mi of you, so this is a null answer under the rules. No area can be cut.");return;}
+  const cands=withinOf(setFor(ref),lat,lng,Rkm);
+  if(!cands.length){flash("No "+REF_LABEL[ref]+" within "+R+" "+UNITS+" of you, so this is a null answer under the rules. No area can be cut.");return;}
   const q=(document.getElementById("tn-name").value||"").trim().toLowerCase();
   if(!q){flash("Type the place the hider named.");return;}
   const place=cands.find(p=>p.name.toLowerCase()===q)||cands.find(p=>p.name.toLowerCase().includes(q));
   if(!place){flash("No "+REF_LABEL[ref]+" within range matches that name. Only places inside your radius count.");return;}
-  let poly=disk;
-  if(cands.length>=2){
-    const cell=voronoiCellForSet(cands,place);
-    if(cell){const x=turf.intersect(cell,disk); if(x) poly=x;}
-  }
-  addClue("tentacle",`<span class="idx">Tn</span> Tentacles \u00b7 ${REF_LABEL[ref]} \u00b7 ${R} mi \u00b7 ${cands.length} in range<br><span class="hint">${place.name}</span>`,poly,"i");
+  const r=buildTentacleClue(ref,lat,lng,Rkm,UNITS,place.lat,place.lng);
+  if(r.error){flash(r.error);return;}
+  addClue(r.clue);
   clearDraft(["tentacle"]); document.getElementById("tn-name").value="";
 });
 document.getElementById("rad-presets").addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
-  document.getElementById("rad-mi").value=b.dataset.mi;
+  document.getElementById("rad-mi").value=b.dataset.v;
 });
 document.getElementById("clear-clues").addEventListener("click",()=>{clues=[];clearDraft();renderClues();});
 
@@ -579,4 +731,134 @@ async function loadOsm(){
   }
 }
 
-render(); loadStations(); loadPlaces(); loadOsm();
+
+/* ========================= SHARE LINK ========================= */
+// #v=2&z=<zone km>&r=<min reviews>&f=<stations>.<places>&c=<clue>~<clue>...
+// Clue fields are | separated, coordinates to 5dp, distances always canonical
+// kilometres. Geometry is rebuilt from these inputs on load, never shipped as
+// GeoJSON, so it matches whatever clip()/circle()/voronoi logic the
+// recipient's build actually runs. Each distance-bearing clue also carries
+// the unit it was created in, purely so its label can still read the way the
+// sender saw it -- imperial and metric are parallel rule sets, not
+// conversions, so that label must never be silently re-derived.
+const SHARE_VERSION=2;
+function fmt5(n){return Number(n).toFixed(5);}
+function parseNum(s){if(s===undefined||s===null||s==="")return null;const n=parseFloat(s);return Number.isFinite(n)?n:null;}
+function encodeClueShare(s){
+  if(!s) return null;
+  switch(s.t){
+    case "R": return ["R",fmt5(s.lat),fmt5(s.lng),s.km,s.hit?1:0,s.unit].join("|");
+    case "T": return ["T",fmt5(s.aLat),fmt5(s.aLng),fmt5(s.bLat),fmt5(s.bLng),s.hotter?1:0].join("|");
+    case "W": return ["W",fmt5(s.lat),fmt5(s.lng),s.km,s.unit].join("|");
+    case "M": return ["M",s.mode,fmt5(s.lat),fmt5(s.lng),s.same?1:0].join("|");
+    case "S": return ["S",s.ref,fmt5(s.lat),fmt5(s.lng),s.closer?1:0,s.unit].join("|");
+    case "N": return ["N",s.ref,fmt5(s.lat),fmt5(s.lng),s.km,s.pLat!=null?fmt5(s.pLat):"",s.pLng!=null?fmt5(s.pLng):"",s.unit].join("|");
+    default: return null;
+  }
+}
+function buildShareUrl(){
+  const p=new URLSearchParams();
+  p.set("v",String(SHARE_VERSION));
+  p.set("z",String(HIDE_RADIUS_KM));
+  p.set("r",String(state.minReviews));
+  p.set("f",`${STATIONS.length}.${TARGETS.length}`);
+  p.set("c",clues.map(c=>encodeClueShare(c.share)).filter(Boolean).join("~"));
+  return location.origin+location.pathname+"#"+p.toString();
+}
+async function decodeClueShare(fields){
+  const t=fields[0];
+  const lat=i=>parseNum(fields[i]), lng=i=>parseNum(fields[i]);
+  switch(t){
+    case "R": return buildRadarClue(lat(1),lng(2),parseNum(fields[3]),fields[5]||"mi",fields[4]==="1");
+    case "T": return buildThermoClue(lat(1),lng(2),lat(3),lng(4),fields[5]==="1");
+    case "W": return buildRadiusClue(lat(1),lng(2),parseNum(fields[3]),fields[4]||"mi");
+    case "M": return buildMatchClue(fields[1],lat(2),lng(3),fields[4]==="1");
+    case "S": return await buildMeasureClue(fields[1],lat(2),lng(3),fields[4]==="1",fields[5]||"mi");
+    case "N": return buildTentacleClue(fields[1],lat(2),lng(3),parseNum(fields[4]),fields[7]||"mi",parseNum(fields[5]),parseNum(fields[6]));
+    default: return {error:"Unrecognised clue type '"+t+"'."};
+  }
+}
+function shareBanner(html,tone){
+  const el=document.getElementById("share-banner");
+  if(!el) return;
+  el.className="show"+(tone?" "+tone:"");
+  el.innerHTML=`<span class="share-banner-msg">${html}</span><button class="share-banner-x" aria-label="Dismiss">×</button>`;
+  el.hidden=false;
+  el.querySelector(".share-banner-x").addEventListener("click",()=>{el.hidden=true;});
+}
+async function replayShareLink(){
+  const raw=location.hash.replace(/^#/,"");
+  const params=new URLSearchParams(raw);
+  const v=params.get("v");
+  if(v!==String(SHARE_VERSION)){
+    shareBanner(`This link uses share format v=${v||"?"}, which this build of the map does not understand. Loading the map normally instead.`,"warn");
+    loadStations(); loadPlaces(); loadOsm();
+    return;
+  }
+  const z=parseNum(params.get("z"));
+  const r=parseNum(params.get("r"));
+  const f=params.get("f")||"";
+  const cRaw=params.get("c")||"";
+  shareBanner("Loading shared map…","");
+  await Promise.allSettled([loadStations(),loadPlaces(),loadOsm()]);
+  if(z!==null&&UNIT_TABLE.zone.km.includes(z)){
+    HIDE_RADIUS_KM=z;
+    renderZoneOptions();
+  }
+  if(r!==null){
+    state.minReviews=Math.max(0,Math.min(50,Math.round(r)));
+    const rEl=document.getElementById("reviews"); if(rEl) rEl.value=state.minReviews;
+    const rv=document.getElementById("rev-val"); if(rv) rv.textContent=state.minReviews;
+  }
+  const clueStrs=cRaw?cRaw.split("~").filter(Boolean):[];
+  const replayed=[];
+  let dropped=0;
+  for(const cs of clueStrs){
+    const fields=cs.split("|");
+    try{
+      const res=await decodeClueShare(fields);
+      if(res&&res.clue) replayed.push(res.clue);
+      else { dropped++; console.warn("Share link: dropped clue",cs,res&&res.error); }
+    }catch(err){ dropped++; console.warn("Share link: dropped clue",cs,err); }
+  }
+  clues=replayed;
+  renderClues();
+  const fParts=f.split(".");
+  const expStations=parseInt(fParts[0],10), expPlaces=parseInt(fParts[1],10);
+  const mismatch=Number.isFinite(expStations)&&Number.isFinite(expPlaces)&&(expStations!==STATIONS.length||expPlaces!==TARGETS.length);
+  let msg=`Shared map loaded: ${replayed.length} clue${replayed.length===1?"":"s"}`;
+  if(dropped) msg+=`, <b style="color:#ffb020">${dropped} could not be replayed</b>`;
+  msg+=`, ${fmtDist(HIDE_RADIUS_KM,UNITS)} zones, minimum ${state.minReviews} reviews.`;
+  if(mismatch){
+    msg+=`<br><b style="color:#ff6b6b">Dataset mismatch:</b> this link was made with ${Number.isFinite(expStations)?expStations:"?"} stations / ${Number.isFinite(expPlaces)?expPlaces:"?"} places; this map currently has ${STATIONS.length} / ${TARGETS.length}. Answers may differ from the sender's.`;
+  }
+  shareBanner(msg,mismatch?"mismatch":(dropped?"warn":""));
+  showTab("narrow");
+}
+function shareMsg(text,ok){
+  const el=document.getElementById("share-msg");
+  if(!el) return;
+  el.textContent=text; el.style.color=ok?"#22c55e":"#ff6b6b";
+  clearTimeout(shareMsg._t);
+  shareMsg._t=setTimeout(()=>{el.textContent="";},4000);
+}
+document.getElementById("share-map").addEventListener("click",async()=>{
+  if(!clues.length){shareMsg("Add at least one clue first.",false);return;}
+  const url=buildShareUrl();
+  try{
+    await navigator.clipboard.writeText(url);
+    shareMsg("Link copied. Anyone who opens it sees this exact possible area.",true);
+  }catch(err){
+    shareMsg("Could not copy automatically. The link is in the browser console.",false);
+    console.log("Share link:",url);
+  }
+});
+
+updateUnitLabels(); renderRadarPresets(); renderZoneOptions(); renderTentacleOptions();
+document.querySelectorAll("#units-seg button").forEach(x=>x.classList.toggle("on",x.dataset.u===UNITS));
+{
+  const tnRefInit=document.getElementById("tn-ref"), tnMiInit=document.getElementById("tn-mi");
+  if(tnRefInit&&tnMiInit) tnMiInit.value=tentDefaultDisplay(tnRefInit.value);
+}
+render();
+if(location.hash){ replayShareLink(); } else { loadStations(); loadPlaces(); loadOsm(); drawDeduction(); }
