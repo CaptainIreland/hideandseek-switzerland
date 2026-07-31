@@ -81,8 +81,9 @@ const draftLayer=L.layerGroup().addTo(map);
 
 function stars(r){return "★".repeat(Math.round(r))+"☆".repeat(5-Math.round(r));}
 function gmapsLink(name,lat,lng){const q=name?"https://www.google.com/maps/search/"+encodeURIComponent(name)+"/@"+lat+","+lng+",17z":"https://www.google.com/maps/search/?api=1&query="+lat+"%2C"+lng;return `<a class="pop-link" href="${q}" target="_blank" rel="noopener">Verify on Google Maps</a>`;}
-function targetPopup(p){return `<div class="pop-name">${p[0]}</div><span class="pop-cat" style="background:${COLOR[p[3]]}">${LABEL[p[3]]}</span><div class="pop-meta">${stars(p[4])} ${p[4].toFixed(1)} · ${p[5].toLocaleString()} Google reviews</div>${gmapsLink(p[0],p[1],p[2])}`;}
-function stationPopup(s){return `<div class="pop-name">${s[0]||"Train station"}</div><span class="pop-cat" style="background:${COLOR.station}">Train station</span><div class="pop-zone">◎ Hiding zone</div>${gmapsLink(s[0],s[1],s[2])}`;}
+function popCoord(lat,lng){return `<div class="pop-coord">${lat.toFixed(5)}, ${lng.toFixed(5)}</div>`;}
+function targetPopup(p){return `<div class="pop-name">${p[0]}</div><span class="pop-cat" style="background:${COLOR[p[3]]}">${LABEL[p[3]]}</span><div class="pop-meta">${stars(p[4])} ${p[4].toFixed(1)} · ${p[5].toLocaleString()} Google reviews</div>${popCoord(p[1],p[2])}${gmapsLink(p[0],p[1],p[2])}`;}
+function stationPopup(s){return `<div class="pop-name">${s[0]||"Train station"}</div><span class="pop-cat" style="background:${COLOR.station}">Train station</span><div class="pop-zone">◎ Hiding zone</div>${popCoord(s[1],s[2])}${gmapsLink(s[0],s[1],s[2])}`;}
 
 function render(){
   markerLayer.clearLayers(); zoneLayer.clearLayers();
