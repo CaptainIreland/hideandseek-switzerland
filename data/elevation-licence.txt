@@ -1,0 +1,114 @@
+Nutzungsbedingungen für kostenlose Geodaten und Geodienste (OGD) von swisstopo
+1. Rechtliche Grundlagen
+Die Nutzung von kostenlosen Geodaten und Geodiensten von swisstopo wird in folgenden Rechtsgrundlagen geregelt:
+
+Bundesgesetz über Geoinformation (Geoinformationsgesetz GeoIG SR 510.62) Art. 10 ff
+Verordnung über Geoinformation (Geoinformationsverordnung GeoIV SR 510.620) Art. 20 ff
+Verordnung des VBS über die Gebühren des Bundesamtes für Landestopografie (GebVswisstopo SR 510.620.2)
+
+2. Nutzungsbedingungen
+Die kostenlosen Geodaten und Geodienste von swisstopo dürfen genutzt, verbreitet und zugänglich gemacht werden. Weiter dürfen sie angereichert und bearbeitet und auch kommerziell genutzt werden. Eine Quellenangabe ist Pflicht. Bei digitalen oder analogen Darstellungen und Publikationen sowie bei der Weitergabe ist in jedem Fall eine der folgenden Quellenangaben anzubringen:
+
+Bundesamt für Landestopografie swisstopo
+Office fédéral de topographie swisstopo
+Ufficio federale di topografia swisstopo
+Uffizi federal da topografia swisstopo
+Federal Office of Topography swisstopo
+©swisstopo
+
+3. Übermässige Nutzung
+Bei übermässiger Nutzung der Infrastruktur der Geodienste kann der Zugang eingeschränkt oder verweigert werden. In diesem Fall kann swisstopo mit dem Datennutzer / der Datennutzerin einen Vertrag abschliessen.
+
+4. Rahmenbedingungen
+Es gelten die allgemeinen Betriebsbestimmungen der Geodienste von swisstopo.
+
+Version 1.3.2021
+Eidgenössisches Departement für Verteidigung, Bevölkerungsschutz und Sport VBS
+Bundesamt für Landestopografie swisstopo
+
+
+Conditions d'utilisation des géodonnées et géoservices gratuits (OGD) de swisstopo
+1. Base juridique
+L'utilisation des géodonnées et des géoservices gratuits de swisstopo est régie par les bases juridiques suivantes:
+
+Loi fédérale sur la géoinformation (Loi sur la géoinformation, LGéo SR510.62) Art. 10 et suivants
+Ordonnance sur la géoinformation (OGéo SR 510.620) Art. 20 et suivants
+Ordonnance du DDPS sur les émoluments de l’Office fédéral de topographie (OEmolswisstopo)
+
+2. Conditions d'utilisation
+Les géodonnées et les géoservices gratuits de swisstopo peuvent être utilisés, distribués et rendus accessibles. En outre, ils peuvent être enrichis et transformés et être également utilisés à des fins commerciales. Une indication de la source est obligatoire. L’une des indications de la source suivantes doit figurer sur toutes les représentations graphiques et publications, numériques ou analogiques, ainsi qu’en cas de transmission :
+
+Bundesamt für Landestopografie swisstopo
+Office fédéral de topographie swisstopo
+Ufficio federale di topografia swisstopo
+Uffizi federal da topografia swisstopo
+Federal Office of Topography swisstopo
+©swisstopo
+
+3. Utilisation excessive
+En cas d'utilisation excessive de l'infrastructure des géoservices, l'accès peut être limité ou refusé. Dans ce cas, swisstopo peut conclure un contrat avec l'utilisateur des données.
+
+4. Conditions générales
+Les conditions générales d'exploitation pour les géoservices de swisstopo s'appliquent.
+
+Version du 01.03.2021
+Département fédéral de la défense, de la protection de la population et des sports DDPS
+Office fédéral de topographie swisstopo
+
+
+Condizioni di utilizzo per i geodati e i geoservizi gratuiti (OGD) di swisstopo
+1. Basi giuridiche
+L'utilizzo di geodati e geoservizi gratuiti di swisstopo è disciplinato dalle seguenti basi giuridiche:
+
+Legge federale sulla geoinformazione (Legge sulla geoinformazione, LGI RS 510.62) Art. 10 e seguenti
+Ordinanza sulla geoinformazione (OGI RS 510.620) Art. 20 e seguenti
+Ordinanza del DDPS sugli emolumenti dell’Ufficio federale di topografia (OEm-swisstopo RS 510.620.2)
+
+2. Condizioni di utilizzo
+I geodati e i geoservizi gratuiti di swisstopo possono essere utilizzati, distribuiti e resi accessibili. Inoltre, essi possono essere arricchiti e trattati e anche utilizzati a fini commerciali. Il riferimento alla fonte è obbligatorio. In caso di rappresentazioni e pubblicazioni digitali o analogiche, così come in caso di trasmissione, deve essere comunque allegato uno dei seguenti riferimenti di fonte:
+
+Bundesamt für Landestopografie swisstopo
+Office fédéral de topographie swisstopo
+Ufficio federale di topografia swisstopo
+Uffizi federal da topografia swisstopo
+Federal Office of Topography swisstopo
+©swisstopo
+
+3. Utilizzazione eccessiva
+In caso di utilizzazione eccessiva dell'infrastruttura dei geoservizi, l'accesso può essere limitato o rifiutato. In tal caso swisstopo può stipulare un contratto con l'utente dei dati.
+
+4. Condizioni generali
+Si applicano le condizioni generali di utilizzo dei geoservizi di swisstopo.
+
+Versione 01.03.2021
+Dipartimento federale della difesa, della protezione della popolazione e dello sport
+Ufficio federale di topografia swisstopo
+
+
+Terms of use for free geodata and geoservices (OGD) from swisstopo
+1. Legal basis
+The use of free geodata and geoservices from swisstopo is governed by the following legal bases:
+
+Federal Act on Geoinformation (Geoinformation Act, GeoIA 510.62) Art. 10 ff
+Ordinance on Geoinformation (Geoinformation Ordinance, 510.620) Art. 20 ff
+swisstopo ordinance on fees and charges
+
+2. Terms of use
+The free geodata and geoservices of swisstopo may be used, distributed and made accessible. Furthermore, they may be enriched and processed and also used commercially. A reference to the source is mandatory. In the case of digital or analogue representations and publications, as well as in the case of dissemination, one of the following source references must be attached in any case:
+
+Bundesamt für Landestopografie swisstopo
+Office fédéral de topographie swisstopo
+Ufficio federale di topografia swisstopo
+Uffizi federal da topografia swisstopo
+Federal Office of Topography swisstopo
+©swisstopo
+
+3. Excessive use
+In the event of excessive use of the geoservices infrastructure, access may be restricted or refused. In such cases, swisstopo may conclude a contract with the data user.
+
+4. Framework conditions
+The General operating conditions for swisstopo's geoservices apply.
+
+Version dated 1.03.2021
+Federal Department of Defence, Civil Protection and Sport DDPS
+Federal Office of Topography
