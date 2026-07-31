@@ -108,7 +108,7 @@
 
         <div class="tool-form" id="form-measure" hidden>
           <label class="fld">Measured to
-            <select id="ms-ref"><option value="station">Nearest train station</option><option value="border">International border</option><option value="cantonborder">Canton border (1st admin division)</option><option value="districtborder" data-district disabled>District border (2nd admin division, OpenStreetMap)</option><option value="mountain" data-osm disabled>Nearest mountain (OpenStreetMap)</option><option value="water" data-osm disabled>Body of water (OpenStreetMap)</option><option value="hospital">Nearest hospital</option><option value="museum">Nearest museum</option><option value="library">Nearest library</option><option value="cinema">Nearest movie theatre</option><option value="zoo">Nearest zoo</option><option value="aquarium">Nearest aquarium</option><option value="themepark">Nearest amusement park</option><option value="golf">Nearest golf course</option><option value="park">Nearest park</option><option value="airport">Nearest airport</option><option value="consulate">Nearest consulate</option></select></label>
+            <select id="ms-ref"><option value="station">Nearest train station</option><option value="border">International border</option><option value="cantonborder">Canton border (1st admin division)</option><option value="districtborder" data-district disabled>District border (2nd admin division, OpenStreetMap)</option><option value="highspeed" data-highspeed disabled>High-speed rail line (hand-maintained, EU definition)</option><option value="mountain" data-osm disabled>Nearest mountain (OpenStreetMap)</option><option value="water" data-osm disabled>Body of water (OpenStreetMap)</option><option value="hospital">Nearest hospital</option><option value="museum">Nearest museum</option><option value="library">Nearest library</option><option value="cinema">Nearest movie theatre</option><option value="zoo">Nearest zoo</option><option value="aquarium">Nearest aquarium</option><option value="themepark">Nearest amusement park</option><option value="golf">Nearest golf course</option><option value="park">Nearest park</option><option value="airport">Nearest airport</option><option value="consulate">Nearest consulate</option></select></label>
           <label class="fld">Your location as the asker (lat, lng)
             <div class="coord"><input id="ms-lat" inputmode="decimal" placeholder="lat"><input id="ms-lng" inputmode="decimal" placeholder="lng"><button class="pick" data-pick="measure">Pick</button><button class="me" data-pick="measure" title="Use my location">Me</button></div></label>
           <div class="ans" data-ans="measure"><button data-v="closer" class="on">Hider closer</button><button data-v="further">Hider further</button></div>
@@ -147,6 +147,7 @@
         <p class="hint osm-note" id="osm-note"></p>
         <p class="hint osm-note" id="district-note"></p>
         <p class="hint osm-note" id="transit-note"></p>
+        <p class="hint osm-note" id="highspeed-note"></p>
         <div id="clue-list"><p class="hint" id="clue-empty">No clues yet. Add one above and the map narrows down.</p></div>
         <div class="btn-row">
           <button class="ghost" id="share-map">Share this map</button>

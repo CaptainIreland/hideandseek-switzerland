@@ -1,0 +1,36 @@
+{
+  "source": "Hand-maintained, not an automated fetch. Waypoints are Google-verified stations from data/stations.json (Frutigen, Raron, Erstfeld, Bodio TI, Rothrist, Solothurn, Herzogenbuchsee) plus OpenStreetMap Nominatim lookups for junction points that are not stations (Mattstetten, Wanzwil, Camorino, Vezia). Lines chosen against the EU high-speed rail definition: Category I purpose-built for 250 km/h or Category II upgraded for around 200 km/h, per opendata.swiss / Wikipedia research, confirmed with the group on 2026-07-31.",
+  "note": "Not Google-verified as a line geometry (Google has no rail-line-path data); the endpoint stations are Google-verified, the path between them is a small number of hand-picked waypoints, not a traced alignment.",
+  "lines": [
+    {
+      "name": "Lötschberg Base Tunnel",
+      "category": "purpose-built",
+      "maxKmh": 250,
+      "points": [[7.651341, 46.588721], [7.80151, 46.306274]]
+    },
+    {
+      "name": "Gotthard Base Tunnel",
+      "category": "purpose-built",
+      "maxKmh": 230,
+      "points": [[8.650439, 46.82034], [8.906561, 46.380286]]
+    },
+    {
+      "name": "Ceneri Base Tunnel",
+      "category": "purpose-built",
+      "maxKmh": 230,
+      "points": [[9.0057614, 46.1636431], [8.936741, 46.0246543]]
+    },
+    {
+      "name": "Mattstetten–Rothrist new line",
+      "category": "purpose-built",
+      "maxKmh": 200,
+      "points": [[7.5138515, 47.030126], [7.701041, 47.188068], [7.879605, 47.30644]]
+    },
+    {
+      "name": "Solothurn–Wanzwil line",
+      "category": "upgraded",
+      "maxKmh": 200,
+      "points": [[7.542692, 47.20426], [7.6931833, 47.2002225]]
+    }
+  ]
+}

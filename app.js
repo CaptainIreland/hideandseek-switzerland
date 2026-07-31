@@ -210,6 +210,21 @@ function borderDistanceKm(lat,lng){const pt=turf.point([lng,lat]);
   let best=Infinity;for(const cs of SWISS_LINE.geometry.coordinates){best=Math.min(best,turf.pointToLineDistance(pt,turf.lineString(cs),{units:"kilometers"}));}
   return best;}
 function borderBandKm(km){return turf.buffer(SWISS_LINE,Math.max(km,0.02),{units:"kilometers",steps:8});}
+let highspeedLineCache=null;
+function highspeedLines(){
+  if(!HIGHSPEED_LINES.length) return null;
+  if(highspeedLineCache) return highspeedLineCache;
+  highspeedLineCache=turf.multiLineString(HIGHSPEED_LINES.map(l=>l.points));
+  return highspeedLineCache;
+}
+// Only five short hand-maintained lines (see data/highspeed-lines.json), so a
+// direct buffer is fine - no need for the erode-and-subtract trick that
+// cantonBorderBand uses for the much more detailed canton outlines.
+function highspeedBand(km){
+  const multi=highspeedLines();
+  if(!multi) return null;
+  return turf.buffer(multi,Math.max(km,0.02),{units:"kilometers",steps:8});
+}
 let activeFilter=null, lastRegion=null;
 function lineDistKm(pt,lineF){
   const g=lineF.geometry||lineF;
@@ -260,6 +275,7 @@ let OSM={peaks:[],waters:[],loaded:false,minElevation:0};
 let DISTRICTS=[];
 let TRANSIT_LINES=[];
 let TRANSIT_BY_STATION=new Map();
+let HIGHSPEED_LINES=[];
 function municipalityAt(lat,lng){
   const pt=turf.point([lng,lat]);
   for(const f of MUNICIPALITIES){
@@ -361,7 +377,7 @@ function districtBorderBand(km){
   }
   return dissolveUnion(parts);
 }
-const REF_LABEL={station:"train station",border:"international border",canton:"canton",municipality:"municipality",district:"district",mountain:"mountain",water:"body of water",cantonborder:"canton border",districtborder:"district border",hospital:"hospital",museum:"museum",library:"library",cinema:"movie theatre",zoo:"zoo",aquarium:"aquarium",themepark:"amusement park",golf:"golf course",park:"park",airport:"airport",consulate:"consulate"};
+const REF_LABEL={station:"train station",border:"international border",canton:"canton",municipality:"municipality",district:"district",mountain:"mountain",water:"body of water",cantonborder:"canton border",districtborder:"district border",highspeed:"high-speed rail line",hospital:"hospital",museum:"museum",library:"library",cinema:"movie theatre",zoo:"zoo",aquarium:"aquarium",themepark:"amusement park",golf:"golf course",park:"park",airport:"airport",consulate:"consulate"};
 // Official Large-game tentacle radii from the rulebook question pad, in
 // UNIT_TABLE above (paired imperial/metric values, not conversions).
 
@@ -538,19 +554,20 @@ function buildMeasureClue(ref,lat,lng,closer,unit){
   unit=unit||UNITS;
   return new Promise(resolve=>{
     if(lat==null||lng==null){resolve({error:"Measuring needs your location."});return;}
-    if(ref==="cantonborder"||ref==="water"||ref==="districtborder"){
-      const multi=ref==="water"?waterLines():ref==="districtborder"?districtLines():cantonLines();
+    if(ref==="cantonborder"||ref==="water"||ref==="districtborder"||ref==="highspeed"){
+      const multi=ref==="water"?waterLines():ref==="districtborder"?districtLines():ref==="highspeed"?highspeedLines():cantonLines();
       if(!multi){
-        const script=ref==="districtborder"?"fetch_districts.py":"fetch_osm_layers.py";
-        resolve({error:`That layer is not loaded. Run scripts/${script} first.`});return;
+        const script=ref==="districtborder"?"fetch_districts.py":ref==="highspeed"?null:"fetch_osm_layers.py";
+        resolve({error:script?`That layer is not loaded. Run scripts/${script} first.`:"That layer is not loaded. data/highspeed-lines.json is missing."});return;
       }
       const km=multiLineDistKm(lat,lng,multi);
       if(km===null){resolve({error:"Could not measure to that layer."});return;}
       setTimeout(()=>{
         try{
-          const band=ref==="water"?bandAroundPolys(waterFeatures(),km):ref==="districtborder"?districtBorderBand(km):cantonBorderBand(km);
+          const band=ref==="water"?bandAroundPolys(waterFeatures(),km):ref==="districtborder"?districtBorderBand(km):ref==="highspeed"?highspeedBand(km):cantonBorderBand(km);
+          const unverified=ref==="water"||ref==="districtborder"||ref==="highspeed";
           resolve({clue:{kind:"measure",
-            label:`<span class="idx">Ms</span> Measuring · hider ${closer?"closer":"further"} · ${REF_LABEL[ref]}<br><span class="hint">you: ${fmtDist(km,unit)}${ref==="water"||ref==="districtborder"?" · not Google-verified":""}</span>`,
+            label:`<span class="idx">Ms</span> Measuring · hider ${closer?"closer":"further"} · ${REF_LABEL[ref]}<br><span class="hint">you: ${fmtDist(km,unit)}${unverified?" · not Google-verified":""}</span>`,
             poly:band, mode:closer?"i":"d", share:{t:"S",ref,lat,lng,closer,unit}}});
         }catch(err){resolve({error:"Could not build that measuring clue. "+err.message});}
       },0);
@@ -1037,6 +1054,21 @@ async function loadTransitLines(){
     transitStatus("Transit line questions need data/transit-lines.json. Run scripts/fetch_transit_lines.py to enable them.");
   }
 }
+function highspeedStatus(msg){const el=document.getElementById("highspeed-note"); if(el) el.textContent=msg;}
+async function loadHighSpeedLines(){
+  try{
+    const r=await fetch("data/highspeed-lines.json",{cache:"no-cache"});
+    if(!r.ok) throw new Error("missing");
+    const d=await r.json();
+    HIGHSPEED_LINES=d.lines||[];
+    highspeedLineCache=null;
+    document.querySelectorAll("[data-highspeed]").forEach(o=>{o.disabled=false;});
+    highspeedStatus(`${HIGHSPEED_LINES.length} high-speed lines loaded (hand-maintained, EU definition). Not Google-verified.`);
+  }catch(e){
+    document.querySelectorAll("[data-highspeed]").forEach(o=>{o.disabled=true;});
+    highspeedStatus("High-speed line questions need data/highspeed-lines.json.");
+  }
+}
 
 
 /* ========================= SHARE LINK ========================= */
@@ -1099,7 +1131,7 @@ async function replayShareLink(){
   const v=params.get("v");
   if(v!==String(SHARE_VERSION)){
     shareBanner(`This link uses share format v=${v||"?"}, which this build of the map does not understand. Loading the map normally instead.`,"warn");
-    loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines();
+    loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines(); loadHighSpeedLines();
     return;
   }
   const z=parseNum(params.get("z"));
@@ -1107,7 +1139,7 @@ async function replayShareLink(){
   const f=params.get("f")||"";
   const cRaw=params.get("c")||"";
   shareBanner("Loading shared map…","");
-  await Promise.allSettled([loadStations(),loadPlaces(),loadOsm(),loadDistricts(),loadTransitLines()]);
+  await Promise.allSettled([loadStations(),loadPlaces(),loadOsm(),loadDistricts(),loadTransitLines(),loadHighSpeedLines()]);
   if(z!==null&&UNIT_TABLE.zone.km.includes(z)){
     HIDE_RADIUS_KM=z;
     renderZoneOptions();
@@ -1163,4 +1195,4 @@ document.getElementById("share-map").addEventListener("click",async()=>{
 
 refreshUnitUI();
 render();
-if(location.hash){ replayShareLink(); } else { loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines(); drawDeduction(); }
+if(location.hash){ replayShareLink(); } else { loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines(); loadHighSpeedLines(); drawDeduction(); }
