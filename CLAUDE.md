@@ -59,10 +59,10 @@ The dark mask always shows Switzerland as the play area, even before the first c
 ## Known gaps
 
 - **Airports need a manual pass.** The rulebook counts an airport as commercial only if Google Flights shows flights to or from it. The current list of 17 is a review-count proxy and includes obvious non-airports.
-- **Districts, the 2nd administrative division, are missing.** The federal dataset used here does not carry them.
 - **Coastline, landmass and sea level** return null answers in Switzerland by the rulebook's own definitions. Documented, not implemented.
 - **Hospital coverage is slightly incomplete in a few city centres**, where the sweep hit its subdivision floor.
 - Three stations Google does not list (Faulensee, Trübbach, Weite) are absent under the strict rule.
+- **Transit line matching misses heritage and rack railways** (Pilatus Kulm, Brienzer Rothorn, the Furka steam line, and similar), because Google often does not type their termini as `train_station`, so they are absent from `data/stations.json` and cannot be matched against the GTFS feed. Accepted as a gap rather than chased down, since these lines typically need a supplement beyond a standard rail pass and the group would not ride them anyway. See `data/transit-lines-report.txt` for the full list of unmatched-but-nearby GTFS stop names this surfaced.
 
 ## Testing
 

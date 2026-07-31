@@ -2,6 +2,9 @@ __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
+# Raw GTFS feed used by fetch_transit_lines.py (about 200 MB). Only the
+# derived data/transit-lines.json is meant to be committed.
+data/gtfs-cache/
 # Large intermediate sweep output. Commit it only if you want others to be able
 # to re-filter without paying for their own sweep.
 # data/places-raw.json
