@@ -17,6 +17,13 @@ const CATS=[
 ];
 const COLOR=Object.fromEntries(CATS.map(c=>[c.id,c.color])); COLOR.station="#e30613";
 const LABEL=Object.fromEntries(CATS.map(c=>[c.id,c.label])); LABEL.station="Train station";
+// Screen-pixel circleMarker radii don't grow with the map, so they read as
+// shrinking the further you zoom in. Interpolate a bigger touch target at
+// street level; zoomend below applies it to existing markers without a redraw.
+function radiusForZoom(zoom){
+  const t=Math.max(0,Math.min(1,(zoom-8)/(14-8)));
+  return {station:4+t*(8-4), place:5+t*(9-5)};
+}
 let HIDE_RADIUS_KM=1; const MI=1.609344; const hideRadiusM=()=>HIDE_RADIUS_KM*1000;
 // Imperial and metric are parallel official rule sets, not conversions of each
 // other (10 mi radar != 16.1 km radar; the metric card says 15 km). UNIT_TABLE
@@ -74,10 +81,11 @@ function stationPopup(s){return `<div class="pop-name">${s[0]||"Train station"}<
 function render(){
   markerLayer.clearLayers(); zoneLayer.clearLayers();
   const counts={}; CATS.forEach(c=>counts[c.id]=0);
+  const r=radiusForZoom(map.getZoom());
   if(state.zones && state.stationsOn) STATIONS.forEach((s,i)=>{if(activeFilter&&!activeFilter.has(i))return;L.circle([s[1],s[2]],{radius:hideRadiusM(),color:"#e30613",weight:.5,opacity:.35,fillColor:"#e30613",fillOpacity:.07,interactive:false}).addTo(zoneLayer);});
   TARGETS.forEach(p=>{ if(!state.enabled[p[3]]||p[5]<state.minReviews) return; counts[p[3]]++;
-    L.circleMarker([p[1],p[2]],{radius:5,color:"#fff",weight:1.2,fillColor:COLOR[p[3]],fillOpacity:.95}).bindPopup(targetPopup(p)).addTo(markerLayer);});
-  if(state.stationsOn) STATIONS.forEach((s,i)=>{if(activeFilter&&!activeFilter.has(i))return;L.circleMarker([s[1],s[2]],{radius:4,color:"#fff",weight:1,fillColor:COLOR.station,fillOpacity:.95}).bindPopup(stationPopup(s)).addTo(markerLayer);});
+    L.circleMarker([p[1],p[2]],{radius:r.place,_kind:"place",color:"#fff",weight:1.2,fillColor:COLOR[p[3]],fillOpacity:.95}).bindPopup(targetPopup(p)).addTo(markerLayer);});
+  if(state.stationsOn) STATIONS.forEach((s,i)=>{if(activeFilter&&!activeFilter.has(i))return;L.circleMarker([s[1],s[2]],{radius:r.station,_kind:"station",color:"#fff",weight:1,fillColor:COLOR.station,fillOpacity:.95}).bindPopup(stationPopup(s)).addTo(markerLayer);});
   CATS.forEach(c=>{const el=document.getElementById("count-"+c.id); if(el) el.textContent=state.enabled[c.id]?counts[c.id]:"";});
   const sc=document.getElementById("count-station"); if(sc) sc.textContent=state.stationsOn?((activeFilter?activeFilter.size.toLocaleString()+" / ":"")+STATIONS.length.toLocaleString()):"";
   const zr=document.getElementById("zone-row-wrap");
@@ -462,6 +470,10 @@ function drawDeduction(){
 /* ---- Point picking ---- */
 let picking=null, mePending=null; const draftMarks={};
 map.on("click",e=>{ if(picking){ picking(e.latlng); } });
+map.on("zoomend",()=>{
+  const r=radiusForZoom(map.getZoom());
+  markerLayer.eachLayer(l=>{ if(l.setRadius) l.setRadius(l.options._kind==="station"?r.station:r.place); });
+});
 function armPick(key,latFld,lngFld,color,btn){
   document.querySelectorAll(".pick").forEach(b=>b.classList.remove("arm"));
   if(btn) btn.classList.add("arm");
