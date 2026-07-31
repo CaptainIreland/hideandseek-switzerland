@@ -225,6 +225,46 @@ function highspeedBand(km){
   if(!multi) return null;
   return turf.buffer(multi,Math.max(km,0.02),{units:"kilometers",steps:8});
 }
+// turf.isobands wants one Point per grid cell, in row-major order, elevation
+// on the given zProperty; nodata cells keep their position with a null
+// elevation rather than being omitted, since isobands needs a complete
+// rectangle to infer the grid shape - a hole would break that.
+let elevationMax=null;
+function buildElevationFC(){
+  if(elevationFC) return elevationFC;
+  if(!ELEVATION_GRID) return null;
+  const feats=[], flat=[];
+  let max=-Infinity;
+  for(const row of ELEVATION_GRID.grid){
+    for(const p of row){
+      feats.push(turf.point([p[1],p[0]],{elevation:p[2]}));
+      if(p[2]!=null){ flat.push({lat:p[0],lng:p[1],elev:p[2]}); if(p[2]>max)max=p[2]; }
+    }
+  }
+  elevationFC=turf.featureCollection(feats);
+  elevationFlat=flat;
+  elevationMax=max;
+  return elevationFC;
+}
+function nearestElevation(lat,lng){
+  buildElevationFC();
+  if(!elevationFlat||!elevationFlat.length) return null;
+  const from=turf.point([lng,lat]);
+  let best=null,bd=Infinity;
+  for(const p of elevationFlat){
+    const d=turf.distance(from,turf.point([p.lng,p.lat]),{units:"kilometers"});
+    if(d<bd){bd=d;best=p;}
+  }
+  return best;
+}
+// Always builds the "at or above threshold" region; buildMeasureClue picks
+// keep (higher) or cut (lower) via mode, same convention as canton/district.
+function elevationBand(thresholdM){
+  const fc=buildElevationFC();
+  if(!fc) return null;
+  const bands=turf.isobands(fc,[thresholdM-1,elevationMax+1],{zProperty:"elevation"});
+  return bands.features[0]||null;
+}
 let activeFilter=null, lastRegion=null;
 function lineDistKm(pt,lineF){
   const g=lineF.geometry||lineF;
@@ -276,6 +316,8 @@ let DISTRICTS=[];
 let TRANSIT_LINES=[];
 let TRANSIT_BY_STATION=new Map();
 let HIGHSPEED_LINES=[];
+let ELEVATION_GRID=null;
+let elevationFC=null, elevationFlat=null;
 function municipalityAt(lat,lng){
   const pt=turf.point([lng,lat]);
   for(const f of MUNICIPALITIES){
@@ -377,7 +419,7 @@ function districtBorderBand(km){
   }
   return dissolveUnion(parts);
 }
-const REF_LABEL={station:"train station",border:"international border",canton:"canton",municipality:"municipality",district:"district",mountain:"mountain",water:"body of water",cantonborder:"canton border",districtborder:"district border",highspeed:"high-speed rail line",hospital:"hospital",museum:"museum",library:"library",cinema:"movie theatre",zoo:"zoo",aquarium:"aquarium",themepark:"amusement park",golf:"golf course",park:"park",airport:"airport",consulate:"consulate"};
+const REF_LABEL={station:"train station",border:"international border",canton:"canton",municipality:"municipality",district:"district",mountain:"mountain",water:"body of water",cantonborder:"canton border",districtborder:"district border",highspeed:"high-speed rail line",elevation:"elevation",hospital:"hospital",museum:"museum",library:"library",cinema:"movie theatre",zoo:"zoo",aquarium:"aquarium",themepark:"amusement park",golf:"golf course",park:"park",airport:"airport",consulate:"consulate"};
 // Official Large-game tentacle radii from the rulebook question pad, in
 // UNIT_TABLE above (paired imperial/metric values, not conversions).
 
@@ -573,6 +615,21 @@ function buildMeasureClue(ref,lat,lng,closer,unit){
       },0);
       return;
     }
+    if(ref==="elevation"){
+      if(!ELEVATION_GRID){resolve({error:"Elevation data is not loaded. Run scripts/fetch_elevation.py first."});return;}
+      const near=nearestElevation(lat,lng);
+      if(!near){resolve({error:"Could not find elevation data near that point."});return;}
+      setTimeout(()=>{
+        try{
+          const band=elevationBand(near.elev);
+          if(!band){resolve({error:"Could not build that area."});return;}
+          resolve({clue:{kind:"measure",
+            label:`<span class="idx">Ms</span> Measuring · hider ${closer?"higher":"lower"} · elevation · not Google-verified<br><span class="hint">you: ${near.elev} m (nearest ${ELEVATION_GRID.spacingKm} km grid point)</span>`,
+            poly:band, mode:closer?"i":"d", share:{t:"S",ref,lat,lng,closer,unit}}});
+        }catch(err){resolve({error:"Could not build that measuring clue. "+err.message});}
+      },0);
+      return;
+    }
     if(ref==="border"){
       const km=borderDistanceKm(lat,lng);
       setTimeout(()=>{
@@ -709,6 +766,7 @@ function startEdit(i){
       document.getElementById("ms-lng").value=s.lng.toFixed(5);
       showDraft("measure",s.lat,s.lng);
       document.getElementById("ms-ref").value=s.ref;
+      updateMeasureAnsLabels();
       setAns("measure",s.closer?"closer":"further");
       break;
     case "N": {
@@ -816,11 +874,20 @@ document.getElementById("add-match").addEventListener("click",()=>{
   addClue(r.clue);
   clearDraft(["match"]); document.getElementById("mt-lat").value="";document.getElementById("mt-lng").value="";
 });
+function updateMeasureAnsLabels(){
+  const isElev=document.getElementById("ms-ref").value==="elevation";
+  const box=document.querySelector('.ans[data-ans="measure"]');
+  if(!box) return;
+  box.querySelector('[data-v="closer"]').textContent=isElev?"Higher":"Hider closer";
+  box.querySelector('[data-v="further"]').textContent=isElev?"Lower":"Hider further";
+}
+document.getElementById("ms-ref").addEventListener("change",updateMeasureAnsLabels);
+updateMeasureAnsLabels();
 document.getElementById("add-measure").addEventListener("click",()=>{
   const lat=num("ms-lat"),lng=num("ms-lng"); const ref=document.getElementById("ms-ref").value;
   if(lat===null||lng===null){flash("Set your point first (Pick or type lat, lng).");return;}
   const closer=ans.measure==="closer";
-  flash(ref==="border"?"Computing border area…":(ref==="cantonborder"||ref==="water")?"Computing area… this one takes a second or two.":"Computing distance area… stations can take a few seconds.");
+  flash(ref==="border"?"Computing border area…":ref==="elevation"?"Computing elevation contour… this can take a few seconds.":(ref==="cantonborder"||ref==="water"||ref==="districtborder"||ref==="highspeed")?"Computing area… this one takes a second or two.":"Computing distance area… stations can take a few seconds.");
   buildMeasureClue(ref,lat,lng,closer,UNITS).then(r=>{
     if(r.error){flash(r.error);return;}
     addClue(r.clue);
@@ -1069,6 +1136,21 @@ async function loadHighSpeedLines(){
     highspeedStatus("High-speed line questions need data/highspeed-lines.json.");
   }
 }
+function elevationStatus(msg){const el=document.getElementById("elevation-note"); if(el) el.textContent=msg;}
+async function loadElevation(){
+  try{
+    const r=await fetch("data/elevation.json",{cache:"no-cache"});
+    if(!r.ok) throw new Error("missing");
+    const d=await r.json();
+    ELEVATION_GRID=d;
+    elevationFC=null; elevationFlat=null; elevationMax=null;
+    document.querySelectorAll("[data-elevation]").forEach(o=>{o.disabled=false;});
+    elevationStatus(`Elevation grid loaded (${d.spacingKm} km spacing, nearest ${d.roundedToM} m). Not Google-verified, (c) swisstopo.`);
+  }catch(e){
+    document.querySelectorAll("[data-elevation]").forEach(o=>{o.disabled=true;});
+    elevationStatus("Elevation questions need data/elevation.json. Run scripts/fetch_elevation.py to enable them.");
+  }
+}
 
 
 /* ========================= SHARE LINK ========================= */
@@ -1131,7 +1213,7 @@ async function replayShareLink(){
   const v=params.get("v");
   if(v!==String(SHARE_VERSION)){
     shareBanner(`This link uses share format v=${v||"?"}, which this build of the map does not understand. Loading the map normally instead.`,"warn");
-    loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines(); loadHighSpeedLines();
+    loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines(); loadHighSpeedLines(); loadElevation();
     return;
   }
   const z=parseNum(params.get("z"));
@@ -1139,7 +1221,7 @@ async function replayShareLink(){
   const f=params.get("f")||"";
   const cRaw=params.get("c")||"";
   shareBanner("Loading shared map…","");
-  await Promise.allSettled([loadStations(),loadPlaces(),loadOsm(),loadDistricts(),loadTransitLines(),loadHighSpeedLines()]);
+  await Promise.allSettled([loadStations(),loadPlaces(),loadOsm(),loadDistricts(),loadTransitLines(),loadHighSpeedLines(),loadElevation()]);
   if(z!==null&&UNIT_TABLE.zone.km.includes(z)){
     HIDE_RADIUS_KM=z;
     renderZoneOptions();
@@ -1195,4 +1277,4 @@ document.getElementById("share-map").addEventListener("click",async()=>{
 
 refreshUnitUI();
 render();
-if(location.hash){ replayShareLink(); } else { loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines(); loadHighSpeedLines(); drawDeduction(); }
+if(location.hash){ replayShareLink(); } else { loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines(); loadHighSpeedLines(); loadElevation(); drawDeduction(); }

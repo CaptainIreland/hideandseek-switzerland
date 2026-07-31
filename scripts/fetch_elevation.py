@@ -124,15 +124,17 @@ def main():
         for c in range(0, ncols, DOWNSAMPLE):
             total += 1
             v = row_vals[c]
-            if v == nodata:
-                out_row.append(None)
-                continue
-            # Row 0 in the file is the northmost (top) row; cell centre y
-            # counts up from the lower-left corner.
+            # Every cell keeps a coordinate, valid or not - turf.isobands
+            # needs a complete rectangular grid (nulls for the elevation
+            # value are fine, a missing point is not), since it infers row/
+            # column structure from the point collection itself.
             x = xll + (c + 0.5) * cell
             y = yll + (nrows - 1 - r + 0.5) * cell
             lat = chtowgs_lat(x, y)
             lng = chtowgs_lng(x, y)
+            if v == nodata:
+                out_row.append([round(lat, 5), round(lng, 5), None])
+                continue
             elev = round(v / ROUND_TO_M) * ROUND_TO_M
             out_row.append([round(lat, 5), round(lng, 5), elev])
             kept += 1
