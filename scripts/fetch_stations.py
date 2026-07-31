@@ -11,12 +11,14 @@ result against the pinned core list in data/stations-core.json, prints the
 audit, and writes data/stations.json. Review the audit before committing.
 """
 import json
-import math
 import os
 import sys
 import time
 import urllib.parse
 import urllib.request
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from google_sweep import dist_km
 
 QUERY = (
     '[out:json][timeout:90];'
@@ -48,12 +50,6 @@ def keep(tags):
     if tags.get("disused") == "yes" or tags.get("abandoned") == "yes" or tags.get("razed") == "yes":
         return False
     return True
-
-
-def dist_km(a, b):
-    la1, lo1, la2, lo2 = map(math.radians, (a[0], a[1], b[0], b[1]))
-    h = math.sin((la2 - la1) / 2) ** 2 + math.cos(la1) * math.cos(la2) * math.sin((lo2 - lo1) / 2) ** 2
-    return 2 * 6371 * math.asin(math.sqrt(h))
 
 
 def parse(data):

@@ -28,6 +28,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fetch_stations_google as base
+import google_sweep
 
 # Category name used inside the app, mapped to the Google place types to search.
 CATEGORIES = {
@@ -56,17 +57,32 @@ NAME_EXCLUDE = {
 }
 OUT_PATH = os.path.join(base.BASE_DIR, "data", "places-raw.json")
 REPORT_PATH = os.path.join(base.BASE_DIR, "data", "places-report.txt")
+# Recovery snapshot for whichever category is currently sweeping, overwritten
+# every checkpoint and removed once that category's real rows are written to
+# OUT_PATH - dense categories (park especially) need far more requests than
+# stations did, so losing one to a crash is the costliest way to lose them.
+OUT_PARTIAL = os.path.join(base.BASE_DIR, "data", "places-raw-partial.json")
+
+
+def write_partial(category, places, requests_made):
+    try:
+        os.makedirs(os.path.dirname(OUT_PARTIAL), exist_ok=True)
+        with open(OUT_PARTIAL, "w", encoding="utf-8") as handle:
+            json.dump({"category": category, "requestsMade": requests_made,
+                       "places": list(places.values())},
+                      handle, ensure_ascii=False, separators=(",", ":"))
+    except OSError as error:
+        print(f"  (could not write recovery snapshot: {error})", flush=True)
 
 
 def collect(key, category, types):
     """Sweep one category and return its rows plus a count of foreign drops."""
-    base.SEARCH_TYPES = types
-    base.FIELD_MASK = FIELD_MASK
     # Match on what a place primarily is. Matching any attached type pulls in
     # dental surgeries as hospitals and playgrounds as parks.
-    base.USE_PRIMARY_TYPES = True
     banned = NAME_EXCLUDE.get(category, ())
-    places, requests_made, top_level, warnings = base.sweep(key)
+    places, requests_made, top_level, warnings = google_sweep.sweep(
+        key, types, FIELD_MASK, use_primary_types=True,
+        on_progress=lambda p, n: write_partial(category, p, n))
     rows, foreign, excluded = [], 0, 0
     seen = set()
     for place in places.values():
@@ -79,7 +95,7 @@ def collect(key, category, types):
         # simplified outline only as a fallback when Google gives no country.
         verdict = base.in_switzerland(place)
         if verdict is None:
-            verdict = base.point_in_ch(lng, lat)
+            verdict = google_sweep.point_in_ch(lng, lat)
         if not verdict:
             foreign += 1
             continue
@@ -138,6 +154,8 @@ def main():
         os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
         with open(OUT_PATH, "w", encoding="utf-8") as handle:
             json.dump(existing, handle, ensure_ascii=False, separators=(",", ":"))
+        if os.path.exists(OUT_PARTIAL):
+            os.remove(OUT_PARTIAL)
 
     lines.append(f"Total requests this run: {total_requests}")
     lines.append(f"Categories now in the file: {', '.join(sorted(existing))}")
