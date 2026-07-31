@@ -258,6 +258,8 @@ function withinOf(pts,lat,lng,km){
 }
 let OSM={peaks:[],waters:[],loaded:false,minElevation:0};
 let DISTRICTS=[];
+let TRANSIT_LINES=[];
+let TRANSIT_BY_STATION=new Map();
 function municipalityAt(lat,lng){
   const pt=turf.point([lng,lat]);
   for(const f of MUNICIPALITIES){
@@ -494,6 +496,22 @@ function buildMatchClue(mode,lat,lng,same){
       label:`<span class="idx">M</span> Matching · ${same?"same":"different"} district · not Google-verified<br><span class="hint">${f.name}</span>`,
       poly:f.feature, mode:same?"i":"d", share:{t:"M",mode,lat,lng,same}}};
   }
+  if(mode==="transitline"){
+    if(!TRANSIT_LINES.length) return {error:"Transit line data is not loaded. Run scripts/fetch_transit_lines.py first."};
+    const pts=setFor("station");
+    if(pts.length<1) return {error:"No stations loaded."};
+    const near=nearestOf(pts,lat,lng);
+    const lines=TRANSIT_BY_STATION.get(near.place.name);
+    if(!lines||!lines.length) return {error:`No rail line in our data stops at ${near.place.name} (your nearest station). This may be a real gap in the transit data (heritage/rack railways are not covered) rather than a true null answer - see data/transit-lines-report.txt.`};
+    const reachable=new Set();
+    for(const line of lines) for(const s of line.stops) reachable.add(s);
+    const reachedPts=pts.filter(p=>reachable.has(p.name));
+    const poly=multiBufferKm(reachedPts,HIDE_RADIUS_KM);
+    if(!poly) return {error:"Could not build that area."};
+    return {clue:{kind:"match",
+      label:`<span class="idx">M</span> Matching · ${same?"yes":"no"} transit line · not Google-verified<br><span class="hint">${near.place.name} · ${lines.length} line${lines.length===1?"":"s"}, ${reachedPts.length} stations reachable</span>`,
+      poly, mode:same?"i":"d", share:{t:"M",mode,lat,lng,same}}};
+  }
   if(mode==="stationlen"){
     const pts=setFor("station");
     if(pts.length<2) return {error:"Not enough station data loaded for that question."};
@@ -665,6 +683,7 @@ function startEdit(i){
       document.getElementById("mt-lng").value=s.lng.toFixed(5);
       showDraft("match",s.lat,s.lng);
       document.getElementById("mt-ref").value=s.mode;
+      updateMatchAnsLabels();
       setAns("match",s.same?"same":"different");
       break;
     case "S":
@@ -761,6 +780,15 @@ document.getElementById("add-thermo").addEventListener("click",()=>{
   ["th-alat","th-alng","th-blat","th-blng"].forEach(id=>document.getElementById(id).value="");
   updateThermoDistance();
 });
+function updateMatchAnsLabels(){
+  const isLine=document.getElementById("mt-ref").value==="transitline";
+  const box=document.querySelector('.ans[data-ans="match"]');
+  if(!box) return;
+  box.querySelector('[data-v="same"]').textContent=isLine?"Yes":"Same as me";
+  box.querySelector('[data-v="different"]').textContent=isLine?"No":"Different";
+}
+document.getElementById("mt-ref").addEventListener("change",updateMatchAnsLabels);
+updateMatchAnsLabels();
 document.getElementById("add-match").addEventListener("click",()=>{
   const lat=num("mt-lat"),lng=num("mt-lng");
   if(lat===null||lng===null){flash("Set your point first (Pick or type lat, lng).");return;}
@@ -988,6 +1016,27 @@ async function loadDistricts(){
     districtStatus("District questions need data/districts.json. Run scripts/fetch_districts.py to enable them.");
   }
 }
+function transitStatus(msg){const el=document.getElementById("transit-note"); if(el) el.textContent=msg;}
+async function loadTransitLines(){
+  try{
+    const r=await fetch("data/transit-lines.json",{cache:"no-cache"});
+    if(!r.ok) throw new Error("missing");
+    const d=await r.json();
+    TRANSIT_LINES=d.lines||[];
+    TRANSIT_BY_STATION=new Map();
+    for(const line of TRANSIT_LINES){
+      for(const name of line.stops){
+        if(!TRANSIT_BY_STATION.has(name)) TRANSIT_BY_STATION.set(name,[]);
+        TRANSIT_BY_STATION.get(name).push(line);
+      }
+    }
+    document.querySelectorAll("[data-transit]").forEach(o=>{o.disabled=false;});
+    transitStatus(`${TRANSIT_LINES.length} rail lines loaded from the Swiss GTFS feed. Heritage and rack railways are not covered, a known gap.`);
+  }catch(e){
+    document.querySelectorAll("[data-transit]").forEach(o=>{o.disabled=true;});
+    transitStatus("Transit line questions need data/transit-lines.json. Run scripts/fetch_transit_lines.py to enable them.");
+  }
+}
 
 
 /* ========================= SHARE LINK ========================= */
@@ -1050,7 +1099,7 @@ async function replayShareLink(){
   const v=params.get("v");
   if(v!==String(SHARE_VERSION)){
     shareBanner(`This link uses share format v=${v||"?"}, which this build of the map does not understand. Loading the map normally instead.`,"warn");
-    loadStations(); loadPlaces(); loadOsm(); loadDistricts();
+    loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines();
     return;
   }
   const z=parseNum(params.get("z"));
@@ -1058,7 +1107,7 @@ async function replayShareLink(){
   const f=params.get("f")||"";
   const cRaw=params.get("c")||"";
   shareBanner("Loading shared map…","");
-  await Promise.allSettled([loadStations(),loadPlaces(),loadOsm(),loadDistricts()]);
+  await Promise.allSettled([loadStations(),loadPlaces(),loadOsm(),loadDistricts(),loadTransitLines()]);
   if(z!==null&&UNIT_TABLE.zone.km.includes(z)){
     HIDE_RADIUS_KM=z;
     renderZoneOptions();
@@ -1114,4 +1163,4 @@ document.getElementById("share-map").addEventListener("click",async()=>{
 
 refreshUnitUI();
 render();
-if(location.hash){ replayShareLink(); } else { loadStations(); loadPlaces(); loadOsm(); loadDistricts(); drawDeduction(); }
+if(location.hash){ replayShareLink(); } else { loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines(); drawDeduction(); }

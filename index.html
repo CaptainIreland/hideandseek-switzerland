@@ -98,12 +98,12 @@
         </div>
 
         <div class="tool-form" id="form-match" hidden>
-          <label class="fld">Matching on<select id="mt-ref"><option value="canton">Canton (1st admin division)</option><option value="municipality">Municipality (3rd admin division)</option><option value="mountain" data-osm disabled>Nearest mountain (OpenStreetMap)</option><option value="district" data-district disabled>District (2nd admin division, OpenStreetMap)</option><option value="station">Nearest train station</option><option value="stationlen">Same-length station name</option><option value="hospital">Nearest hospital</option><option value="museum">Nearest museum</option><option value="library">Nearest library</option><option value="cinema">Nearest movie theatre</option><option value="zoo">Nearest zoo</option><option value="aquarium">Nearest aquarium</option><option value="themepark">Nearest amusement park</option><option value="golf">Nearest golf course</option><option value="park">Nearest park</option><option value="airport">Nearest airport</option><option value="consulate">Nearest consulate</option></select></label>
+          <label class="fld">Matching on<select id="mt-ref"><option value="canton">Canton (1st admin division)</option><option value="municipality">Municipality (3rd admin division)</option><option value="mountain" data-osm disabled>Nearest mountain (OpenStreetMap)</option><option value="district" data-district disabled>District (2nd admin division, OpenStreetMap)</option><option value="station">Nearest train station</option><option value="stationlen">Same-length station name</option><option value="transitline" data-transit disabled>Transit line stops at my station</option><option value="hospital">Nearest hospital</option><option value="museum">Nearest museum</option><option value="library">Nearest library</option><option value="cinema">Nearest movie theatre</option><option value="zoo">Nearest zoo</option><option value="aquarium">Nearest aquarium</option><option value="themepark">Nearest amusement park</option><option value="golf">Nearest golf course</option><option value="park">Nearest park</option><option value="airport">Nearest airport</option><option value="consulate">Nearest consulate</option></select></label>
           <label class="fld">Your location as the asker (lat, lng)
             <div class="coord"><input id="mt-lat" inputmode="decimal" placeholder="lat"><input id="mt-lng" inputmode="decimal" placeholder="lng"><button class="pick" data-pick="match">Pick</button><button class="me" data-pick="match" title="Use my location">Me</button></div></label>
           <div class="ans" data-ans="match"><button data-v="same" class="on">Same as me</button><button data-v="different">Different</button></div>
           <button class="add" id="add-match">Add clue</button>
-          <p class="hint">Canton uses the canton containing your point. District uses the district containing your point (not Google-verified; some cantons have none, which is a valid null answer). Nearest station uses the station closest to your point. Same-length station name counts characters exactly as Google Maps writes your nearest station's name, including spaces and hyphens.</p>
+          <p class="hint">Canton uses the canton containing your point. District uses the district containing your point (not Google-verified; some cantons have none, which is a valid null answer). Nearest station uses the station closest to your point. Same-length station name counts characters exactly as Google Maps writes your nearest station's name, including spaces and hyphens. Transit line asks whether the hider's line stops at your nearest station: yes keeps every station reachable by any line that also calls there, no cuts it.</p>
         </div>
 
         <div class="tool-form" id="form-measure" hidden>
@@ -146,6 +146,7 @@
         <p class="section-label">Active clues</p>
         <p class="hint osm-note" id="osm-note"></p>
         <p class="hint osm-note" id="district-note"></p>
+        <p class="hint osm-note" id="transit-note"></p>
         <div id="clue-list"><p class="hint" id="clue-empty">No clues yet. Add one above and the map narrows down.</p></div>
         <div class="btn-row">
           <button class="ghost" id="share-map">Share this map</button>
