@@ -132,8 +132,48 @@ def extent(ring):
     return max(max(xs) - min(xs), max(ys) - min(ys))
 
 
-def ring_from(geometry):
-    ring = [[round(p["lon"], 4), round(p["lat"], 4)] for p in geometry if "lat" in p]
+def raw_points(geometry):
+    return [[p["lon"], p["lat"]] for p in geometry if "lat" in p]
+
+
+def stitch_rings(segments):
+    """Chain way segments that share endpoints into closed rings.
+
+    A multi-way relation's outer boundary is usually built from several way
+    members that only connect end-to-end with their neighbours, not each one
+    individually a closed loop. Closing every member independently (as a
+    single `ring_from` call per member used to do) chops the true outline
+    into unrelated slivers instead of the lake's actual shape - this is why
+    large multi-way lakes (Zuerichsee, Bodensee) used to come out as dozens
+    of tiny closed fragments totalling a fraction of the real area.
+    """
+    remaining = [list(seg) for seg in segments if len(seg) >= 2]
+    rings = []
+    while remaining:
+        chain = remaining.pop(0)
+        progressed = True
+        while progressed and chain[0] != chain[-1]:
+            progressed = False
+            for i, seg in enumerate(remaining):
+                if seg[0] == chain[-1]:
+                    chain = chain + seg[1:]
+                elif seg[-1] == chain[-1]:
+                    chain = chain + list(reversed(seg))[1:]
+                elif seg[-1] == chain[0]:
+                    chain = seg[:-1] + chain
+                elif seg[0] == chain[0]:
+                    chain = list(reversed(seg))[:-1] + chain
+                else:
+                    continue
+                remaining.pop(i)
+                progressed = True
+                break
+        rings.append(chain)
+    return rings
+
+
+def ring_from(points):
+    ring = [[round(x, 4), round(y, 4)] for x, y in points]
     if len(ring) < 4:
         return None
     if ring[0] != ring[-1]:
@@ -150,15 +190,16 @@ def parse_water(data):
             continue
         rings = []
         if element.get("type") == "way":
-            ring = ring_from(element.get("geometry") or [])
+            ring = ring_from(raw_points(element.get("geometry") or []))
             if ring:
                 rings.append(ring)
         else:
-            for member in element.get("members") or []:
-                if member.get("role") == "outer":
-                    ring = ring_from(member.get("geometry") or [])
-                    if ring:
-                        rings.append(ring)
+            segments = [raw_points(m.get("geometry") or []) for m in (element.get("members") or [])
+                        if m.get("role") == "outer"]
+            for chain in stitch_rings(segments):
+                ring = ring_from(chain)
+                if ring:
+                    rings.append(ring)
         rings = [r for r in rings if len(r) >= MIN_WATER_POINTS]
         # Raw OpenStreetMap outlines are far more detailed than a national map
         # needs. Unsimplified this file runs to several megabytes, which is a

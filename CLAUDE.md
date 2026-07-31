@@ -6,7 +6,7 @@ An unofficial companion map for playing Jet Lag: The Game "Hide + Seek" across S
 
 1. **Google Maps is the arbiter.** Stations and places come from Google Places, and every marker links to Google Maps so a dispute can be settled on the spot. Where Google has no data (boundaries, mountains, water) the layer is labelled in the interface as not Google-verified.
 2. **Built for Large games only**, following the official question pad. Small and Medium variants are not implemented.
-3. **The map boundary rule.** Anything outside Switzerland does not exist for the game. Country membership is decided by Google's own address, not by testing coordinates against the outline. The outline is smoothed and is wrong within about a kilometre of the border in both directions, which once wrongly excluded Chiasso and wrongly included Konstanz.
+3. **The map boundary rule.** Anything outside Switzerland does not exist for the game. Country membership is decided by Google's own address, not by testing coordinates against the outline. `SWISS_GEO` used to be a 343-point Natural Earth outline smoothed to about 500 m, wrong within roughly a kilometre of the border in both directions, which once wrongly excluded Chiasso and wrongly included Konstanz. It's now built by `scripts/fix_swiss_geo.py` from the official swisstopo `CANTONS` data plus OSM lake polygons, simplified to about 100 m, so it tracks the real border (the Rhine near Buchs SG, not a straight diagonal) and correctly excludes Campione d'Italia as an interior hole. It can still disagree with Google at the metre scale in odd spots, which is exactly why this rule exists: Google settles disputes, the outline is only ever a guide.
 4. **UK English, and no em dashes anywhere**, including code comments and interface text.
 
 ## Layout
@@ -30,6 +30,8 @@ python scripts/fetch_osm_layers.py                 # writes data/osm-layers.json
 The sweep scripts walk Switzerland in adaptive square cells, subdividing wherever Google's 20-result cap is hit. A key used for scripts must have its application restriction set to None, because a key locked to a website rejects calls made outside a browser. Use a second key for that and keep it out of the repository.
 
 `filter_places.py` is deliberately separate from the sweep so thresholds can be tuned without paying again. `MIN_REVIEWS` at the top of that file is the main dial. Review count turned out to be the only strong signal for whether a place is the real thing: Google's primary type for a dental surgery is genuinely `hospital`, so type filtering alone barely helped.
+
+`scripts/fix_swiss_geo.py` is a separate, one-off data-repair script, not part of the sweep above: it rebuilds the baked `SWISS_GEO` literal in `app.js` from the `CANTONS` literal plus the `waters` in `data/osm-layers.json`, needs `pip install -r scripts/requirements.txt` (shapely, pyproj - the only non-stdlib Python dependency in the repo, scoped to this one script), and writes a `data/swiss-outline-report.txt` audit trail. Re-run it if `data/osm-layers.json`'s water list changes (for example after re-running `fetch_osm_layers.py`).
 
 ## Question semantics, taken from the rulebook
 
@@ -63,9 +65,10 @@ The dark mask always shows Switzerland as the play area, even before the first c
 - **Hospital coverage is slightly incomplete in a few city centres**, where the sweep hit its subdivision floor.
 - Three stations Google does not list (Faulensee, Trübbach, Weite) are absent under the strict rule.
 - **Transit line matching misses heritage and rack railways** (Pilatus Kulm, Brienzer Rothorn, the Furka steam line, and similar), because Google often does not type their termini as `train_station`, so they are absent from `data/stations.json` and cannot be matched against the GTFS feed. Accepted as a gap rather than chased down, since these lines typically need a supplement beyond a standard rail pass and the group would not ride them anyway. See `data/transit-lines-report.txt` for the full list of unmatched-but-nearby GTFS stop names this surfaced.
+- **`SWISS_GEO` has about 6 km2 of small stray gaps** (a few dozen fragments, largest under 2 km2) along the Bodensee shore, where the swisstopo canton edge and the OSM lake polygon disagree near the diplomatically undefined Swiss/German/Austrian line in the lake. `fix_swiss_geo.py` fills these rather than leaving odd-shaped holes in open water, since none of them are an intentional exclusion (only Campione d'Italia is) - accepted as noise at the 0.01% level rather than chased to the metre on a line international law itself doesn't fix.
 
 ## Testing
 
-There is no test runner. Geometry changes were validated by evaluating `app.js` in Node with real `@turf/turf` and stub `document`/`L` objects, then asserting on areas, containment and timings. Area conservation is the strongest check available: clipping the same region with a clue and its inverse should sum to Switzerland's 41,408 km2 within a couple of percent.
+There is no test runner. Geometry changes were validated by evaluating `app.js` in Node with real `@turf/turf` and stub `document`/`L` objects, then asserting on areas, containment and timings. Area conservation is the strongest check available: clipping the same region with a clue and its inverse should sum to Switzerland's area (about 41,285 km2, since the `fix_swiss_geo.py` rebuild - previously 41,408 km2 under the old Natural Earth outline) within a couple of percent.
 
 Browser behaviour cannot be verified from a sandbox, so interface changes need a human to open the page. A CSS rule once made `hidden` ineffective on the tool forms and every form rendered at once, which no amount of static checking caught.

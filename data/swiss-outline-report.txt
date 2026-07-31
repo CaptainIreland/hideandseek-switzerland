@@ -1,0 +1,29 @@
+Rebuilding SWISS_GEO from CANTONS + OSM lakes
+Old SWISS_GEO: 343 points, 41425 km^2
+CANTONS: 26 features, 4425 points, dissolved area 40431 km^2 (3 part(s) - lakes not in canton data can split shorelines apart; expected to reconnect once water is unioned back in)
+Water entries clipped against old outline: 246 (of 250 named)
+  Zürichsee: 87.6 km^2 (Swiss-side, clipped)
+  Bodensee: 148.5 km^2 (Swiss-side, clipped)
+  Vierwaldstättersee: 113.7 km^2 (Swiss-side, clipped)
+  Lac de Neuchâtel: 214.6 km^2 (Swiss-side, clipped)
+  Lago Maggiore: 43.5 km^2 (Swiss-side, clipped)
+Campione d'Italia hole located: 2.49 km^2, centroid 45.9725,8.9695
+Combined (pre-closing, holes filled) area: 41280 km^2 (4 part(s))
+Filling 84 stray gap(s) (6.04 km^2) between the canton and water datasets that the closing step didn't bridge - not intentional exclusions
+New SWISS_GEO: 1150 points (1 hole(s)), 41288 km^2
+
+Containment checks (post-simplify):
+  Campione d'Italia (2.49 km^2, representative point 45.97385,8.96958): outside - OK
+  Zürichsee representative point (47.27880,8.59814): inside - OK
+  Bodensee representative point (47.57730,9.40617): inside - OK
+  Vierwaldstättersee representative point (46.98560,8.49928): inside - OK
+  Lac de Neuchâtel representative point (46.89785,6.84076): inside - OK
+  Lago Maggiore representative point (46.13780,8.76876): inside - OK
+  Vaduz (47.141,9.5209): outside - OK
+  Schaan (47.1662,9.5099): outside - OK
+  Buchs SG station (47.168415,9.478637): inside - OK
+  Basel SBB (47.547691,7.582392): inside - OK
+
+Area check: 41288 km^2 (target ~41,285 km^2, OK)
+
+Wrote new SWISS_GEO to C:\Users\User\Documents\hideandseek-switzerland\app.js (line 1 only, 343 -> 1150 points, 41425 -> 41288 km^2).
