@@ -5,6 +5,7 @@ Flagged (excursion-only): 0
 Not flagged, mixed/interchange with a normal-fare line: 9
 Manual exceptions (rail-only heuristic blind spot): 0
 Known-gap names still absent from data/stations.json: 5 of 5
+Previously-removed stations still absent (resweep safeguard): 49 of 49
 
 --- FLAGGED: excursion/tourist-only, separate supplement required ---
 
@@ -30,6 +31,9 @@ are absent from data/stations.json. See data/transit-lines-report.txt.
   - Muttbach-Belvédère: confirmed absent
   - Gletsch: confirmed absent
   - Tiefenbach DFB: confirmed absent
+
+--- RESWEEP SAFEGUARD: stations removed by commit 9b26a13 (Issue #10) ---
+All 49 previously-removed stations confirmed absent, no resweep drift detected.
 
 --- ASIDES ---
 

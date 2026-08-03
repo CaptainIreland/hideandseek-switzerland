@@ -94,6 +94,24 @@ KNOWN_GAP_NAMES = [
     "Tiefenbach DFB",
 ]
 
+# The 49 stations commit 9b26a13 (Issue #10) removed from data/stations.json.
+# fetch_stations_google.py's KEEP_LIGHT_RAIL list still matches these operators'
+# names, so a future resweep could silently re-admit any of them; checked here
+# so that drift shows up in this report instead of going unnoticed.
+PREVIOUSLY_REMOVED_STATIONS = [
+    "Adliswil", "Aemsigen", "Bahnhofhilfe", "Berninaplatz", "Binz",
+    "Breitlauenen", "Brunau", "Eigergletscher", "Findelbach", "Freibergen",
+    "Friesenberg", "Fruttli", "Furka DFB", "Giesshübel", "Goldau A4",
+    "Gornergrat", "Grubisbalm", "Jungfraujoch", "Kräbel", "Langnau-Gattikon",
+    "Leimbach", "Manegg", "Mittlerschwanden", "Planalp", "Realp DFB",
+    "Riffelalp", "Riffelberg", "Rigi Kaltbad First", "Rigi Klösterli",
+    "Rigi Kulm", "Rigi Staffel", "Rigi Staffelhöhe", "Rigi Wölfertschen-First",
+    "Ringlikon", "Romiti Felsentor", "Rotenboden", "Saalsporthalle",
+    "Schweighof", "Schynige Platte", "Selnau", "Sihlau", "Sihlbrugg",
+    "Sihlwald", "Sood-Oberleimbach", "Triemli", "Uetliberg",
+    "Uitikon Waldegg", "Vitznau", "Wildpark-Höfli",
+]
+
 
 def excursion_key(agency, code):
     if (agency, code) in EXCURSION_ROUTES:
@@ -157,6 +175,7 @@ def main():
         )
 
     gap_hits = [name for name in KNOWN_GAP_NAMES if name in station_names]
+    resweep_hits = [name for name in PREVIOUSLY_REMOVED_STATIONS if name in station_names]
 
     google_data = json.loads(STATIONS_GOOGLE_PATH.read_text(encoding="utf-8"))
     berninaplatz_kept = [r for r in google_data["kept"] if r["name"] == "Berninaplatz"]
@@ -179,6 +198,7 @@ def main():
     report.append(f"Not flagged, mixed/interchange with a normal-fare line: {len(mixed)}")
     report.append(f"Manual exceptions (rail-only heuristic blind spot): {len(manual_exceptions)}")
     report.append(f"Known-gap names still absent from data/stations.json: {len(KNOWN_GAP_NAMES) - len(gap_hits)} of {len(KNOWN_GAP_NAMES)}")
+    report.append(f"Previously-removed stations still absent (resweep safeguard): {len(PREVIOUSLY_REMOVED_STATIONS) - len(resweep_hits)} of {len(PREVIOUSLY_REMOVED_STATIONS)}")
     report.append("")
 
     report.append("--- FLAGGED: excursion/tourist-only, separate supplement required ---")
@@ -216,6 +236,23 @@ def main():
         report.append(f"  - {name}: {status}")
     report.append("")
 
+    report.append("--- RESWEEP SAFEGUARD: stations removed by commit 9b26a13 (Issue #10) ---")
+    if resweep_hits:
+        report.append(
+            "WARNING: the following previously-removed stations are back in "
+            "data/stations.json - a resweep may have silently re-admitted them, "
+            "check fetch_stations_google.py's KEEP_LIGHT_RAIL matches before keeping them:"
+        )
+        for name in resweep_hits:
+            lat, lng = station_coords[name]
+            report.append(f"  - {name} ({lat}, {lng})")
+    else:
+        report.append(
+            f"All {len(PREVIOUSLY_REMOVED_STATIONS)} previously-removed stations "
+            f"confirmed absent, no resweep drift detected."
+        )
+    report.append("")
+
     report.append("--- ASIDES ---")
     if berninaplatz_kept:
         report.append(
@@ -238,7 +275,8 @@ def main():
 
     OUT_REPORT.write_text("\n".join(report) + "\n", encoding="utf-8")
     print(f"Wrote {OUT_REPORT.relative_to(BASE_DIR)} "
-          f"({len(flagged)} flagged, {len(mixed)} mixed, {len(manual_exceptions)} manual exception(s)).")
+          f"({len(flagged)} flagged, {len(mixed)} mixed, {len(manual_exceptions)} manual exception(s), "
+          f"{len(resweep_hits)} resweep hit(s)).")
 
 
 if __name__ == "__main__":
