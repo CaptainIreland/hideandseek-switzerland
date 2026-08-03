@@ -258,9 +258,11 @@ function highspeedLines(){
   highspeedLineCache=turf.multiLineString(HIGHSPEED_LINES.map(l=>l.points));
   return highspeedLineCache;
 }
-// Only five short hand-maintained lines (see data/highspeed-lines.json), so a
-// direct buffer is fine - no need for the erode-and-subtract trick that
-// cantonBorderBand uses for the much more detailed canton outlines.
+// data/highspeed-lines.json is traced from OpenStreetMap way geometry (see
+// scripts/fetch_highspeed.py), a few dozen merged lines totalling a few
+// hundred km - still small enough that a direct buffer is fine, no need
+// for the erode-and-subtract trick cantonBorderBand uses for the much more
+// detailed canton outlines.
 function highspeedBand(km){
   const multi=highspeedLines();
   if(!multi) return null;
@@ -683,8 +685,8 @@ function buildMeasureClue(ref,lat,lng,closer,unit){
     if(ref==="cantonborder"||ref==="water"||ref==="districtborder"||ref==="highspeed"){
       const multi=ref==="water"?waterLines():ref==="districtborder"?districtLines():ref==="highspeed"?highspeedLines():cantonLines();
       if(!multi){
-        const script=ref==="districtborder"?"fetch_districts.py":ref==="highspeed"?null:"fetch_osm_layers.py";
-        resolve({error:script?`That layer is not loaded. Run scripts/${script} first.`:"That layer is not loaded. data/highspeed-lines.json is missing."});return;
+        const script=ref==="districtborder"?"fetch_districts.py":ref==="highspeed"?"fetch_highspeed.py":"fetch_osm_layers.py";
+        resolve({error:`That layer is not loaded. Run scripts/${script} first.`});return;
       }
       const km=multiLineDistKm(lat,lng,multi);
       if(km===null){resolve({error:"Could not measure to that layer."});return;}

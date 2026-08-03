@@ -1,0 +1,38 @@
+=== HIGH-SPEED RAIL (OpenStreetMap) ===
+Threshold: highspeed=yes OR maxspeed >= 200 km/h, applied per OSM way before merging.
+Qualifying ways fetched (pre-merge): 157
+Excluded (service=siding/yard/spur/crossover): 0
+Excluded (maxspeed present but below threshold, no highspeed=yes): 0
+Merged lines: 13
+Total length: 304.6 km
+
+Lines (longest first), endpoints labelled with nearest station:
+  - (unnamed): 63.9 km, 13 ways, 230-250 km/h, nearest stations Biasca (2.9 km) / Erstfeld (1.8 km)
+  - (unnamed): 63.9 km, 14 ways, 200-250 km/h, nearest stations Biasca (2.9 km) / Erstfeld (1.7 km)
+  - (unnamed): 43.5 km, 47 ways, 140-200 km/h, nearest stations Rothrist (0.6 km) / Urtenen (1.7 km)
+  - (unnamed): 35.3 km, 7 ways, 200-250 km/h, nearest stations Ausserberg (0.7 km) / Frutigen (1.1 km)
+  - (unnamed): 29.2 km, 32 ways, 160-200 km/h, nearest stations Urtenen (1.7 km) / Herzogenbuchsee (1.1 km)
+  - (unnamed): 19.2 km, 21 ways, 160-200 km/h, nearest stations Herzogenbuchsee (1.2 km) / Rothrist (0.6 km)
+  - (unnamed): 14.3 km, 5 ways, 180-250 km/h, nearest stations Ausserberg (0.7 km) / Goppenstein (4.9 km)
+  - (unnamed): 13.8 km, 2 ways, 200-250 km/h, nearest stations S.Antonino (1.2 km) / Lamone-Cadempino (1.0 km)
+  - (unnamed): 13.5 km, 2 ways, 200-250 km/h, nearest stations Lamone-Cadempino (0.9 km) / S.Antonino (1.5 km)
+  - (unnamed): 4.0 km, 5 ways, 200-250 km/h, nearest stations Frutigen (2.2 km) / Frutigen (1.8 km)
+  - (unnamed): 4.0 km, 6 ways, 200 km/h, nearest stations Herzogenbuchsee (2.8 km) / Deitingen (2.9 km)
+  - (unnamed): 0.1 km, 2 ways, 140 km/h, nearest stations Worblaufen (0.7 km) / Worblaufen (0.7 km)
+  - (unnamed): 0.0 km, 1 ways, 140 km/h, nearest stations Worblaufen (0.7 km) / Worblaufen (0.7 km)
+
+Flagged for manual review, unnamed or under 0.5 km (13):
+  - (unnamed) (63.91 km)
+  - (unnamed) (63.86 km)
+  - (unnamed) (43.54 km)
+  - (unnamed) (35.28 km)
+  - (unnamed) (29.16 km)
+  - (unnamed) (19.19 km)
+  - (unnamed) (14.30 km)
+  - (unnamed) (13.76 km)
+  - (unnamed) (13.53 km)
+  - (unnamed) (4.00 km)
+  - (unnamed) (3.97 km)
+  - (unnamed) (0.10 km)
+  - (unnamed) (0.03 km)
+=== END ===

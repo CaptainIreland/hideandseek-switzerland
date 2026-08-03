@@ -43,8 +43,8 @@ const ASSUMPTIONS = [
   {id:"q-measuring", section:"questions", title:"Measuring: discs for places, bands for lines and borders",
    body:"A union of discs, radius equal to the asker's own distance, around every candidate place. Border, water, canton border, district border and high-speed rail line references use a band around the boundary instead.",
    tags:["rulebook"]},
-  {id:"q-highspeed", section:"questions", title:"Only five lines count as high-speed rail",
-   body:"The Lotschberg, Gotthard and Ceneri base tunnels, the Mattstetten-Rothrist new line, and the Solothurn-Wanzwil line meet the EU high-speed definition (250 km/h purpose-built, or about 200 km/h upgraded). Hand-maintained, not fetched from any API, since it is only five short lines.",
+  {id:"q-highspeed", section:"questions", title:"High-speed rail: highspeed=yes or maxspeed >= 200 km/h, by track segment",
+   body:"Every OpenStreetMap railway track tagged highspeed=yes, or with a maxspeed of 200 km/h or more in either direction, counts - checked segment by segment rather than as a hand-picked list of named lines, since speed can change partway along a line (the Solothurn-Wanzwil line runs at 140 km/h from Solothurn to Subingen and only reaches 200 km/h after that, so only the faster stretch counts). Touching qualifying segments are merged into continuous lines for the measuring band.",
    tags:["thresholds"]},
   {id:"q-elevation", section:"questions", title:"Elevation uses a 1 km grid, rounded to the nearest 50 m",
    body:"The asker's own elevation is looked up from a swisstopo grid, rounded to the nearest 50 m per house ruling, then a contour polygon is built for everywhere at or above that elevation. This is the only clue type built on a raster grid rather than vector polygons or lines.",
@@ -132,9 +132,9 @@ const ASSUMPTIONS = [
   {id:"a-vendored", section:"attribution", title:"Leaflet and Turf.js are vendored locally, not loaded from a CDN",
    body:"Pinned versions ship in the vendor folder, so the map loads with no internet connection; a CDN fallback only kicks in if the local copy is missing entirely.",
    tags:["offline"]},
-  {id:"a-highspeed-handmaintained", section:"attribution", title:"The high-speed rail line list is hand-maintained",
-   body:"Not fetched from any API, since it is only five short lines. Its waypoints come from Google-verified stations plus OpenStreetMap Nominatim lookups for junction points that are not stations.",
-   tags:["osm","google"]},
+  {id:"a-highspeed-osm", section:"attribution", title:"The high-speed rail line list is traced from OpenStreetMap",
+   body:"scripts/fetch_highspeed.py queries Overpass for railway tracks tagged highspeed=yes or maxspeed >= 200 km/h and merges touching ones into continuous lines, so the measuring band follows the real alignment - including tunnel curves - rather than a small number of hand-picked waypoints.",
+   tags:["osm"]},
 ];
 
 (function(){
