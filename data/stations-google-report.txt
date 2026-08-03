@@ -1,10 +1,22 @@
 === GOOGLE STATION SWEEP ===
 Requests made: 601 (54 top-level tiles plus subdivisions)
 Unique Google places found: 2278
-  Kept, typed train_station: 1931 (1932 fetched; "Appenzeller Bahnen AG",
+  Kept, typed train_station: 1870 (1932 fetched; "Appenzeller Bahnen AG",
     ChIJaYVUwnAfm0cR1NmXzdhXoSU, manually removed 2026-07-30 - Google types the
-    operator's office as train_station, confirmed off Google Maps that it is not one)
-  Kept, narrow-gauge on the keep list: 2
+    operator's office as train_station, confirmed off Google Maps that it is not one;
+    "Bahnhofhilfe" manually removed 2026-08-03 - Issue #10, an SBB assistance-desk
+    service point Google typed as train_station, same situation as Appenzeller
+    Bahnen AG's office, not an actual stop; 60 further stations manually removed
+    2026-08-03 - Issue #10, served only by an excursion/heritage cog railway or by
+    Sihltal-Zurich-Uetliberg-Bahn's Zurich S-Bahn services, none of which this
+    group's Interrail pass covers, plus the SRT Glattbrugg freight/charter operator
+    that was wrongly counted as a normal-fare line for four of those stations;
+    see scripts/audit_private_railways.py and data/private-railway-report.txt for
+    the full list and reasoning)
+  Kept, narrow-gauge on the keep list: 1 ("Berninaplatz" manually removed 2026-08-03
+    - Issue #10, a Zurich VBZ tram stop that reached this list via a false-positive
+    substring match on "bernina" in fetch_stations_google.py's KEEP_LIGHT_RAIL list,
+    now tightened; the remaining entry is the legitimate "Appenzeller Bahnen" stop)
   Light-rail excluded as city tram: 9
   Outside the Swiss outline, dropped: 335
 Dropped just outside the outline, within 1.5 km. Sanity-check these are truly foreign (44):

@@ -1,52 +1,12 @@
 === PRIVATE / EXCURSION RAILWAY AUDIT ===
 
-Stations checked: 1737
-Flagged (excursion-only): 26
-Not flagged, mixed/interchange with a normal-fare line: 7
-Manual exceptions (rail-only heuristic blind spot): 1
+Stations checked: 1687
+Flagged (excursion-only): 0
+Not flagged, mixed/interchange with a normal-fare line: 9
+Manual exceptions (rail-only heuristic blind spot): 0
 Known-gap names still absent from data/stations.json: 5 of 5
 
 --- FLAGGED: excursion/tourist-only, separate supplement required ---
-
-Gornergratbahn - cog railway to Zermatt's summit stations, separate ticket (5 stations):
-  - Findelbach (46.009673, 7.74887)
-  - Gornergrat (45.983319, 7.782206)
-  - Riffelalp (46.004898, 7.754356)
-  - Riffelberg (45.992981, 7.755085)
-  - Rotenboden (45.984463, 7.76537)
-
-Jungfraubahn - cog railway above Kleine Scheidegg to Jungfraujoch, separate ticket (2 stations):
-  - Eigergletscher (46.574701, 7.974673)
-  - Jungfraujoch (46.547468, 7.982085)
-
-Pilatusbahnen - cog railway up Pilatus, separate ticket (1 stations):
-  - Aemsigen (46.970524, 8.271229)
-
-Rigi Bahnen AG - cog railway up Rigi, separate ticket (13 stations):
-  - Freibergen (47.030047, 8.479732)
-  - Fruttli (47.038399, 8.504971)
-  - Goldau A4 (47.043583, 8.547255)
-  - Grubisbalm (47.026211, 8.483131)
-  - Kräbel (47.040211, 8.530788)
-  - Mittlerschwanden (47.019192, 8.482468)
-  - Rigi Kaltbad First (47.044009, 8.466698)
-  - Rigi Klösterli (47.042549, 8.48713)
-  - Rigi Kulm (47.055176, 8.485234)
-  - Rigi Staffel (47.053684, 8.474239)
-  - Rigi Staffelhöhe (47.048096, 8.464501)
-  - Rigi Wölfertschen-First (47.047249, 8.476512)
-  - Romiti Felsentor (47.036438, 8.475919)
-
-Brienz Rothorn Bahn AG - steam/diesel cog railway up Brienzer Rothorn, separate ticket (1 stations):
-  - Planalp (46.772369, 8.019844)
-
-Dampfbahn Furka-Bergstrecke - seasonal heritage steam railway, separate ticket (2 stations):
-  - Furka DFB (46.57621, 8.428461)
-  - Realp DFB (46.595669, 8.501269)
-
-Berner Oberland-Bahnen route 68 - Schynige Platte cog line only, not the rest of BOB's ordinary regional service (2 stations):
-  - Breitlauenen (46.659847, 7.89558)
-  - Schynige Platte (46.6562, 7.90694)
 
 --- NOT FLAGGED: mixed/interchange, transparency only ---
 These also carry at least one normal-fare line, so they are left alone:
@@ -55,11 +15,12 @@ These also carry at least one normal-fare line, so they are left alone:
   - Brienz (46.75487, 8.038926) - normal-fare line(s): Zentralbahn IRLIX, Zentralbahn LIX, Zentralbahn R, Zentralbahn R70
   - Kleine Scheidegg (46.585062, 7.960751) - normal-fare line(s): Wengernalpbahn 63, Wengernalpbahn 64
   - Oberwald (46.530807, 8.342856) - normal-fare line(s): Matterhorn Gotthard Bahn (fo) R43
+  - Wiedikon (47.371402, 8.523633) - normal-fare line(s): Schweizerische Bundesbahnen SBB S2, Schweizerische Bundesbahnen SBB S24, Schweizerische Bundesbahnen SBB S8, Schweizerische Bundesbahnen SBB SN8
   - Wilderswil (46.665589, 7.869225) - normal-fare line(s): Berner Oberland-Bahnen R61, Berner Oberland-Bahnen R62
   - Zermatt (46.016434, 7.750125) - normal-fare line(s): Matterhorn Gotthard Bahn (bvz) R40, Matterhorn Gotthard Bahn (bvz) R41, Matterhorn Gotthard Bahn (bvz) R42, Matterhorn Gotthard Bahn (fo) GEX
+  - Zürich HB (47.378036, 8.540377) - normal-fare line(s): Schweizerische Bundesbahnen SBB 3, Schweizerische Bundesbahnen SBB 7, Schweizerische Bundesbahnen SBB EC3, Schweizerische Bundesbahnen SBB EXT, Schweizerische Bundesbahnen SBB IC1, Schweizerische Bundesbahnen SBB IC2, Schweizerische Bundesbahnen SBB IC5, Schweizerische Bundesbahnen SBB IC55, Schweizerische Bundesbahnen SBB IC8, Schweizerische Bundesbahnen SBB IC81, Schweizerische Bundesbahnen SBB IC9, Schweizerische Bundesbahnen SBB IR13, Schweizerische Bundesbahnen SBB IR16, Schweizerische Bundesbahnen SBB IR35, Schweizerische Bundesbahnen SBB IR36, Schweizerische Bundesbahnen SBB IR37, Schweizerische Bundesbahnen SBB IR46, Schweizerische Bundesbahnen SBB IR55, Schweizerische Bundesbahnen SBB IR70, Schweizerische Bundesbahnen SBB IR75, Schweizerische Bundesbahnen SBB N7, Schweizerische Bundesbahnen SBB NJ, Schweizerische Bundesbahnen SBB RE12, Schweizerische Bundesbahnen SBB RE13, Schweizerische Bundesbahnen SBB RE25, Schweizerische Bundesbahnen SBB RE35, Schweizerische Bundesbahnen SBB RE36, Schweizerische Bundesbahnen SBB RE37, Schweizerische Bundesbahnen SBB RE48, Schweizerische Bundesbahnen SBB RJX, Schweizerische Bundesbahnen SBB S, Schweizerische Bundesbahnen SBB S11, Schweizerische Bundesbahnen SBB S12, Schweizerische Bundesbahnen SBB S14, Schweizerische Bundesbahnen SBB S15, Schweizerische Bundesbahnen SBB S16, Schweizerische Bundesbahnen SBB S19, Schweizerische Bundesbahnen SBB S2, Schweizerische Bundesbahnen SBB S24, Schweizerische Bundesbahnen SBB S25, Schweizerische Bundesbahnen SBB S42, Schweizerische Bundesbahnen SBB S5, Schweizerische Bundesbahnen SBB S6, Schweizerische Bundesbahnen SBB S7, Schweizerische Bundesbahnen SBB S8, Schweizerische Bundesbahnen SBB S9, Schweizerische Bundesbahnen SBB SN1, Schweizerische Bundesbahnen SBB SN11, Schweizerische Bundesbahnen SBB SN5, Schweizerische Bundesbahnen SBB SN6, Schweizerische Bundesbahnen SBB SN7, Schweizerische Bundesbahnen SBB SN8, Schweizerische Bundesbahnen SBB SN9, Schweizerische Bundesbahnen SBB TGV, Schweizerische Südostbahn (sob) EXT, Schweizerische Südostbahn (sob) IR35, Schweizerische Südostbahn (sob) IR46, Schweizerische Südostbahn (sob) S42, THURBO RE13, THURBO RE8
 
 --- MANUAL EXCEPTION ---
-  - Vitznau (47.009359, 8.482382): a real lakeside town normally reached by boat or PostBus at ordinary fare; the only rail line touching it is the excursion Rigi cog railway, so it auto-flags under a rail-only heuristic even though the town itself is not excursion-only
 
 --- KNOWN GAPS: already documented in CLAUDE.md, nothing new ---
 Excursion-line termini Google does not type as train_station, so they
@@ -71,7 +32,5 @@ are absent from data/stations.json. See data/transit-lines-report.txt.
   - Tiefenbach DFB: confirmed absent
 
 --- ASIDES ---
-  - Berninaplatz: flagged keptAsNarrowGauge=true in data/stations-google.json (a Zurich VBZ tram stop, a false-positive substring match on "bernina" in fetch_stations_google.py's KEEP_LIGHT_RAIL list). It DID reach data/stations.json - needs a look.
-  - Goldau A4 (47.043583, 8.547255): a genuine Rigi Bahnen AG park-and-ride stop, just an odd Google Places name worth a mention.
 
 === END ===

@@ -13,10 +13,24 @@ pass, one station at a time, matching the precedent of commit a621ca3
 Motivation: data/stations.json has no operator or railway-type field, so it
 currently includes stations such as Riffelberg that sit only on the
 Gornergrat Bahn, a cog railway to Zermatt that needs a separate supplement
-ticket and is not covered by the GA or Swiss Travel Pass. This is different
-from a legitimate regional narrow-gauge operator (RhB, Matterhorn Gotthard
-Bahn, MOB, Zentralbahn, Appenzeller Bahnen), which is ordinary scheduled
-public transport just run by a non-SBB company.
+ticket and is not covered by this group's Interrail pass, the pass standard
+confirmed on Issue #10. This is different from a legitimate regional
+narrow-gauge operator (RhB, Matterhorn Gotthard Bahn, MOB, Zentralbahn,
+Appenzeller Bahnen), which is ordinary scheduled public transport just run
+by a non-SBB company and is Interrail-covered like the SBB network itself.
+
+Interrail's coverage does not line up with the GA/Swiss Travel Pass a casual
+reading of the rulebook might assume: Rigi Bahnen AG and Pilatusbahnen are
+discount-only (50%) rather than covered either way, so they land in the same
+excursion bucket regardless of which pass standard is used, but Zurich's
+S-Bahn is a real divergence. SBB- and Thurbo-run S-Bahn lines there are
+Interrail-covered, but the Sihltal-Zurich-Uetliberg-Bahn (SZU), a separate
+agency, runs its own S4, S10 and night SN4 services that Interrail does not
+accept even though GA/Swiss Travel Pass would. SZU is a single small
+operator with no known Interrail-covered line, so unlike the Berner
+Oberland-Bahnen carve-out above it is flagged whole-agency (code=None).
+That is why SZU appears in EXCURSION_ROUTES below even though nothing else
+about it resembles a mountain cog railway.
 
 Classification reuses data/transit-lines.json (built by
 fetch_transit_lines.py from the national GTFS feed), which already gives,
@@ -54,19 +68,19 @@ EXCURSION_ROUTES = {
     ("Brienz Rothorn Bahn AG", None): "steam/diesel cog railway up Brienzer Rothorn, separate ticket",
     ("Dampfbahn Furka-Bergstrecke", None): "seasonal heritage steam railway, separate ticket",
     ("Berner Oberland-Bahnen", "68"): "Schynige Platte cog line only, not the rest of BOB's ordinary regional service",
+    ("Sihltal-Zürich-Uetliberg-Bahn", None): "Zurich S-Bahn services (S4, S10, night SN4) not accepted by Interrail, unlike the SBB/Thurbo-run S-Bahn lines",
+    ("Swiss Rail Traffic AG Glattbrugg", None): "a freight/charter operator running special (EXT) trains, founded 2008 for special transport and smaller contracts, not a scheduled passenger service any pass covers",
 }
 
 # Stations that would auto-flag from rail data alone but are known to have
 # normal-fare access by a non-rail mode, so the rail-only heuristic can't
-# see their real situation.
-MANUAL_EXCEPTIONS = {
-    "Vitznau": (
-        "a real lakeside town normally reached by boat or PostBus at ordinary "
-        "fare; the only rail line touching it is the excursion Rigi cog "
-        "railway, so it auto-flags under a rail-only heuristic even though "
-        "the town itself is not excursion-only"
-    ),
-}
+# see their real situation. Empty for now: Vitznau used to sit here (a real
+# lakeside town normally reached by boat or PostBus, with only the excursion
+# Rigi cog railway touching it by rail), but Issue #10 settled on dropping it
+# with the rest of the Rigi Bahnen AG group rather than carving it out, since
+# this project only tracks rail stations and has no boat/PostBus data to
+# justify keeping a rail-only entry alive on a non-rail argument.
+MANUAL_EXCEPTIONS = {}
 
 # Already documented in CLAUDE.md's known gaps and data/transit-lines-report.txt
 # as missing from data/stations.json because Google does not type their
@@ -98,11 +112,16 @@ def main():
     lines = json.loads(TRANSIT_LINES_PATH.read_text(encoding="utf-8"))["lines"]
     print(f"Loaded {len(lines)} transit lines from {TRANSIT_LINES_PATH.relative_to(BASE_DIR)}.")
 
+    # Only consider stops that are still real stations: once a removal pass has run,
+    # transit-lines.json keeps naming stations that data/stations.json no longer has
+    # (it is only refreshed by a separate, paid fetch_transit_lines.py re-run), and
+    # that is expected steady state afterwards, not a matching error to investigate.
     station_routes = {}  # name -> list of (agency, code)
     for line in lines:
         agency, code = line["agency"], line["code"]
         for stop in line["stops"]:
-            station_routes.setdefault(stop, []).append((agency, code))
+            if stop in station_names:
+                station_routes.setdefault(stop, []).append((agency, code))
 
     flagged = {}       # name -> set of excursion keys serving it
     mixed = {}         # name -> (excursion keys, normal (agency, code) pairs)

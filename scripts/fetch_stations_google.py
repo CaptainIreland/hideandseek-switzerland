@@ -39,10 +39,13 @@ SEARCH_TYPES = ["train_station", "light_rail_station"]
 # Narrow-gauge and rack railways sometimes carry only Google's light_rail type but
 # are boardable trains for the game. Kept when the name matches; city trams are not.
 KEEP_LIGHT_RAIL = (
-    "appenzeller bahnen", "bernina", "rhb", "rhaetische", "matterhorn gotthard",
+    "appenzeller bahnen", "bernina ", " bernina", "rhb", "rhaetische", "matterhorn gotthard",
     "montreux", "mob", "zentralbahn", "wengernalp", "jungfrau", "gornergrat",
     "pilatus", "brienz rothorn", "furka", "schynige platte",
 )
+# "bernina " / " bernina" (not the bare word) rescue Bernina Express/RhB stops like
+# "Bernina Diavolezza" or "Ospizio Bernina" without catching Zurich's "Berninaplatz"
+# tram stop, a bare-substring false positive that reached data/stations.json once.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORE_PATH = os.path.join(BASE_DIR, "data", "stations-core.json")
 OUT_SIMPLE = os.path.join(BASE_DIR, "data", "stations.json")
