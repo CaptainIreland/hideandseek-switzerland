@@ -15,7 +15,7 @@ An unofficial companion map for playing Jet Lag: The Game "Hide + Seek" across S
 - `index.html`, `styles.css`, `app.js` load in that order. No build step, no framework.
 - `app.js` has large baked data literals near the top: `CANTONS`, `MUNICIPALITIES`, `TARGETS` (places), `STATIONS_GOOGLE`. The app works fully offline from these; the `data/` files override them when served.
 - Leaflet draws, Turf.js does the geometry. Both are vendored in `vendor/` (pinned versions: Leaflet 1.9.4, Turf.js 6.5.0) so the app loads with no internet connection; `index.html` falls back to cdnjs only if the local copy is missing.
-- `config.js` holds an optional Google key. Never commit a real key here. The in-app field stores it in localStorage instead.
+- There is no in-app Google key or live-data fetch. Every player works off the same committed `data/*.json`, produced offline by the pipeline below, so nobody's map can silently drift onto a different dataset mid-game.
 
 ## Data pipeline
 

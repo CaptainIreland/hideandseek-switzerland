@@ -159,7 +159,6 @@
   #zone-radius{margin-left:4px;background:var(--panel);border:1px solid rgba(227,6,19,.35);border-radius:7px;color:var(--ink);font-family:inherit;font-size:12px;padding:6px;flex:0 0 auto}
 
 .fld select{background:var(--panel-2);border:1px solid var(--line);border-radius:7px;color:var(--ink);font-family:inherit;font-size:13px;padding:8px 9px;width:100%}
-#gkey{width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:7px;color:var(--ink);font-family:inherit;font-size:13px;padding:8px 9px}
 
 .pop-link{display:inline-block;margin-top:7px;font-size:12px;font-weight:600;color:#1a73e8;text-decoration:none}
 

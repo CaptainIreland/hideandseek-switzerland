@@ -1082,53 +1082,6 @@ async function loadStations(){
   setStatus(`${STATIONS.length.toLocaleString()} Google stations`,false);hideStatus();
 }
 
-/* ========================= GOOGLE LIVE DATA ========================= */
-const GTYPE={hospital:"hospital",museum:"museum",library:"library",cinema:"movie_theater",zoo:"zoo",aquarium:"aquarium",themepark:"amusement_park"};
-function gstatus(msg){const el=document.getElementById("gstatus"); if(el) el.textContent=msg;}
-function googleKey(){
-  const box=document.getElementById("gkey");
-  const typed=((box&&box.value)||"").trim();
-  if(typed) return typed;
-  return ((typeof window!=="undefined"&&window.GOOGLE_API_KEY)||"").trim();
-}
-try{const saved=localStorage.getItem("gmaps-key"); if(saved) document.getElementById("gkey").value=saved;}catch(e){}
-document.getElementById("gkey").addEventListener("change",e=>{try{localStorage.setItem("gmaps-key",e.target.value.trim());}catch(err){}});
-async function loadGoogleForView(){
-  const key=googleKey();
-  if(!key){gstatus("Paste an API key first. Without one the built-in sample stays active."); return;}
-  const cats=CATS.filter(c=>state.enabled[c.id]);
-  if(!cats.length){gstatus("Turn on at least one place category first."); return;}
-  const c=map.getCenter(); const b=map.getBounds();
-  const radius=Math.round(Math.min(50000,Math.max(1000,c.distanceTo(b.getNorthEast()))));
-  gstatus("Loading from Google\u2026");
-  let added=0;
-  for(const cat of cats){
-    try{
-      const res=await fetch("https://places.googleapis.com/v1/places:searchNearby",{
-        method:"POST",
-        headers:{"Content-Type":"application/json","X-Goog-Api-Key":key,
-          "X-Goog-FieldMask":"places.displayName,places.location,places.rating,places.userRatingCount"},
-        body:JSON.stringify({includedTypes:[GTYPE[cat.id]],maxResultCount:20,
-          locationRestriction:{circle:{center:{latitude:c.lat,longitude:c.lng},radius:radius}}})
-      });
-      if(!res.ok){const t=await res.text(); throw new Error("HTTP "+res.status+": "+t.slice(0,140));}
-      const data=await res.json();
-      for(const p of (data.places||[])){
-        const name=p.displayName&&p.displayName.text; const loc=p.location;
-        if(!name||!loc) continue;
-        // Map boundary rule: places outside Switzerland do not exist for this game.
-        if(!turf.booleanPointInPolygon(turf.point([loc.longitude,loc.latitude]),SWISS_FEATURE)) continue;
-        if(TARGETS.some(x=>x[0]===name&&Math.abs(x[1]-loc.latitude)<1e-4&&Math.abs(x[2]-loc.longitude)<1e-4)) continue;
-        TARGETS.push([name,loc.latitude,loc.longitude,cat.id,p.rating||0,p.userRatingCount||0]);
-        added++;
-      }
-    }catch(err){gstatus("Google error for "+cat.label+": "+err.message); return;}
-  }
-  voronoiCache.clear(); render();
-  gstatus(added?added+" Google places added for this view. They feed the deduction maths too.":"No new places returned for this view.");
-}
-document.getElementById("gload").addEventListener("click",loadGoogleForView);
-
 // Complete per-category Google place data, when it has been swept and committed.
 async function loadPlaces(){
   try{

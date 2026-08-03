@@ -38,7 +38,7 @@
     <div class="pbody">
       <!-- PLACES TAB -->
       <div id="tab-places">
-        <div class="poc"><b>Stations:</b> every train station Google Maps lists in Switzerland, baked in.<br><b>Target places:</b> a built-in Google sample, upgraded to live Google data when you add a key below.</div>
+        <div class="poc"><b>Stations:</b> every train station Google Maps lists in Switzerland, baked in.<br><b>Target places:</b> the same committed Google dataset every player's copy of the map uses.</div>
         <div class="zone-row" id="zone-row-wrap">
           <label class="row" style="padding:0;flex:0 0 auto"><input type="checkbox" id="zones" checked><span class="box"></span></label>
           <span class="name">Hiding zones<span>Ring around each station</span></span>
@@ -57,11 +57,6 @@
         <div class="slider-top"><span style="font-size:12px;color:var(--ink-dim)">Hide sparse or unverified places</span><span class="val" id="rev-val">5</span></div>
         <input type="range" id="reviews" min="0" max="50" step="1" value="5">
         <p class="hint">Applies to target places, not stations. Some categories already have a stricter minimum baked in from when the data was built (airports need 100 reviews, hospitals 50), so 0 will not reveal everything in every category.</p>
-        <div class="divide"></div>
-        <p class="section-label">Google live data</p>
-        <input id="gkey" type="password" placeholder="Paste your Google API key" autocomplete="off">
-        <button class="ghost" id="gload" style="margin-top:8px;color:var(--ink)">Load Google places for this view</button>
-        <p class="hint" id="gstatus" role="status" aria-live="polite">Without a key the map uses the built-in sample. The key stays on this device.</p>
       </div>
 
       <!-- NARROW DOWN TAB -->
@@ -191,7 +186,6 @@ window.depsReady=Promise.all([
   ensureGlobal(()=>!!window.turf,"https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js")
 ]);
 </script>
-<script src="config.js"></script>
 <script>
 window.depsReady.then(()=>{
   const s=document.createElement("script");
