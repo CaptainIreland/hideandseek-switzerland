@@ -13,6 +13,14 @@
   #panel{width:var(--panel-w);flex:0 0 var(--panel-w);background:var(--panel);border-right:1px solid var(--line);
     display:flex;flex-direction:column;height:100%;z-index:1200}
   .phead{padding:16px 18px 0;border-bottom:1px solid var(--line)}
+  .brand-row{display:flex;align-items:center;gap:11px}
+  .brand-mark{position:relative;width:30px;height:32px;flex:0 0 30px}
+  .brand-mark::before,.brand-mark::after,.brand-mark span{position:absolute;display:block;width:7px;
+    background:#fff;border-radius:99px;content:"";transform:rotate(29deg)}
+  .brand-mark::before{left:2px;height:20px;bottom:2px}
+  .brand-mark span:nth-child(1){left:11px;height:29px;bottom:1px;background:var(--red)}
+  .brand-mark span:nth-child(2){left:20px;height:16px;bottom:1px}
+  .brand-mark span:nth-child(3){left:22px;width:8px;height:8px;top:0;background:var(--hospital)}
   .kicker{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:11px;letter-spacing:.22em;
     text-transform:uppercase;color:var(--red);margin:0 0 6px}
   h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;line-height:1.15;margin:0}
