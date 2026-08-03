@@ -555,6 +555,10 @@ const TOOLS=["radar","thermo","match","measure","tentacle","station"];
 let tool="radar", editingIndex=null;
 const ans={radar:"miss",thermo:"hotter",match:"same",matchmode:"canton",measure:"closer",tent:"named"};
 function setTool(t){
+  // Switching away from the tool of a clue mid-edit would otherwise leave every
+  // other form's Add button reading "Update clue" from startEdit(), letting a
+  // submit there silently overwrite clues[editingIndex] with a mismatched kind.
+  if(editingIndex!=null&&t!==tool) exitEditUI();
   tool=t;
   document.querySelectorAll("#tool-seg button").forEach(x=>setOn(x,x.dataset.tool===t));
   TOOLS.forEach(tt=>{const f=document.getElementById("form-"+tt);if(f)f.hidden=(tt!==tool);});
@@ -622,7 +626,7 @@ function buildMatchClue(mode,lat,lng,same){
     const f=cantonAt(lat,lng);
     if(!f) return {error:"That point does not resolve to a canton."};
     return matchClue(mode,lat,lng,same,
-      `<span class="idx">M</span> Matching · ${same?"same":"different"} canton · ${f.properties.code}<br><span class="hint">${f.properties.name}</span>`,
+      `<span class="idx">M</span> Matching · ${same?"same":"different"} canton · ${f.properties.code}<br><span class="hint">${f.properties.name} · not Google-verified</span>`,
       turf.feature(f.geometry));
   }
   if(mode==="district"){
@@ -667,8 +671,9 @@ function buildMatchClue(mode,lat,lng,same){
   const near=nearestOf(pts,lat,lng);
   const cell=voronoiCellFor(mode,near.place);
   if(!cell) return {error:"Could not compute that area."};
+  const mtUnverified=mode==="mountain"?" · not Google-verified":"";
   return matchClue(mode,lat,lng,same,
-    `<span class="idx">M</span> Matching · ${same?"same":"different"} nearest ${REF_LABEL[mode]}<br><span class="hint">${near.place.name}</span>`,
+    `<span class="idx">M</span> Matching · ${same?"same":"different"} nearest ${REF_LABEL[mode]}<br><span class="hint">${near.place.name}${mtUnverified}</span>`,
     cell);
 }
 function buildMeasureClue(ref,lat,lng,closer,unit){
@@ -686,7 +691,7 @@ function buildMeasureClue(ref,lat,lng,closer,unit){
       setTimeout(()=>{
         try{
           const band=ref==="water"?bandAroundPolys(waterFeatures(),km):ref==="districtborder"?districtBorderBand(km):ref==="highspeed"?highspeedBand(km):cantonBorderBand(km);
-          const unverified=ref==="water"||ref==="districtborder"||ref==="highspeed";
+          const unverified=ref==="water"||ref==="districtborder"||ref==="highspeed"||ref==="cantonborder";
           resolve({clue:{kind:"measure",
             label:`<span class="idx">Ms</span> Measuring · hider ${closer?"closer":"further"} · ${REF_LABEL[ref]}<br><span class="hint">you: ${fmtDist(km,unit)}${unverified?" · not Google-verified":""}</span>`,
             poly:band, mode:closer?"i":"d", share:{t:"S",ref,lat,lng,closer,unit}}});
@@ -714,7 +719,7 @@ function buildMeasureClue(ref,lat,lng,closer,unit){
       setTimeout(()=>{
         try{
           resolve({clue:{kind:"measure",
-            label:`<span class="idx">Ms</span> Measuring · hider ${closer?"closer":"further"} · ${REF_LABEL.border}<br><span class="hint">you: ${fmtDist(km,unit)}</span>`,
+            label:`<span class="idx">Ms</span> Measuring · hider ${closer?"closer":"further"} · ${REF_LABEL.border}<br><span class="hint">you: ${fmtDist(km,unit)} · not Google-verified</span>`,
             poly:borderBandKm(km), mode:closer?"i":"d", share:{t:"S",ref,lat,lng,closer,unit}}});
         }catch(err){resolve({error:"Could not build that measuring clue. "+err.message});}
       },0);
@@ -723,10 +728,11 @@ function buildMeasureClue(ref,lat,lng,closer,unit){
     const pts=setFor(ref);
     if(!pts.length){resolve({error:"No places loaded for that category yet."});return;}
     const near=nearestOf(pts,lat,lng);
+    const msUnverified=ref==="mountain"?" · not Google-verified":"";
     setTimeout(()=>{
       try{
         resolve({clue:{kind:"measure",
-          label:`<span class="idx">Ms</span> Measuring · hider ${closer?"closer":"further"} · nearest ${REF_LABEL[ref]}<br><span class="hint">you: ${fmtDist(near.km,unit)} (${near.place.name})</span>`,
+          label:`<span class="idx">Ms</span> Measuring · hider ${closer?"closer":"further"} · nearest ${REF_LABEL[ref]}<br><span class="hint">you: ${fmtDist(near.km,unit)} (${near.place.name})${msUnverified}</span>`,
           poly:multiBufferKm(pts,near.km), mode:closer?"i":"d", share:{t:"S",ref,lat,lng,closer,unit}}});
       }catch(err){resolve({error:"Could not build that measuring clue. "+err.message});}
     },0);
@@ -1190,7 +1196,7 @@ async function loadElevation(){
 
 
 /* ========================= SHARE LINK ========================= */
-// #v=2&z=<zone km>&r=<min reviews>&f=<stations>.<places>&c=<clue>~<clue>...
+// #v=3&z=<zone km>&r=<min reviews>&f=<stations>.<places>&c=<clue>~<clue>...
 // Clue fields are | separated, coordinates to 5dp, distances always canonical
 // kilometres. Geometry is rebuilt from these inputs on load, never shipped as
 // GeoJSON, so it matches whatever clip()/circle()/voronoi logic the

@@ -18,27 +18,29 @@ Then open http://localhost:4173. The location button needs HTTPS or localhost. O
 - Target places for tentacle-style questions (hospitals, museums, libraries, cinemas, zoos, aquariums, theme parks) with a minimum Google reviews filter
 - A Narrow down tab: enter radar, thermometer, and within answers, and the map keeps only the area that fits every clue
 - Live phone location with a GPS (Global Positioning System) accuracy ring
-- Live data fetched fresh every time (no browser caching), with the full dataset also baked into app.js so the map works with no network at all
+- No in-app Google key or live data fetch: every dataset is committed to the repository and baked into app.js, so the map works fully offline once loaded, and every player is working off the same data
 
 ## Ground truth
 
-The group's arbiter is Google Maps. Under the strict house rule the station list itself is exactly Google's train station listings for Switzerland. Target places come from Google, with their live ratings and review counts, and the minimum-reviews filter uses Google review counts. Every marker, stations included, links straight to its spot on Google Maps for on-the-ground verification. Administrative boundaries (the country outline and cantons) only steer the canton question, since Google does not publish boundary data.
+The group's arbiter is Google Maps. Under the strict house rule the station list itself is exactly Google's train station listings for Switzerland. Target places come from Google, with their live ratings and review counts, and the minimum-reviews filter uses Google review counts. Every marker, stations included, links straight to its spot on Google Maps for on-the-ground verification. Boundaries, mountains and water bodies are not Google data; see "Layers that are not from Google" below for where those come from instead.
 
 ## Station data
 
 House rule: strict Google. The station list is exactly what Google Maps lists as train stations in Switzerland, built with your Google API key:
 
 ```sh
-python scripts/fetch_stations_google.py
+python scripts/fetch_stations_google.py YOUR_KEY
 ```
 
 The script sweeps the country in adaptive square cells, subdividing wherever Google's 20-result cap is hit, so dense cities are fully captured. It keeps places Google types as train_station, sets light-rail-only entries aside for a group ruling, drops anything outside the Swiss outline, and audits the result against `data/stations-core.json` so any major station Google lacks is listed before it silently vanishes from the game. Review the printed report, then commit `data/stations.json` and `data/stations-google.json`.
 
 ## Question coverage
 
-Built for Large games, following the official question pad. Radar, thermometer, matching (canton or nearest station), measuring, and tentacles are all implemented. Tentacle radii and categories follow the rulebook: one mile for museums, libraries, movie theatres and hospitals, fifteen miles for zoos, aquariums and amusement parks. The tentacle radius is measured from the asker, and only places inside that radius are candidates.
+Built for Large games only, following the official question pad. Small and Medium variants are not implemented. Radar, thermometer, matching, measuring, and tentacles are all implemented, plus a station-identified clue type that is not one of the five rulebook questions. Matching covers canton, district, municipality, nearest station, same-length station name, transit line, and nearest place; measuring covers international border, canton border, district border, water, high-speed rail line, elevation, and nearest place. Tentacle radii and categories follow the rulebook: one mile for museums, libraries, movie theatres and hospitals, fifteen miles for zoos, aquariums and amusement parks. The tentacle radius is measured from the asker, and only places inside that radius are candidates.
 
 Metro lines are not implemented, since the app holds no metro line geometry.
+
+See [assumptions.html](assumptions.html) (linked as "Rules" in the app) for the full, filterable list of baked-in rules, thresholds and data decisions behind every question type.
 
 ## Place data
 
@@ -78,7 +80,8 @@ Under the rulebook's own definitions these return a null answer, which counts as
 
 - Coastline, since Switzerland is landlocked
 - Landmass, since the whole country is one piece, so the answer is always a match
-- Sea level, which needs elevation data the app does not hold
+
+Sea level / altitude is implemented, not null: the asker's elevation is looked up from a swisstopo grid (`data/elevation.json`), rounded to the nearest 50 m, the same way the hider's is.
 
 ## For people helping test
 
@@ -88,9 +91,8 @@ The key is only needed to regenerate the datasets, which is a maintainer job. If
 
 ## Roadmap
 
-1. Done: the Large-game question engine, Google-sourced stations and places, official boundaries, shareable game state in the URL, and the viability filter
-2. Next: publish to GitHub Pages
-3. Later: Swiss transit line overlays drawn on the map (line data is already used behind the scenes for matching and measuring questions, but not yet shown as a visible layer)
+1. Done: the Large-game question engine, Google-sourced stations and places, official boundaries, shareable game state in the URL, the viability filter, and publishing to GitHub Pages
+2. Later: Swiss transit line overlays drawn on the map (line data is already used behind the scenes for matching and measuring questions, but not yet shown as a visible layer)
 
 ## Data and attribution
 

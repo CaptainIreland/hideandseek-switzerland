@@ -62,6 +62,13 @@ MIN_REVIEWS = {
     "zoo": 10, "aquarium": 0, "themepark": 20, "golf": 5,
     "airport": 100, "consulate": 5,
 }
+# WARNING: airport's threshold is only a proxy. data/places.json's committed
+# airport list was additionally hand-curated against Google Flights (see
+# data/airport-audit-report.txt) to drop general aviation/military/charter
+# fields this review-count filter alone cannot tell apart. Re-running this
+# script regenerates the full review-count-proxy list from data/places-raw.json
+# and silently discards that manual curation, even with no fresh sweep - redo
+# the Google Flights check before committing data/places.json again.
 # Only applied with --strict-medical. Some genuine hospitals carry these tags,
 # so the review threshold usually does this job better.
 MEDICAL_PRACTICE = {"hospital": {"doctor", "medical_clinic", "medical_lab"}}

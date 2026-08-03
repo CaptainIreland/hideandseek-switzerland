@@ -110,7 +110,7 @@ const ASSUMPTIONS = [
    body:"The Google Places sweep hit its subdivision floor in a handful of dense areas.",
    tags:["google"]},
   {id:"g-missing-stations", section:"gaps", title:"Three stations Google does not list",
-   body:"Faulensee, Trubbach and Weite are absent under the strict Google-only rule.",
+   body:"Faulensee, Trübbach and Weite are absent under the strict Google-only rule.",
    tags:["google","stations"]},
   {id:"g-heritage-railways", section:"gaps", title:"Heritage and rack railways cannot be matched to transit lines",
    body:"Google often does not type termini like Pilatus Kulm, Brienzer Rothorn or the Furka steam line as train_station, so they are absent from the station list and cannot be matched against the GTFS feed. Accepted as a gap, since these lines typically need a supplement beyond a standard rail pass anyway.",
