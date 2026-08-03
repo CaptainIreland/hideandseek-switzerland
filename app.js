@@ -228,16 +228,28 @@ function borderDistanceKm(lat,lng){const pt=turf.point([lng,lat]);
   if(SWISS_LINE.geometry.type==="LineString")return turf.pointToLineDistance(pt,SWISS_LINE,{units:"kilometers"});
   let best=Infinity;for(const cs of SWISS_LINE.geometry.coordinates){best=Math.min(best,turf.pointToLineDistance(pt,turf.lineString(cs),{units:"kilometers"}));}
   return best;}
-// A direct turf.buffer(SWISS_LINE,...) was fine while the outline was 343
-// points, but got expensive once fix_swiss_geo.py grew it to about 1150 for
-// border accuracy. Erode-and-subtract on the polygon itself is the same
-// trick cantonBorderBand already uses for the 26 cantons, just with one
-// feature instead of 26.
+// Erode-and-subtract on the whole country (as cantonBorderBand does per
+// canton) turned out to misbehave here: eroding by the asker's own,
+// potentially very large (up to ~100 km), border distance can pinch through
+// narrow stretches of Swiss territory (e.g. the Fricktal around Rheinfelden/
+// Laufenburg), and the band's outer edge was coarse(SWISS_FEATURE)'s
+// simplified ring rather than the exact border, so genuine Swiss territory
+// smoothed away by simplify never made it into the band either way - both
+// left slivers along the border still showing as possible (issue #11).
+// Positive-buffering the (coarsened, for speed) border line instead and
+// intersecting with the EXACT SWISS_FEATURE snaps both edges of the band to
+// the true border regardless of how simplified the buffered line was, the
+// same shape of approach bandAroundPolys/highspeedBand already use.
+let borderLineCoarse=null;
+function coarseBorderLine(){
+  if(borderLineCoarse) return borderLineCoarse;
+  borderLineCoarse=coarse(SWISS_LINE);
+  return borderLineCoarse;
+}
 function borderBandKm(km){
   const d=Math.max(km,0.02);
-  const s=coarse(SWISS_FEATURE);
-  const inner=turf.buffer(s,-d,{units:"kilometers",steps:4});
-  return inner?turf.difference(s,inner):s;
+  const raw=turf.buffer(coarseBorderLine(),d,{units:"kilometers",steps:8});
+  return raw?turf.intersect(raw,SWISS_FEATURE):null;
 }
 let highspeedLineCache=null;
 function highspeedLines(){
