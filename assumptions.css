@@ -1,0 +1,33 @@
+body{overflow-y:auto}
+#assum-app{max-width:860px;margin:0 auto;padding:0 20px 60px}
+
+.assum-head{border-bottom:1px solid var(--line);padding:24px 0 18px;position:relative}
+.assum-head h1{font-size:26px}
+.assum-head .sub{margin-top:14px;max-width:640px}
+.back-link{position:absolute;top:26px;right:0;font-size:12.5px;font-weight:600;color:var(--ink-dim);text-decoration:none}
+.back-link:hover{color:#fff}
+
+.assum-body{padding-top:20px}
+.assum-filters{position:sticky;top:0;background:var(--panel);padding:16px 0 4px;z-index:5;border-bottom:1px solid var(--line);margin-bottom:22px}
+#assum-search{width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;color:var(--ink);
+  font-family:inherit;font-size:14px;padding:10px 12px;margin-bottom:14px}
+.assum-filters .chips{margin-bottom:12px}
+.assum-filters .chips button{flex:0 0 auto}
+
+.assum-section{margin-bottom:28px}
+.assum-section .section-label{font-size:13px}
+.assum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.assum-card{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.assum-card.gap-note{border-left:2px solid #f0a500}
+.assum-card h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;margin:0 0 8px;color:var(--ink)}
+.assum-card p{font-size:12.5px;color:var(--ink-dim);line-height:1.55;margin:0 0 10px}
+.assum-card .tag-row{display:flex;flex-wrap:wrap;gap:5px}
+.assum-card .tag{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-dim);
+  background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:2px 8px}
+
+#assum-empty{text-align:center;padding:30px 0}
+
+@media(max-width:640px){
+  .back-link{position:static;display:inline-block;margin-top:10px}
+  .assum-grid{grid-template-columns:1fr}
+}

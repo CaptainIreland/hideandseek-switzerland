@@ -14,6 +14,9 @@
     display:flex;flex-direction:column;height:100%;z-index:1200}
   .phead{padding:16px 18px 0;border-bottom:1px solid var(--line)}
   .brand-row{display:flex;align-items:center;gap:11px}
+  .rules-link{margin-left:auto;flex:0 0 auto;font-size:11px;font-weight:600;color:var(--ink-dim);
+    text-decoration:none;border:1px solid var(--line);border-radius:20px;padding:5px 11px}
+  .rules-link:hover{color:#fff;border-color:var(--red)}
   .brand-mark{position:relative;width:30px;height:32px;flex:0 0 30px}
   .brand-mark::before,.brand-mark::after,.brand-mark span{position:absolute;display:block;width:7px;
     background:#fff;border-radius:99px;content:"";transform:rotate(29deg)}

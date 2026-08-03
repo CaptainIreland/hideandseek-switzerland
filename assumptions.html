@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Assumptions &amp; rules · Hide + Seek Switzerland</title>
+<link rel="stylesheet" href="vendor/fonts/fonts.css">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="assumptions.css">
+</head>
+<body>
+<div id="assum-app">
+  <header class="phead assum-head">
+    <div class="brand-row">
+      <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div>
+        <p class="kicker">Jet Lag · Hide + Seek</p>
+        <h1>Assumptions &amp; rules</h1>
+      </div>
+    </div>
+    <a class="back-link" href="index.html">&larr; Back to map</a>
+    <p class="sub">Every baked-in rule, threshold and data decision this map makes, in one searchable place, so you can check why the map behaves the way it does without digging through the code.</p>
+  </header>
+  <div class="assum-body">
+    <div class="assum-filters">
+      <input id="assum-search" type="search" placeholder="Search rules and thresholds" aria-label="Search assumptions">
+      <p class="section-label">Sections</p>
+      <div class="chips" id="section-chips"></div>
+      <p class="section-label">Tags</p>
+      <div class="chips" id="tag-chips"></div>
+    </div>
+    <div class="assum-content" id="assum-content"></div>
+    <p class="hint" id="assum-empty" hidden>No rules match that filter. Clear a chip or try a different search term.</p>
+  </div>
+  <footer class="pfoot">
+    Reference only, changes nothing on the map. <a href="index.html">Back to the map</a>.<br>
+    Unofficial fan project. Not affiliated with Jet Lag: The Game.
+  </footer>
+</div>
+<script src="assumptions.js"></script>
+</body>
+</html>
