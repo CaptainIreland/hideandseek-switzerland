@@ -63,7 +63,7 @@ The dark mask always shows Switzerland as the play area, even before the first c
 
 ## Known gaps
 
-- **Airports need a manual pass.** The rulebook counts an airport as commercial only if Google Flights shows flights to or from it. The current list of 17 is a review-count proxy and includes obvious non-airports.
+- **Airports were manually audited against Google Flights** (`data/airport-audit-report.txt`, 2026-08-03): of the original 17 review-count-proxy entries, 3 have confirmed scheduled commercial service (Geneva, Zurich, St. Gallen-Altenrhein) and the other 14 were removed as general aviation, military or charter-only fields, or not an airfield at all. `MIN_REVIEWS["airport"]=100` in `scripts/filter_places.py` still gates the raw sweep, but is no longer the whole story for this category; there is no Google Flights API in this pipeline, so a future re-sweep needs this manual check repeated by hand against the fresh candidate list, not a script re-run.
 - **Coastline and landmass** return null answers in Switzerland by the rulebook's own definitions (it is landlocked). Documented, not implemented. **Sea level / altitude is implemented** (see the Measuring "Elevation" reference below) - the rulebook's own warning that phone altitude readings are unreliable does not apply here, since the asker's elevation is looked up from the same grid as the hider's, never read off a device.
 - **Hospital coverage is slightly incomplete in a few city centres**, where the sweep hit its subdivision floor.
 - Three stations Google does not list (Faulensee, Trübbach, Weite) are absent under the strict rule.

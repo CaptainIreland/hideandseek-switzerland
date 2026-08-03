@@ -1,0 +1,81 @@
+=== AIRPORT COMMERCIAL-SERVICE AUDIT ===
+
+Manual audit, 2026-08-03. Cross-checked each of the 17 review-count-proxy
+airport entries (MIN_REVIEWS["airport"]=100 in scripts/filter_places.py)
+against Google Flights (scheduled routes shown to/from the airport) and
+Google Maps, corroborated independently via web search where Google Flights
+alone was ambiguous between charter and scheduled service. This is a
+one-time manual/web pass, not a reproducible script sweep - there is no
+Google Flights API in this pipeline - so a future re-check means repeating
+this by hand against the fresh candidate list, not re-running a script.
+
+Airports checked: 17
+Commercial (kept): 3
+Not commercial (removed): 14
+
+--- COMMERCIAL: scheduled flights confirmed ---
+  - Geneva Airport - major international hub, scheduled flights year-round.
+  - Zurich Airport - major international hub, scheduled flights year-round.
+  - St. Gallen-Altenrhein Airport - Peoples Viennaline, about 11x/week
+    nonstop to Vienna, year-round scheduled service.
+
+--- NOT COMMERCIAL: removed ---
+  - Air Ballonteam Stefan Zeberli GmbH - a hot-air-balloon touring company
+    near St. Margrethen, not an airfield at all (no runway); Google Flights
+    has no results for this location.
+  - Airfield Langenthal - small grass strip ("Flugplatz Bleienbach"),
+    general aviation, no scheduled service.
+  - Aerodrome Epagny - "Aerodrome de la Gruyere", general aviation/gliding,
+    no scheduled service.
+  - Bern Airport - only seasonal Helvetic/Sky Alps Mediterranean holiday
+    charter flights (Heraklion, Kos, Rhodes, Palma, Cagliari, Olbia) since
+    SkyWork Airlines (its last scheduled carrier) collapsed in 2018; multiple
+    aviation sources describe current traffic as "seasonal and charter"
+    only, and Google Flights shows no bookable flight, just driving-time/
+    hotel fallbacks.
+  - Birrfeld Airport - general aviation/flight school, no scheduled service.
+  - Emmen Airport - Militaerflugplatz Emmen, a Swiss Air Force base, no
+    civilian scheduled service.
+  - Engadin Airport (Samedan) - high-altitude general-aviation/glacier-
+    flight strip; Google Flights recognises the place but redirects to
+    Bergamo (BGY) or St. Gallen-Altenrhein (ACH) instead of listing any
+    flight of its own.
+  - Flugplatz Speck Fehraltorf - small grass strip, general aviation;
+    Google Flights only treats "Fehraltorf" as a municipality and suggests
+    nearby Zurich Airport instead.
+  - Flugplatz Wangen-Lachen - lake-shore general-aviation strip, no
+    scheduled service.
+  - Grenchen Airport - general aviation/flight school, no scheduled service.
+  - Lausanne Airport (La Blecherette) - general aviation airfield, no
+    scheduled service.
+  - Lugano Airport - lost its last scheduled carrier when Swiss/Adria's
+    Etihad Regional service ended (Swiss International Air Lines ceased
+    operations there in September 2019); now general and business aviation
+    only. Google Flights recognises the place but redirects to Milan
+    Malpensa (MXP) instead of listing a LUG flight.
+  - Luzern-Beromuenster Airport - general aviation airfield, no scheduled
+    service.
+  - Sion Airport - primarily a Swiss Air Force fighter base, with civil
+    aviation as a secondary activity; Helvetic's once-weekly seasonal Palma
+    de Mallorca flight (May-October) is described by aviation sources as an
+    "occasional charter", not regular scheduled service, and Google Flights
+    shows no bookable flight for it, only driving-time/hotel fallbacks.
+
+--- METHOD ---
+For each airport: checked Google Flights (searching by name and/or nearest
+IATA/ICAO code) and cross-referenced the pin on Google Maps to confirm it
+was the same place, then independently corroborated via web search (airline
+route pages, aviation-industry sources, Wikipedia) where Google Flights
+alone left it ambiguous whether traffic was scheduled or seasonal/charter
+(this applied to Bern and Sion in particular, both of which have real but
+non-scheduled leisure-charter activity that could otherwise look like a
+false negative).
+
+--- ASIDE ---
+Basel Airport (EuroAirport Basel-Mulhouse-Freiburg) has genuine year-round
+scheduled service alongside Zurich and Geneva, but never appeared in this
+17-entry list at all - Google addresses it in Saint-Louis, France, so it
+falls outside the Switzerland places sweep by geography, not by the review
+threshold. Not a bug in this list; noted for completeness.
+
+=== END ===

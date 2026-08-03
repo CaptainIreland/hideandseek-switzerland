@@ -18,7 +18,7 @@ Then open http://localhost:4173. The location button needs HTTPS or localhost. O
 - Target places for tentacle-style questions (hospitals, museums, libraries, cinemas, zoos, aquariums, theme parks) with a minimum Google reviews filter
 - A Narrow down tab: enter radar, thermometer, and within answers, and the map keeps only the area that fits every clue
 - Live phone location with a GPS (Global Positioning System) accuracy ring
-- A seven-day browser cache plus a bundled fallback set for weak field connections
+- Live data fetched fresh every time (no browser caching), with the full dataset also baked into app.js so the map works with no network at all
 
 ## Ground truth
 
@@ -56,6 +56,14 @@ Both scripts ask Google which country a place is in and use that answer, rather 
 The house rule makes Google Maps the arbiter, but Google does not publish boundaries, mountains or water bodies. Those layers come from elsewhere and are labelled in the interface as not Google-verified. Settle any dispute on Google Maps.
 
 - Cantons (1st administrative division) and municipalities (3rd) come from swissBOUNDARIES3D, the official federal dataset, via the ch-municipalities project
+- Districts (2nd administrative division) come from OpenStreetMap instead, since swissBOUNDARIES3D's export here does not carry them:
+
+```sh
+python scripts/fetch_districts.py
+```
+
+That writes `data/districts.json` and switches on the district and district-border questions, which stay greyed out until it exists. Not Google-verified; some cantons have abolished districts entirely, which the game treats as a valid null answer.
+
 - Mountain peaks and named water bodies come from OpenStreetMap:
 
 ```sh
@@ -63,8 +71,6 @@ python scripts/fetch_osm_layers.py
 ```
 
 That writes `data/osm-layers.json` and switches on the mountain and water questions, which stay greyed out until it exists. Peaks are filtered to 2000 m and above by default; change MIN_ELEVATION in the script to move that bar.
-
-Districts (2nd administrative division) are not implemented, since the federal dataset used here does not carry them.
 
 ## Questions with no answer in Switzerland
 
@@ -82,9 +88,9 @@ The key is only needed to regenerate the datasets, which is a maintainer job. If
 
 ## Roadmap
 
-1. Done: the Large-game question engine, Google-sourced stations and places, official boundaries, and the viability filter
-2. Next: confirm which airports are commercial via Google Flights, then publish to GitHub Pages
-3. Later: shareable game state in the URL, and Swiss transit overlays
+1. Done: the Large-game question engine, Google-sourced stations and places, official boundaries, shareable game state in the URL, and the viability filter
+2. Next: publish to GitHub Pages
+3. Later: Swiss transit line overlays drawn on the map (line data is already used behind the scenes for matching and measuring questions, but not yet shown as a visible layer)
 
 ## Data and attribution
 
