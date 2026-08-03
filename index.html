@@ -56,7 +56,7 @@
         <p class="section-label">Minimum Google reviews</p>
         <div class="slider-top"><span style="font-size:12px;color:var(--ink-dim)">Hide sparse or unverified places</span><span class="val" id="rev-val">5</span></div>
         <input type="range" id="reviews" min="0" max="50" step="1" value="5">
-        <p class="hint">Applies to target places, not stations. Set to 0 to show everything.</p>
+        <p class="hint">Applies to target places, not stations. Some categories already have a stricter minimum baked in from when the data was built (airports need 100 reviews, hospitals 50), so 0 will not reveal everything in every category.</p>
         <div class="divide"></div>
         <p class="section-label">Google live data</p>
         <input id="gkey" type="password" placeholder="Paste your Google API key" autocomplete="off">
@@ -148,11 +148,11 @@
 
         <div class="divide"></div>
         <p class="section-label">Active clues</p>
-        <p class="hint osm-note" id="osm-note"></p>
-        <p class="hint osm-note" id="district-note"></p>
-        <p class="hint osm-note" id="transit-note"></p>
-        <p class="hint osm-note" id="highspeed-note"></p>
-        <p class="hint osm-note" id="elevation-note"></p>
+        <p class="hint osm-note" id="osm-note" hidden></p>
+        <p class="hint osm-note" id="district-note" hidden></p>
+        <p class="hint osm-note" id="transit-note" hidden></p>
+        <p class="hint osm-note" id="highspeed-note" hidden></p>
+        <p class="hint osm-note" id="elevation-note" hidden></p>
         <div id="clue-list"><p class="hint" id="clue-empty">No clues yet. Add one above and the map narrows down.</p></div>
         <div class="btn-row">
           <button class="ghost" id="share-map">Share this map</button>
@@ -163,7 +163,7 @@
       </div>
     </div>
     <div class="pfoot">
-      Base map and stations &copy; OpenStreetMap contributors · Target place details from Google.<br>
+      Base map and stations &copy; OpenStreetMap contributors · Target place details from Google · Elevation data &copy; swisstopo.<br>
       Unofficial fan project. Not affiliated with Jet Lag: The Game.
     </div>
   </aside>

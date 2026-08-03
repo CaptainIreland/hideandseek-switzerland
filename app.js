@@ -27,10 +27,10 @@ function radiusForZoom(zoom){
 let HIDE_RADIUS_KM=(function(){try{const v=parseFloat(localStorage.getItem("hideRadiusKm"));return Number.isFinite(v)&&v>0?v:1;}catch(e){return 1;}})();
 const MI=1.609344; const hideRadiusM=()=>HIDE_RADIUS_KM*1000;
 // Imperial and metric are parallel official rule sets, not conversions of each
-// other (10 mi radar != 16.1 km radar; the metric card says 15 km). UNIT_TABLE
+// other (10 mi radar != 16.1 km radar; the metric question says 15 km). UNIT_TABLE
 // holds the paired values from the Large-game question pad. Geometry is always
 // built from a plain kilometre number; "unit" travels alongside only so a
-// clue's label can keep showing whatever card it was actually created from.
+// clue's label can keep showing whatever unit preset it was actually created from.
 let UNITS=(function(){try{const v=localStorage.getItem("units");return (v==="mi"||v==="km")?v:"mi";}catch(e){return "mi";}})();
 function setUnits(u){UNITS=u;try{localStorage.setItem("units",u);}catch(e){}}
 const UNIT_TABLE={
@@ -546,6 +546,21 @@ function setTool(t){
   tool=t;
   document.querySelectorAll("#tool-seg button").forEach(x=>setOn(x,x.dataset.tool===t));
   TOOLS.forEach(tt=>{const f=document.getElementById("form-"+tt);if(f)f.hidden=(tt!==tool);});
+  updateNoteVisibility();
+}
+// Each data-source note in the Active clues section is operational status
+// (loaded / needs a script run), not a standing rule, so it should only show
+// while the user has actually picked a reference that depends on it - not
+// clutter every other tool with five lines of status for data it isn't using.
+function updateNoteVisibility(){
+  const mtRef=document.getElementById("mt-ref").value;
+  const msRef=document.getElementById("ms-ref").value;
+  const show=(id,on)=>{const el=document.getElementById(id); if(el) el.hidden=!on;};
+  show("osm-note", (tool==="match"&&mtRef==="mountain")||(tool==="measure"&&(msRef==="mountain"||msRef==="water")));
+  show("district-note", (tool==="match"&&mtRef==="district")||(tool==="measure"&&msRef==="districtborder"));
+  show("transit-note", tool==="match"&&mtRef==="transitline");
+  show("highspeed-note", tool==="measure"&&msRef==="highspeed");
+  show("elevation-note", tool==="measure"&&msRef==="elevation");
 }
 function setAns(group,val){
   ans[group]=val;
@@ -911,6 +926,7 @@ document.getElementById("add-thermo").addEventListener("click",()=>{
 });
 function updateMatchAnsLabels(){
   const isLine=document.getElementById("mt-ref").value==="transitline";
+  updateNoteVisibility();
   const box=document.querySelector('.ans[data-ans="match"]');
   if(!box) return;
   box.querySelector('[data-v="same"]').textContent=isLine?"Yes":"Same as me";
@@ -930,6 +946,7 @@ document.getElementById("add-match").addEventListener("click",()=>{
 });
 function updateMeasureAnsLabels(){
   const isElev=document.getElementById("ms-ref").value==="elevation";
+  updateNoteVisibility();
   const box=document.querySelector('.ans[data-ans="measure"]');
   if(!box) return;
   box.querySelector('[data-v="closer"]').textContent=isElev?"Higher":"Hider closer";
@@ -1130,7 +1147,7 @@ async function loadOsm(){
     OSM.loaded=true;
     waterLineCache=null; voronoiCache.clear();
     document.querySelectorAll("[data-osm]").forEach(o=>{o.disabled=false;});
-    osmStatus(`Mountains (${OSM.peaks.length} peaks above ${OSM.minElevation} m) and ${OSM.waters.length} water bodies loaded from OpenStreetMap. Not Google-verified, so settle disputes on Google Maps.`);
+    osmStatus(`Mountains (${OSM.peaks.length} peaks above ${OSM.minElevation} m) and ${OSM.waters.length} water bodies loaded from OpenStreetMap.`);
   }catch(e){
     document.querySelectorAll("[data-osm]").forEach(o=>{o.disabled=true;});
     osmStatus("Mountain and water questions need data/osm-layers.json. Run scripts/fetch_osm_layers.py to enable them.");
@@ -1148,7 +1165,7 @@ async function loadDistricts(){
     }));
     districtLineCache=null; voronoiCache.clear();
     document.querySelectorAll("[data-district]").forEach(o=>{o.disabled=false;});
-    districtStatus(`${DISTRICTS.length} districts loaded from OpenStreetMap. Not Google-verified, so settle disputes on Google Maps. Some cantons have none, which is a valid null answer.`);
+    districtStatus(`${DISTRICTS.length} districts loaded from OpenStreetMap.`);
   }catch(e){
     document.querySelectorAll("[data-district]").forEach(o=>{o.disabled=true;});
     districtStatus("District questions need data/districts.json. Run scripts/fetch_districts.py to enable them.");
@@ -1169,7 +1186,7 @@ async function loadTransitLines(){
       }
     }
     document.querySelectorAll("[data-transit]").forEach(o=>{o.disabled=false;});
-    transitStatus(`${TRANSIT_LINES.length} rail lines loaded from the Swiss GTFS feed. Heritage and rack railways are not covered, a known gap.`);
+    transitStatus(`${TRANSIT_LINES.length} rail lines loaded from the Swiss GTFS feed.`);
   }catch(e){
     document.querySelectorAll("[data-transit]").forEach(o=>{o.disabled=true;});
     transitStatus("Transit line questions need data/transit-lines.json. Run scripts/fetch_transit_lines.py to enable them.");
@@ -1184,7 +1201,7 @@ async function loadHighSpeedLines(){
     HIGHSPEED_LINES=d.lines||[];
     highspeedLineCache=null;
     document.querySelectorAll("[data-highspeed]").forEach(o=>{o.disabled=false;});
-    highspeedStatus(`${HIGHSPEED_LINES.length} high-speed lines loaded (hand-maintained, EU definition). Not Google-verified.`);
+    highspeedStatus(`${HIGHSPEED_LINES.length} high-speed lines loaded.`);
   }catch(e){
     document.querySelectorAll("[data-highspeed]").forEach(o=>{o.disabled=true;});
     highspeedStatus("High-speed line questions need data/highspeed-lines.json.");
@@ -1199,7 +1216,7 @@ async function loadElevation(){
     ELEVATION_GRID=d;
     elevationFC=null; elevationFlat=null; elevationMax=null;
     document.querySelectorAll("[data-elevation]").forEach(o=>{o.disabled=false;});
-    elevationStatus(`Elevation grid loaded (${d.spacingKm} km spacing, nearest ${d.roundedToM} m). Not Google-verified, (c) swisstopo.`);
+    elevationStatus(`Elevation grid loaded (${d.spacingKm} km spacing, nearest ${d.roundedToM} m).`);
   }catch(e){
     document.querySelectorAll("[data-elevation]").forEach(o=>{o.disabled=true;});
     elevationStatus("Elevation questions need data/elevation.json. Run scripts/fetch_elevation.py to enable them.");
