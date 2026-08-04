@@ -16,7 +16,7 @@ const CATS=[
  {id:"consulate",label:"Consulates",color:"#57534e"},
 ];
 const COLOR=Object.fromEntries(CATS.map(c=>[c.id,c.color])); COLOR.station="#e30613";
-const RAIL_COLOR={highspeed:"#e11d48",regular:"#64748b"};
+const RAIL_COLOR={highspeed:"#eab308",regular:"#64748b"};
 const RAIL_CASING="#14202e";
 const LABEL=Object.fromEntries(CATS.map(c=>[c.id,c.label])); LABEL.station="Train station";
 // Screen-pixel circleMarker radii don't grow with the map, so they read as
@@ -75,6 +75,13 @@ const map=L.map("map",{preferCanvas:true,zoomControl:true}).setView([46.8,8.23],
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
 map.fitBounds(L.latLngBounds([45.79,5.9],[47.85,10.55]).pad(0.02));
 map.createPane("maskPane"); map.getPane("maskPane").style.zIndex=350; map.getPane("maskPane").style.pointerEvents="none";
+// Stations/places/the possible-area outline all default to Leaflet's shared
+// overlayPane (zIndex 400) and preferCanvas means same-pane layers stack by
+// insertion order, not by when they were last drawn - so without a pane of
+// its own, rail could end up on top or underneath depending on which of
+// render()/drawRailLayer() last ran. A dedicated pane below overlayPane
+// makes "rail under markers" hold regardless of call order.
+map.createPane("railPane"); map.getPane("railPane").style.zIndex=390;
 const zoneLayer=L.layerGroup().addTo(map);
 const markerLayer=L.layerGroup().addTo(map);
 const maskLayer=L.layerGroup().addTo(map);
@@ -184,8 +191,8 @@ document.getElementById("units-seg").addEventListener("click",e=>{
     drawDeduction();
   }
 });
-document.getElementById("all-on").addEventListener("click",()=>{state.stationsOn=true;CATS.forEach(c=>state.enabled[c.id]=true);document.querySelectorAll('#layers input').forEach(i=>i.checked=true);render();});
-document.getElementById("all-off").addEventListener("click",()=>{state.stationsOn=false;CATS.forEach(c=>state.enabled[c.id]=false);document.querySelectorAll('#layers input').forEach(i=>i.checked=false);render();});
+document.getElementById("all-on").addEventListener("click",()=>{state.stationsOn=true;state.railHighspeed=true;state.railRegular=true;CATS.forEach(c=>state.enabled[c.id]=true);document.querySelectorAll('#layers input').forEach(i=>i.checked=true);render();drawRailLayer();});
+document.getElementById("all-off").addEventListener("click",()=>{state.stationsOn=false;state.railHighspeed=false;state.railRegular=false;CATS.forEach(c=>state.enabled[c.id]=false);document.querySelectorAll('#layers input').forEach(i=>i.checked=false);render();drawRailLayer();});
 
 /* ---- Tabs ---- */
 function showTab(t){
@@ -557,14 +564,17 @@ function drawRailLayer(){
       n++;
       for(const seg of segs){
         const latlngs=seg.map(c=>[c[1],c[0]]);
-        L.polyline(latlngs,{color:RAIL_CASING,weight:weight+2.5,opacity:.55,interactive:false}).addTo(railLayer);
-        L.polyline(latlngs,{color,weight,opacity,interactive:false}).addTo(railLayer);
+        L.polyline(latlngs,{pane:"railPane",color:RAIL_CASING,weight:weight+2.5,opacity:.55,interactive:false}).addTo(railLayer);
+        L.polyline(latlngs,{pane:"railPane",color,weight,opacity,interactive:false}).addTo(railLayer);
       }
     }
     railCount(id,n);
   };
-  if(state.railHighspeed) draw(HIGHSPEED_LINES,RAIL_COLOR.highspeed,2.5,.9,"rail-highspeed"); else railCount("rail-highspeed",0);
+  // Regular lines draw first so, within railPane, the far denser regular
+  // network (roughly 1,150 lines vs a dozen) doesn't end up inserted after
+  // and covering the high-speed sections wherever the two overlap.
   if(state.railRegular) draw(RAIL_LINES,RAIL_COLOR.regular,1.5,.6,"rail-regular"); else railCount("rail-regular",0);
+  if(state.railHighspeed) draw(HIGHSPEED_LINES,RAIL_COLOR.highspeed,2.5,.9,"rail-highspeed"); else railCount("rail-highspeed",0);
 }
 let drawToken=0;
 function drawDeduction(){
