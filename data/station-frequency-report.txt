@@ -1,0 +1,2037 @@
+=== STATION FREQUENCY AUDIT (>= 1 train per 60 min, 08:00-20:00) ===
+
+Source zip: gtfs_fp2026_20260729.zip
+Feed valid: 2025-12-14 to 2026-12-12
+Dates checked:
+  2026-08-06: 2026-08-06 (Thursday)
+  2026-08-07: 2026-08-07 (Friday)
+  2026-08-08: 2026-08-08 (Saturday)
+  2026-08-09: 2026-08-09 (Sunday)
+
+Stations checked: 1687
+Flagged (worst gap > 60 min on at least one checked date): 245
+Borderline (worst gap within 10 min of the 60 min threshold): 195
+No departures matched on any checked date (check for a name-matching gap before trusting): 152
+Elapsed: 1.9 min
+
+--- FLAGGED: worst gap exceeds 60 minutes on at least one checked date, combined across every line ---
+
+  Affoltern-Weier (47.061916, 7.749856) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 6 trains in window, worst gap 210 min (last train at 16:30 to 20:00)
+
+  Aigle-Hôpital (46.31047, 6.966049) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Apples (46.55088, 6.423579) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Areuse Les Isles Littorail (46.954274, 6.848526) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Arveyes (46.29125, 7.062689) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Avenches (46.8846, 7.040919) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Ballens (46.55226, 6.374459) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Ballens-Froideville (46.54966, 6.390229) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Basel (47.547587, 7.589706) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Basel St. Jakob (47.5426, 7.619529) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Bern Fischermätteli (46.941765, 7.412125) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Bern Stöckacker (46.94635, 7.401179) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Bern Wyler (46.966599, 7.460284) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Bex Pont-Neuf (46.25052, 7.020819) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Bex-Place-du-Marché (46.25091, 7.014429) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Bilten (47.152079, 9.030007) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 12 trains in window, worst gap 475 min (08:33 to 16:28)
+    2026-08-07: 12 trains in window, worst gap 475 min (08:33 to 16:28)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Bière (46.53744, 6.336909) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Blausee Mitholz (46.528965, 7.675556) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Borgnone Cadanza (46.15852, 8.622499) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Bossonnens (46.525707, 6.853238) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 48 trains in window, worst gap 19 min (08:04 to 08:23)
+    2026-08-07: 48 trains in window, worst gap 19 min (08:04 to 08:23)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Bouveret (46.385818, 6.853238) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Brugg AG Ost (47.484043, 8.223762) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Bussy-Chardonney (46.52678, 6.446509) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Bévieux (46.25899, 7.030879) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Capolago Lago (45.906017, 8.980862) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Caslano (45.97774, 8.876289) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Chamby-Musée (46.453822, 6.912404) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 16 trains in window, worst gap 150 min (08:00 to first train at 10:30)
+    2026-08-09: 16 trains in window, worst gap 150 min (08:00 to first train at 10:30)
+
+  Chardonney-Château (46.5347, 6.432559) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Chez-le-Maître-Ecoles (46.599461, 6.222154) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Chigny (46.51602, 6.472249) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Château-d'Hauteville (46.46847, 6.865289) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Château-de-Blonay (46.46835, 6.891749) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Châtel-St-Denis (46.527799, 6.895778) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 48 trains in window, worst gap 29 min (08:29 to 08:58)
+    2026-08-07: 48 trains in window, worst gap 29 min (08:29 to 08:58)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Collombey (46.271191, 6.948756) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Corcelles-Nord (46.835233, 6.960285) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Corseaux-Cornalles (46.470725, 6.824186) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Davos Kongress/Eisstadion (46.799343, 9.833651) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Domdidier (46.868616, 7.011709) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Dompierre FR (46.854572, 6.985568) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Därligen (46.65976, 7.814729) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Dürrenroth (47.091305, 7.792014) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 6 trains in window, worst gap 196 min (last train at 16:44 to 20:00)
+
+  Egg, Station (47.301323, 8.689673) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Ei im Emmental (47.027622, 7.755892) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 2 trains in window, worst gap 360 min (last train at 14:00 to 20:00)
+
+  Emmat (47.292436, 8.701837) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Essert-sous-Champvent (46.795357, 6.580151) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 48 trains in window, worst gap 43 min (08:08 to 08:51)
+    2026-08-09: 48 trains in window, worst gap 43 min (08:08 to 08:51)
+
+  Esslingen (47.287875, 8.709694) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Faoug (46.90831, 7.074547) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Fideris (46.922234, 9.733821) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Fontannaz-Seulaz (46.2676, 7.055849) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Forch, Bahnhof (47.325745, 8.649564) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Foyer Dents-du-Midi (46.256436, 7.029949) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Friedhof Enzenbühl (47.350971, 8.580276) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Furna (46.939552, 9.708982) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Gare de l'Isle-Mont-la-Ville (46.61727, 6.411179) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Gare des Évouettes (46.362849, 6.879446) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Genolier, route de la Colonie (46.43821, 6.212353) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Genolier, village (46.434799, 6.217573) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Grand-Moulin (46.25262, 7.023219) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Grandgourt (47.46979, 7.048266) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Griesbach (47.044332, 7.742116) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 6 trains in window, worst gap 216 min (last train at 16:24 to 20:00)
+
+  Grubenwald (46.579811, 7.382975) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Gryon (46.27358, 7.059709) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Gryon Barboleuse (46.28275, 7.070489) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Gryon Bois-Gentil (46.27773, 7.067549) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Gryon-Chalméry (46.27364, 7.051909) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Haldenstein (46.876961, 9.533084) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Hauteville (46.46626, 6.860889) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Hinteregg (47.305746, 8.684357) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Hirschberg (47.331383, 9.42286) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 47 trains in window, worst gap 30 min (19:29 to 19:59)
+
+  Huttwil Sportzentrum (47.110878, 7.829954) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 6 trains in window, worst gap 208 min (11:22 to 14:50)
+
+  Häusernmoos (47.078583, 7.749685) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 6 trains in window, worst gap 204 min (last train at 16:36 to 20:00)
+
+  Klosters Selfranga (46.856599, 9.882669) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Kreuzplatz (47.364985, 8.554135) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  La Brinaz (46.794449, 6.620206) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 48 trains in window, worst gap 34 min (08:12 to 08:46)
+    2026-08-09: 48 trains in window, worst gap 34 min (08:12 to 08:46)
+
+  La Chaux-de-Fonds-Grenier (47.100543, 6.83357) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 22 trains in window, worst gap 108 min (09:04 to 10:52)
+    2026-08-07: 22 trains in window, worst gap 108 min (09:04 to 10:52)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  La Chiésaz (46.46951, 6.882129) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  La Clairière (46.28834, 7.067999) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  La Corbatière (47.069539, 6.835162) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 22 trains in window, worst gap 96 min (09:10 to 10:46)
+    2026-08-07: 22 trains in window, worst gap 96 min (09:10 to 10:46)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  La Gottaz (46.50655, 6.484459) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  La Plaine (46.178656, 5.999955) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  La Ruaz (46.25308, 7.007719) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  La Sagne (47.039961, 6.802027) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 22 trains in window, worst gap 84 min (09:17 to 10:41)
+    2026-08-07: 22 trains in window, worst gap 84 min (09:17 to 10:41)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  La Sagne-Eglise (47.05095, 6.818461) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 22 trains in window, worst gap 90 min (09:13 to 10:43)
+    2026-08-07: 22 trains in window, worst gap 90 min (09:13 to 10:43)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  La Verrerie (46.58752, 6.924879) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Le Brassus (46.585797, 6.214208) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Le Lieu (46.646977, 6.283365) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Le Lussex (46.55688, 6.600909) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Le Manège (46.55912, 6.432169) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Le Marais (46.52747, 6.462589) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Le Muids, bif. Gare (46.454788, 6.218678) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Le Reymond (47.087078, 6.844086) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 22 trains in window, worst gap 102 min (09:07 to 10:49)
+    2026-08-07: 22 trains in window, worst gap 102 min (09:07 to 10:49)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Le Rocheray (46.624451, 6.250262) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Le Sentier-L'Orient (46.605733, 6.231059) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Le Solliat-La Golisse (46.614399, 6.239024) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Le Stand (47.005017, 6.745268) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 20 trains in window, worst gap 110 min (12:33 to 14:23)
+    2026-08-07: 20 trains in window, worst gap 110 min (12:33 to 14:23)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Le Séchey (46.65847, 6.306009) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Leissigen (46.655118, 7.77498) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Les Charbonnières (46.664291, 6.317034) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Les Coeudres (47.022853, 6.780172) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 20 trains in window, worst gap 103 min (12:37 to 14:20)
+    2026-08-07: 20 trains in window, worst gap 103 min (12:37 to 14:20)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Les Coeudres-Est (47.028799, 6.789545) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 20 trains in window, worst gap 101 min (12:38 to 14:19)
+    2026-08-07: 20 trains in window, worst gap 101 min (12:38 to 14:19)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Les Esserts-de-Rive (46.631977, 6.260359) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Les Fontanelles (46.343132, 7.045451) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Les Granges (46.720959, 6.541478) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Les Ponts-de-Martel (46.999082, 6.735286) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 20 trains in window, worst gap 114 min (12:33 to 14:27)
+    2026-08-07: 20 trains in window, worst gap 114 min (12:33 to 14:27)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Les Posses (46.27117, 7.050889) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Les Salines (46.25484, 7.027639) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Ligerz (47.083788, 7.135156) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Luzern Verkehrshaus (47.053883, 8.336964) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Lötschberg Basistunnel (46.356884, 7.77385) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Magliaso (45.981744, 8.884032) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Magliaso Paese (45.983264, 8.890513) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Maiacher (47.328117, 8.631805) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Malans Ost (46.97612, 9.581215) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Martigny-Expo (46.09729, 7.075572) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Matran (46.788943, 7.096332) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Mauraz (46.58492, 6.429719) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Meggen (47.050164, 8.383036) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Meggen Zentrum (47.044666, 8.373511) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Merlischachen (47.067682, 8.409057) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Montricher (46.59633, 6.393049) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Mundaditsch (46.976952, 9.659818) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Niederbottigen (46.942585, 7.367987) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Orbe (46.724407, 6.530141) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Pampigny-Sévery (46.57698, 6.432169) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Petit-Martel (47.010096, 6.755197) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 20 trains in window, worst gap 108 min (12:34 to 14:22)
+    2026-08-07: 20 trains in window, worst gap 108 min (12:34 to 14:22)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Petit-Martel-Est (47.01459, 6.766819) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 20 trains in window, worst gap 106 min (12:35 to 14:21)
+    2026-08-07: 20 trains in window, worst gap 106 min (12:35 to 14:21)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Ponte Tresa (45.969944, 8.860458) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Pontebrolla (46.18564, 8.753309) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Prélionne (46.50947, 6.480269) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Reichenburg (47.17269, 8.982299) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 12 trains in window, worst gap 482 min (08:30 to 16:32)
+    2026-08-07: 12 trains in window, worst gap 482 min (08:30 to 16:32)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Remaufens (46.523743, 6.876513) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 48 trains in window, worst gap 25 min (08:01 to 08:26)
+    2026-08-07: 48 trains in window, worst gap 25 min (08:01 to 08:26)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Reverolle (46.540416, 6.431031) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Rive Droite Sa - Centre D'imagerie (46.207871, 6.144903) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Rohrfluh (46.603096, 7.914373) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Rosé (46.782485, 7.062181) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Rothrist GB (47.295082, 7.856225) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Ruchfeld (47.533932, 7.612081) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Russin (46.187798, 6.017567) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  S-chanf Marathon (46.619778, 9.997004) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  S.Antonino (46.16042, 8.973927) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Saint-Légier-Gare (46.470856, 6.872071) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Sammelplatz (47.34827, 9.432454) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 47 trains in window, worst gap 30 min (19:26 to 19:56)
+
+  Scheuren (47.322583, 8.659524) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Schiers Schlangenboden (46.961071, 9.7015) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Schübelbach-Buttikon (47.176375, 8.938887) - worst gap 1440 min on 2026-08-08: no departures found in the 08:00-20:00 window
+    2026-08-06: 12 trains in window, worst gap 488 min (08:27 to 16:35)
+    2026-08-07: 12 trains in window, worst gap 488 min (08:27 to 16:35)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Seftigen (46.786893, 7.540272) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Semsales (46.57335, 6.926929) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Siggere (47.243038, 7.605038) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Signaustrasse (47.363228, 8.557621) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Simplontunnel (46.27634, 8.091198) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Sisikon (46.94925, 8.620729) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  St-Cergue, bif. La Chèvrerie (46.451229, 6.173582) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  St-Eloi (46.72061, 6.532005) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  St-Gingolph (46.392175, 6.805919) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  St-Légier-Village (46.47102, 6.876569) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  St-Triphon-Village (46.30207, 6.975789) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Station (47.312792, 8.674001) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Stugl/Stuls (46.65026, 9.723239) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Surava (46.667015, 9.620328) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Tuilerie (46.5928, 6.414219) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Täsch Monte Rosa (46.074532, 7.774757) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Uetendorf (46.774841, 7.572927) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Uetendorf Allmend (46.77312, 7.594889) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Valeyres-sous-Montagny (46.796822, 6.611331) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 48 trains in window, worst gap 37 min (08:11 to 08:48)
+    2026-08-09: 48 trains in window, worst gap 37 min (08:11 to 08:48)
+
+  Vaulruz-Sud (46.619239, 6.989986) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Vevey-Funi (46.468175, 6.835639) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Villars-Bozon (46.61046, 6.402359) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Villaz-St-Pierre (46.7207, 6.960474) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Vionnaz (46.314986, 6.916235) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Vouvry (46.336947, 6.89797) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Vuadens-Sud (46.617962, 7.020172) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Vufflens-le-Château (46.52481, 6.473179) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Wankdorf (46.965324, 7.472142) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Weesen (47.129917, 9.094714) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Weissenbach (46.603545, 7.374245) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Weyermannshaus (46.9508, 7.418727) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Wohlen Fulenbach (47.343437, 8.301089) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Yens (46.51996, 6.427319) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Yverdon William Barbey (46.788986, 6.63167) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 48 trains in window, worst gap 31 min (08:14 to 08:45)
+    2026-08-09: 48 trains in window, worst gap 31 min (08:14 to 08:45)
+
+  Yverdon-Champ Pittet (46.78215, 6.662319) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Zollikerberg (47.346073, 8.603417) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Zollikerberg Spital (47.347337, 8.597148) - worst gap 1440 min on 2026-08-06: no departures found in the 08:00-20:00 window
+    2026-08-06: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-07: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-08: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+    2026-08-09: 0 trains in window, worst gap 1440 min (no departures found in the 08:00-20:00 window)
+
+  Quartino (46.151299, 8.887329) - worst gap 462 min on 2026-08-06: 08:07 to 15:49
+    2026-08-06: 4 trains in window, worst gap 462 min (08:07 to 15:49)
+    2026-08-07: 4 trains in window, worst gap 462 min (08:07 to 15:49)
+    2026-08-08: 3 trains in window, worst gap 462 min (08:07 to 15:49)
+    2026-08-09: 6 trains in window, worst gap 462 min (08:07 to 15:49)
+
+  Magadino-Vira (46.145317, 8.850193) - worst gap 454 min on 2026-08-06: 08:12 to 15:46
+    2026-08-06: 4 trains in window, worst gap 454 min (08:12 to 15:46)
+    2026-08-07: 4 trains in window, worst gap 454 min (08:12 to 15:46)
+    2026-08-08: 3 trains in window, worst gap 454 min (08:12 to 15:46)
+    2026-08-09: 6 trains in window, worst gap 454 min (08:12 to 15:46)
+
+  S.Nazzaro (46.135191, 8.807047) - worst gap 443 min on 2026-08-06: 08:17 to 15:40
+    2026-08-06: 4 trains in window, worst gap 443 min (08:17 to 15:40)
+    2026-08-07: 4 trains in window, worst gap 443 min (08:17 to 15:40)
+    2026-08-08: 3 trains in window, worst gap 443 min (08:17 to 15:40)
+    2026-08-09: 6 trains in window, worst gap 443 min (08:17 to 15:40)
+
+  Gerra (46.122079, 8.784947) - worst gap 435 min on 2026-08-06: 08:20 to 15:35
+    2026-08-06: 3 trains in window, worst gap 435 min (08:20 to 15:35)
+    2026-08-07: 3 trains in window, worst gap 435 min (08:20 to 15:35)
+    2026-08-08: 3 trains in window, worst gap 435 min (08:20 to 15:35)
+    2026-08-09: 6 trains in window, worst gap 435 min (08:20 to 15:35)
+
+  Ranzo-S. Abbondio (46.116979, 8.776609) - worst gap 433 min on 2026-08-06: 08:21 to 15:34
+    2026-08-06: 4 trains in window, worst gap 433 min (08:21 to 15:34)
+    2026-08-07: 4 trains in window, worst gap 433 min (08:21 to 15:34)
+    2026-08-08: 3 trains in window, worst gap 433 min (08:21 to 15:34)
+    2026-08-09: 6 trains in window, worst gap 433 min (08:21 to 15:34)
+
+  Col des Roches (47.049934, 6.726084) - worst gap 207 min on 2026-08-06: 12:13 to 15:40
+    2026-08-06: 7 trains in window, worst gap 207 min (12:13 to 15:40)
+    2026-08-07: 7 trains in window, worst gap 207 min (12:13 to 15:40)
+    2026-08-08: 7 trains in window, worst gap 207 min (12:13 to 15:40)
+    2026-08-09: 7 trains in window, worst gap 207 min (12:13 to 15:40)
+
+  Les Montuires (46.06694, 6.946331) - worst gap 160 min on 2026-08-06: last train at 17:20 to 20:00
+    2026-08-06: 32 trains in window, worst gap 160 min (last train at 17:20 to 20:00)
+    2026-08-07: 32 trains in window, worst gap 160 min (last train at 17:20 to 20:00)
+    2026-08-08: 32 trains in window, worst gap 160 min (last train at 17:20 to 20:00)
+    2026-08-09: 32 trains in window, worst gap 160 min (last train at 17:20 to 20:00)
+
+  Alvaneu (46.671074, 9.651338) - worst gap 147 min on 2026-08-06: last train at 17:33 to 20:00
+    2026-08-06: 28 trains in window, worst gap 147 min (last train at 17:33 to 20:00)
+    2026-08-07: 28 trains in window, worst gap 147 min (last train at 17:33 to 20:00)
+    2026-08-08: 28 trains in window, worst gap 147 min (last train at 17:33 to 20:00)
+    2026-08-09: 28 trains in window, worst gap 147 min (last train at 17:33 to 20:00)
+
+  Schmitten GR Landwasserviadukt (46.680286, 9.672233) - worst gap 145 min on 2026-08-06: last train at 17:35 to 20:00
+    2026-08-06: 28 trains in window, worst gap 145 min (last train at 17:35 to 20:00)
+    2026-08-07: 28 trains in window, worst gap 145 min (last train at 17:35 to 20:00)
+    2026-08-08: 28 trains in window, worst gap 145 min (last train at 17:35 to 20:00)
+    2026-08-09: 28 trains in window, worst gap 145 min (last train at 17:35 to 20:00)
+
+  Lalden (46.301119, 7.909514) - worst gap 140 min on 2026-08-06: last train at 17:40 to 20:00
+    2026-08-06: 12 trains in window, worst gap 140 min (last train at 17:40 to 20:00)
+    2026-08-07: 12 trains in window, worst gap 140 min (last train at 17:40 to 20:00)
+    2026-08-08: 12 trains in window, worst gap 90 min (08:10 to 09:40)
+    2026-08-09: 12 trains in window, worst gap 90 min (08:10 to 09:40)
+
+  Generoso Vetta (45.928103, 9.019004) - worst gap 135 min on 2026-08-06: 08:00 to first train at 10:15
+    2026-08-06: 14 trains in window, worst gap 135 min (08:00 to first train at 10:15)
+    2026-08-07: 14 trains in window, worst gap 135 min (08:00 to first train at 10:15)
+    2026-08-08: 14 trains in window, worst gap 135 min (08:00 to first train at 10:15)
+    2026-08-09: 14 trains in window, worst gap 135 min (08:00 to first train at 10:15)
+
+  Bellavista (45.911118, 9.001137) - worst gap 120 min on 2026-08-06: 08:00 to first train at 10:00
+    2026-08-06: 14 trains in window, worst gap 120 min (08:00 to first train at 10:00)
+    2026-08-07: 14 trains in window, worst gap 120 min (08:00 to first train at 10:00)
+    2026-08-08: 14 trains in window, worst gap 120 min (08:00 to first train at 10:00)
+    2026-08-09: 14 trains in window, worst gap 120 min (08:00 to first train at 10:00)
+
+  Spinas (46.559807, 9.845222) - worst gap 120 min on 2026-08-06: 08:37 to 10:37
+    2026-08-06: 13 trains in window, worst gap 120 min (08:37 to 10:37)
+    2026-08-07: 13 trains in window, worst gap 120 min (08:37 to 10:37)
+    2026-08-08: 13 trains in window, worst gap 120 min (08:37 to 10:37)
+    2026-08-09: 13 trains in window, worst gap 120 min (08:37 to 10:37)
+
+  Basel St. Johann (47.570369, 7.572619) - worst gap 118 min on 2026-08-06: 13:45 to 15:43
+    2026-08-06: 20 trains in window, worst gap 118 min (13:45 to 15:43)
+    2026-08-07: 20 trains in window, worst gap 118 min (13:45 to 15:43)
+    2026-08-08: 19 trains in window, worst gap 62 min (08:43 to 09:45)
+    2026-08-09: 12 trains in window, worst gap 118 min (15:45 to 17:43)
+
+  Campascio (46.244598, 10.131586) - worst gap 107 min on 2026-08-06: 10:08 to 11:55
+    2026-08-06: 14 trains in window, worst gap 107 min (10:08 to 11:55)
+    2026-08-07: 14 trains in window, worst gap 107 min (10:08 to 11:55)
+    2026-08-08: 14 trains in window, worst gap 107 min (10:08 to 11:55)
+    2026-08-09: 14 trains in window, worst gap 107 min (10:08 to 11:55)
+
+  S. Nicolao (45.886379, 8.988875) - worst gap 105 min on 2026-08-06: 08:00 to first train at 09:45
+    2026-08-06: 14 trains in window, worst gap 105 min (08:00 to first train at 09:45)
+    2026-08-07: 14 trains in window, worst gap 105 min (08:00 to first train at 09:45)
+    2026-08-08: 14 trains in window, worst gap 105 min (08:00 to first train at 09:45)
+    2026-08-09: 14 trains in window, worst gap 105 min (08:00 to first train at 09:45)
+
+  Palagnedra (46.161106, 8.630807) - worst gap 98 min on 2026-08-06: 10:22 to 12:00
+    2026-08-06: 15 trains in window, worst gap 98 min (10:22 to 12:00)
+    2026-08-07: 15 trains in window, worst gap 98 min (10:22 to 12:00)
+    2026-08-08: 15 trains in window, worst gap 98 min (10:22 to 12:00)
+    2026-08-09: 15 trains in window, worst gap 98 min (10:22 to 12:00)
+
+  Campocologno (46.233736, 10.141642) - worst gap 97 min on 2026-08-06: 10:12 to 11:49
+    2026-08-06: 16 trains in window, worst gap 97 min (10:12 to 11:49)
+    2026-08-07: 16 trains in window, worst gap 97 min (10:12 to 11:49)
+    2026-08-08: 16 trains in window, worst gap 97 min (10:12 to 11:49)
+    2026-08-09: 16 trains in window, worst gap 97 min (10:12 to 11:49)
+
+  Col-de-Bretaye (46.32193, 7.073609) - worst gap 95 min on 2026-08-06: last train at 18:25 to 20:00
+    2026-08-06: 40 trains in window, worst gap 95 min (last train at 18:25 to 20:00)
+    2026-08-07: 42 trains in window, worst gap 58 min (18:25 to 19:23)
+    2026-08-08: 42 trains in window, worst gap 58 min (18:25 to 19:23)
+    2026-08-09: 40 trains in window, worst gap 95 min (last train at 18:25 to 20:00)
+
+  Rochers de Naye (46.43168, 6.979019) - worst gap 93 min on 2026-08-06: last train at 18:27 to 20:00
+    2026-08-06: 20 trains in window, worst gap 93 min (last train at 18:27 to 20:00)
+    2026-08-07: 20 trains in window, worst gap 93 min (last train at 18:27 to 20:00)
+    2026-08-08: 20 trains in window, worst gap 93 min (last train at 18:27 to 20:00)
+    2026-08-09: 20 trains in window, worst gap 93 min (last train at 18:27 to 20:00)
+
+  Bouquetins (46.3164, 7.072339) - worst gap 91 min on 2026-08-06: last train at 18:29 to 20:00
+    2026-08-06: 40 trains in window, worst gap 91 min (last train at 18:29 to 20:00)
+    2026-08-07: 42 trains in window, worst gap 50 min (18:29 to 19:19)
+    2026-08-08: 42 trains in window, worst gap 50 min (18:29 to 19:19)
+    2026-08-09: 40 trains in window, worst gap 91 min (last train at 18:29 to 20:00)
+
+  La Perche (46.436401, 6.975095) - worst gap 88 min on 2026-08-06: last train at 18:32 to 20:00
+    2026-08-06: 20 trains in window, worst gap 88 min (last train at 18:32 to 20:00)
+    2026-08-07: 20 trains in window, worst gap 88 min (last train at 18:32 to 20:00)
+    2026-08-08: 20 trains in window, worst gap 88 min (last train at 18:32 to 20:00)
+    2026-08-09: 20 trains in window, worst gap 88 min (last train at 18:32 to 20:00)
+
+  Villars-sur-Ollon Golf (46.30912, 7.075489) - worst gap 88 min on 2026-08-06: last train at 18:32 to 20:00
+    2026-08-06: 40 trains in window, worst gap 88 min (last train at 18:32 to 20:00)
+    2026-08-07: 42 trains in window, worst gap 42 min (18:32 to 19:14)
+    2026-08-08: 42 trains in window, worst gap 42 min (18:32 to 19:14)
+    2026-08-09: 40 trains in window, worst gap 88 min (last train at 18:32 to 20:00)
+
+  Jaman (46.441341, 6.976793) - worst gap 85 min on 2026-08-06: last train at 18:35 to 20:00
+    2026-08-06: 20 trains in window, worst gap 85 min (last train at 18:35 to 20:00)
+    2026-08-07: 20 trains in window, worst gap 85 min (last train at 18:35 to 20:00)
+    2026-08-08: 20 trains in window, worst gap 85 min (last train at 18:35 to 20:00)
+    2026-08-09: 20 trains in window, worst gap 85 min (last train at 18:35 to 20:00)
+
+  Li Curt (46.311199, 10.063251) - worst gap 84 min on 2026-08-06: 10:20 to 11:44
+    2026-08-06: 14 trains in window, worst gap 84 min (10:20 to 11:44)
+    2026-08-07: 14 trains in window, worst gap 84 min (10:20 to 11:44)
+    2026-08-08: 14 trains in window, worst gap 84 min (10:20 to 11:44)
+    2026-08-09: 14 trains in window, worst gap 84 min (10:20 to 11:44)
+
+  Col-de-Soud (46.30494, 7.069539) - worst gap 83 min on 2026-08-06: last train at 18:37 to 20:00
+    2026-08-06: 40 trains in window, worst gap 83 min (last train at 18:37 to 20:00)
+    2026-08-07: 42 trains in window, worst gap 35 min (18:37 to 19:12)
+    2026-08-08: 42 trains in window, worst gap 35 min (18:37 to 19:12)
+    2026-08-09: 40 trains in window, worst gap 83 min (last train at 18:37 to 20:00)
+
+  Corcelles-Peseux (46.98335, 6.883809) - worst gap 83 min on 2026-08-06: 15:19 to 16:42
+    2026-08-06: 42 trains in window, worst gap 83 min (15:19 to 16:42)
+    2026-08-07: 42 trains in window, worst gap 83 min (15:19 to 16:42)
+    2026-08-08: 42 trains in window, worst gap 83 min (15:19 to 16:42)
+    2026-08-09: 42 trains in window, worst gap 83 min (15:19 to 16:42)
+
+  Le Locle Le Chalet (47.055895, 6.738849) - worst gap 79 min on 2026-08-06: 14:16 to 15:35
+    2026-08-06: 27 trains in window, worst gap 79 min (14:16 to 15:35)
+    2026-08-07: 28 trains in window, worst gap 79 min (14:16 to 15:35)
+    2026-08-08: 22 trains in window, worst gap 79 min (14:16 to 15:35)
+    2026-08-09: 21 trains in window, worst gap 79 min (14:16 to 15:35)
+
+  Les Deurres (46.985548, 6.899164) - worst gap 79 min on 2026-08-06: 15:20 to 16:39
+    2026-08-06: 42 trains in window, worst gap 79 min (15:20 to 16:39)
+    2026-08-07: 42 trains in window, worst gap 79 min (15:20 to 16:39)
+    2026-08-08: 42 trains in window, worst gap 79 min (15:20 to 16:39)
+    2026-08-09: 42 trains in window, worst gap 79 min (15:20 to 16:39)
+
+  Paccot (46.437759, 6.962689) - worst gap 78 min on 2026-08-06: last train at 18:42 to 20:00
+    2026-08-06: 20 trains in window, worst gap 78 min (last train at 18:42 to 20:00)
+    2026-08-07: 20 trains in window, worst gap 78 min (last train at 18:42 to 20:00)
+    2026-08-08: 20 trains in window, worst gap 78 min (last train at 18:42 to 20:00)
+    2026-08-09: 20 trains in window, worst gap 78 min (last train at 18:42 to 20:00)
+
+  Bonfol (47.474041, 7.155405) - worst gap 77 min on 2026-08-06: 16:51 to 18:08
+    2026-08-06: 44 trains in window, worst gap 77 min (16:51 to 18:08)
+    2026-08-07: 44 trains in window, worst gap 77 min (16:51 to 18:08)
+    2026-08-08: 48 trains in window, worst gap 33 min (08:13 to 08:46)
+    2026-08-09: 48 trains in window, worst gap 33 min (08:13 to 08:46)
+
+  Les Frêtes (47.0586, 6.725765) - worst gap 77 min on 2026-08-06: 14:17 to 15:34
+    2026-08-06: 27 trains in window, worst gap 77 min (14:17 to 15:34)
+    2026-08-07: 28 trains in window, worst gap 77 min (14:17 to 15:34)
+    2026-08-08: 22 trains in window, worst gap 77 min (14:17 to 15:34)
+    2026-08-09: 21 trains in window, worst gap 77 min (14:17 to 15:34)
+
+  Roches Grises (46.29376, 7.061099) - worst gap 77 min on 2026-08-06: last train at 18:43 to 20:00
+    2026-08-06: 40 trains in window, worst gap 77 min (last train at 18:43 to 20:00)
+    2026-08-07: 42 trains in window, worst gap 41 min (19:07 to 19:48)
+    2026-08-08: 42 trains in window, worst gap 41 min (19:07 to 19:48)
+    2026-08-09: 40 trains in window, worst gap 77 min (last train at 18:43 to 20:00)
+
+  Kleine Scheidegg (46.585062, 7.960751) - worst gap 76 min on 2026-08-06: last train at 18:44 to 20:00
+    2026-08-06: 123 trains in window, worst gap 76 min (last train at 18:44 to 20:00)
+    2026-08-07: 123 trains in window, worst gap 76 min (last train at 18:44 to 20:00)
+    2026-08-08: 123 trains in window, worst gap 76 min (last train at 18:44 to 20:00)
+    2026-08-09: 123 trains in window, worst gap 76 min (last train at 18:44 to 20:00)
+
+  Alpiglen (46.600109, 8.001905) - worst gap 75 min on 2026-08-06: last train at 18:45 to 20:00
+    2026-08-06: 42 trains in window, worst gap 75 min (last train at 18:45 to 20:00)
+    2026-08-07: 42 trains in window, worst gap 75 min (last train at 18:45 to 20:00)
+    2026-08-08: 42 trains in window, worst gap 75 min (last train at 18:45 to 20:00)
+    2026-08-09: 42 trains in window, worst gap 75 min (last train at 18:45 to 20:00)
+
+  Cadera (46.345245, 10.05142) - worst gap 75 min on 2026-08-06: 09:25 to 10:40
+    2026-08-06: 13 trains in window, worst gap 75 min (09:25 to 10:40)
+    2026-08-07: 13 trains in window, worst gap 75 min (09:25 to 10:40)
+    2026-08-08: 13 trains in window, worst gap 75 min (09:25 to 10:40)
+    2026-08-09: 12 trains in window, worst gap 75 min (09:25 to 10:40)
+
+  Crêt-d'y-Bau (46.435154, 6.955368) - worst gap 75 min on 2026-08-06: last train at 18:45 to 20:00
+    2026-08-06: 20 trains in window, worst gap 75 min (last train at 18:45 to 20:00)
+    2026-08-07: 20 trains in window, worst gap 75 min (last train at 18:45 to 20:00)
+    2026-08-08: 20 trains in window, worst gap 75 min (last train at 18:45 to 20:00)
+    2026-08-09: 20 trains in window, worst gap 75 min (last train at 18:45 to 20:00)
+
+  Trimbach (47.366065, 7.904283) - worst gap 75 min on 2026-08-06: 13:06 to 14:21
+    2026-08-06: 23 trains in window, worst gap 75 min (13:06 to 14:21)
+    2026-08-07: 23 trains in window, worst gap 75 min (13:06 to 14:21)
+    2026-08-08: 23 trains in window, worst gap 75 min (13:06 to 14:21)
+    2026-08-09: 23 trains in window, worst gap 75 min (13:06 to 14:21)
+
+  Villars-sur-Ollon (46.295975, 7.056165) - worst gap 73 min on 2026-08-06: last train at 18:47 to 20:00
+    2026-08-06: 40 trains in window, worst gap 73 min (last train at 18:47 to 20:00)
+    2026-08-07: 42 trains in window, worst gap 47 min (08:05 to 08:52)
+    2026-08-08: 42 trains in window, worst gap 47 min (08:05 to 08:52)
+    2026-08-09: 40 trains in window, worst gap 73 min (last train at 18:47 to 20:00)
+
+  Wasserauen (47.285561, 9.428618) - worst gap 72 min on 2026-08-06: last train at 18:48 to 20:00
+    2026-08-06: 44 trains in window, worst gap 72 min (last train at 18:48 to 20:00)
+    2026-08-07: 44 trains in window, worst gap 72 min (last train at 18:48 to 20:00)
+    2026-08-08: 44 trains in window, worst gap 72 min (last train at 18:48 to 20:00)
+    2026-08-09: 44 trains in window, worst gap 72 min (last train at 18:48 to 20:00)
+
+  Davos Frauenkirch (46.766754, 9.799378) - worst gap 71 min on 2026-08-06: 10:24 to 11:35
+    2026-08-06: 26 trains in window, worst gap 71 min (10:24 to 11:35)
+    2026-08-07: 26 trains in window, worst gap 71 min (10:24 to 11:35)
+    2026-08-08: 26 trains in window, worst gap 71 min (10:24 to 11:35)
+    2026-08-09: 26 trains in window, worst gap 71 min (10:24 to 11:35)
+
+  Poschiavo (46.324556, 10.054476) - worst gap 71 min on 2026-08-07: 12:25 to 13:36
+    2026-08-06: 36 trains in window, worst gap 67 min (18:25 to 19:32)
+    2026-08-07: 34 trains in window, worst gap 71 min (12:25 to 13:36)
+    2026-08-08: 34 trains in window, worst gap 71 min (12:25 to 13:36)
+    2026-08-09: 34 trains in window, worst gap 71 min (12:25 to 13:36)
+
+  Vendlincourt (47.452156, 7.15704) - worst gap 71 min on 2026-08-06: 16:54 to 18:05
+    2026-08-06: 44 trains in window, worst gap 71 min (16:54 to 18:05)
+    2026-08-07: 44 trains in window, worst gap 71 min (16:54 to 18:05)
+    2026-08-08: 48 trains in window, worst gap 25 min (08:16 to 08:41)
+    2026-08-09: 48 trains in window, worst gap 25 min (08:16 to 08:41)
+
+  Ardon (46.208616, 7.270929) - worst gap 70 min on 2026-08-09: 14:54 to 16:04
+    2026-08-06: 43 trains in window, worst gap 33 min (08:54 to 09:27)
+    2026-08-07: 43 trains in window, worst gap 33 min (08:54 to 09:27)
+    2026-08-08: 43 trains in window, worst gap 33 min (08:54 to 09:27)
+    2026-08-09: 19 trains in window, worst gap 70 min (14:54 to 16:04)
+
+  Corcapolo (46.16877, 8.67583) - worst gap 70 min on 2026-08-06: 11:52 to 13:02
+    2026-08-06: 22 trains in window, worst gap 70 min (11:52 to 13:02)
+    2026-08-07: 22 trains in window, worst gap 70 min (11:52 to 13:02)
+    2026-08-08: 22 trains in window, worst gap 70 min (11:52 to 13:02)
+    2026-08-09: 22 trains in window, worst gap 70 min (11:52 to 13:02)
+
+  Les Echets (46.432182, 6.944893) - worst gap 70 min on 2026-08-06: last train at 18:50 to 20:00
+    2026-08-06: 20 trains in window, worst gap 70 min (last train at 18:50 to 20:00)
+    2026-08-07: 20 trains in window, worst gap 70 min (last train at 18:50 to 20:00)
+    2026-08-08: 20 trains in window, worst gap 70 min (last train at 18:50 to 20:00)
+    2026-08-09: 20 trains in window, worst gap 70 min (last train at 18:50 to 20:00)
+
+  Schwende (47.300056, 9.43559) - worst gap 70 min on 2026-08-06: last train at 18:50 to 20:00
+    2026-08-06: 44 trains in window, worst gap 70 min (last train at 18:50 to 20:00)
+    2026-08-07: 44 trains in window, worst gap 70 min (last train at 18:50 to 20:00)
+    2026-08-08: 44 trains in window, worst gap 70 min (last train at 18:50 to 20:00)
+    2026-08-09: 44 trains in window, worst gap 70 min (last train at 18:50 to 20:00)
+
+  Brandegg (46.60918, 8.011176) - worst gap 69 min on 2026-08-06: last train at 18:51 to 20:00
+    2026-08-06: 42 trains in window, worst gap 69 min (last train at 18:51 to 20:00)
+    2026-08-07: 42 trains in window, worst gap 69 min (last train at 18:51 to 20:00)
+    2026-08-08: 42 trains in window, worst gap 69 min (last train at 18:51 to 20:00)
+    2026-08-09: 42 trains in window, worst gap 69 min (last train at 18:51 to 20:00)
+
+  Les Brenets (47.06721, 6.707391) - worst gap 68 min on 2026-08-06: 14:23 to 15:31
+    2026-08-06: 27 trains in window, worst gap 68 min (14:23 to 15:31)
+    2026-08-07: 28 trains in window, worst gap 68 min (14:23 to 15:31)
+    2026-08-08: 22 trains in window, worst gap 68 min (14:23 to 15:31)
+    2026-08-09: 21 trains in window, worst gap 68 min (14:23 to 15:31)
+
+  Tegna (46.186024, 8.742764) - worst gap 68 min on 2026-08-06: 15:27 to 16:35
+    2026-08-06: 25 trains in window, worst gap 68 min (15:27 to 16:35)
+    2026-08-07: 26 trains in window, worst gap 68 min (15:27 to 16:35)
+    2026-08-08: 25 trains in window, worst gap 68 min (15:27 to 16:35)
+    2026-08-09: 26 trains in window, worst gap 68 min (15:27 to 16:35)
+
+  Verscio (46.184563, 8.729478) - worst gap 68 min on 2026-08-06: 15:29 to 16:37
+    2026-08-06: 26 trains in window, worst gap 68 min (15:29 to 16:37)
+    2026-08-07: 27 trains in window, worst gap 68 min (15:29 to 16:37)
+    2026-08-08: 26 trains in window, worst gap 68 min (15:29 to 16:37)
+    2026-08-09: 27 trains in window, worst gap 68 min (15:29 to 16:37)
+
+  Wengernalp (46.575562, 7.938942) - worst gap 68 min on 2026-08-06: last train at 18:52 to 20:00
+    2026-08-06: 43 trains in window, worst gap 68 min (last train at 18:52 to 20:00)
+    2026-08-07: 43 trains in window, worst gap 68 min (last train at 18:52 to 20:00)
+    2026-08-08: 43 trains in window, worst gap 68 min (last train at 18:52 to 20:00)
+    2026-08-09: 43 trains in window, worst gap 68 min (last train at 18:52 to 20:00)
+
+  Weissbad (47.31044, 9.435698) - worst gap 67 min on 2026-08-06: last train at 18:53 to 20:00
+    2026-08-06: 44 trains in window, worst gap 67 min (last train at 18:53 to 20:00)
+    2026-08-07: 44 trains in window, worst gap 67 min (last train at 18:53 to 20:00)
+    2026-08-08: 44 trains in window, worst gap 67 min (last train at 18:53 to 20:00)
+    2026-08-09: 44 trains in window, worst gap 67 min (last train at 18:53 to 20:00)
+
+  Cavigliano (46.183762, 8.721204) - worst gap 65 min on 2026-08-06: 15:31 to 16:36
+    2026-08-06: 25 trains in window, worst gap 65 min (15:31 to 16:36)
+    2026-08-07: 26 trains in window, worst gap 65 min (15:31 to 16:36)
+    2026-08-08: 25 trains in window, worst gap 65 min (15:31 to 16:36)
+    2026-08-09: 26 trains in window, worst gap 65 min (15:31 to 16:36)
+
+  Le Prese (46.291069, 10.078339) - worst gap 65 min on 2026-08-06: 18:30 to 19:35
+    2026-08-06: 32 trains in window, worst gap 65 min (18:30 to 19:35)
+    2026-08-07: 32 trains in window, worst gap 65 min (18:30 to 19:35)
+    2026-08-08: 32 trains in window, worst gap 65 min (18:30 to 19:35)
+    2026-08-09: 32 trains in window, worst gap 65 min (18:30 to 19:35)
+
+  Steinegg (47.320114, 9.430783) - worst gap 65 min on 2026-08-06: last train at 18:55 to 20:00
+    2026-08-06: 44 trains in window, worst gap 65 min (last train at 18:55 to 20:00)
+    2026-08-07: 44 trains in window, worst gap 65 min (last train at 18:55 to 20:00)
+    2026-08-08: 44 trains in window, worst gap 65 min (last train at 18:55 to 20:00)
+    2026-08-09: 44 trains in window, worst gap 65 min (last train at 18:55 to 20:00)
+
+  Bernina Lagalb (46.436416, 9.991536) - worst gap 64 min on 2026-08-06: 09:25 to 10:29
+    2026-08-06: 26 trains in window, worst gap 64 min (09:25 to 10:29)
+    2026-08-07: 24 trains in window, worst gap 64 min (09:25 to 10:29)
+    2026-08-08: 24 trains in window, worst gap 64 min (09:25 to 10:29)
+    2026-08-09: 24 trains in window, worst gap 64 min (09:25 to 10:29)
+
+  Chamoson (46.18899, 7.240826) - worst gap 64 min on 2026-08-09: 14:57 to 16:01
+    2026-08-06: 43 trains in window, worst gap 33 min (08:57 to 09:30)
+    2026-08-07: 43 trains in window, worst gap 33 min (08:57 to 09:30)
+    2026-08-08: 43 trains in window, worst gap 33 min (08:57 to 09:30)
+    2026-08-09: 19 trains in window, worst gap 64 min (14:57 to 16:01)
+
+  Altstätten Stadt (47.376891, 9.537495) - worst gap 61 min on 2026-08-06: last train at 18:59 to 20:00
+    2026-08-06: 22 trains in window, worst gap 61 min (last train at 18:59 to 20:00)
+    2026-08-07: 22 trains in window, worst gap 61 min (last train at 18:59 to 20:00)
+    2026-08-08: 22 trains in window, worst gap 61 min (last train at 18:59 to 20:00)
+    2026-08-09: 22 trains in window, worst gap 61 min (last train at 18:59 to 20:00)
+
+  Bernina Diavolezza (46.441746, 9.982277) - worst gap 61 min on 2026-08-06: 09:27 to 10:28
+    2026-08-06: 30 trains in window, worst gap 61 min (09:27 to 10:28)
+    2026-08-07: 28 trains in window, worst gap 61 min (09:27 to 10:28)
+    2026-08-08: 28 trains in window, worst gap 61 min (09:27 to 10:28)
+    2026-08-09: 28 trains in window, worst gap 61 min (09:27 to 10:28)
+
+  Brienzwiler (46.745667, 8.090658) - worst gap 61 min on 2026-08-06: 18:58 to 19:59
+    2026-08-06: 23 trains in window, worst gap 61 min (18:58 to 19:59)
+    2026-08-07: 23 trains in window, worst gap 61 min (18:58 to 19:59)
+    2026-08-08: 23 trains in window, worst gap 61 min (18:58 to 19:59)
+    2026-08-09: 23 trains in window, worst gap 61 min (18:58 to 19:59)
+
+  Davos Glaris (46.745348, 9.779844) - worst gap 61 min on 2026-08-06: 10:29 to 11:30
+    2026-08-06: 26 trains in window, worst gap 61 min (10:29 to 11:30)
+    2026-08-07: 26 trains in window, worst gap 61 min (10:29 to 11:30)
+    2026-08-08: 26 trains in window, worst gap 61 min (10:29 to 11:30)
+    2026-08-09: 26 trains in window, worst gap 61 min (10:29 to 11:30)
+
+  Verdasio (46.16521, 8.649199) - worst gap 61 min on 2026-08-06: 10:56 to 11:57
+    2026-08-06: 24 trains in window, worst gap 61 min (10:56 to 11:57)
+    2026-08-07: 25 trains in window, worst gap 61 min (10:56 to 11:57)
+    2026-08-08: 24 trains in window, worst gap 61 min (10:56 to 11:57)
+    2026-08-09: 25 trains in window, worst gap 61 min (10:56 to 11:57)
+
+--- BORDERLINE: worst gap within 10 min of the 60 min threshold, worth a human look ---
+  - Cugy FR (46.816064, 6.889323) - worst gap 50 min on 2026-08-06 (not flagged): 14:34 to 15:24
+  - Grosshöchstetten (46.90427, 7.634774) - worst gap 50 min on 2026-08-09 (not flagged): 08:04 to 08:54
+  - Jenaz (46.929596, 9.718568) - worst gap 50 min on 2026-08-06 (not flagged): 08:04 to 08:54
+  - La Neuveville (47.062884, 7.095181) - worst gap 50 min on 2026-08-06 (not flagged): 09:04 to 09:54
+  - La Tour-de-Trême Ronclina (46.605618, 7.061441) - worst gap 50 min on 2026-08-08 (not flagged): 08:02 to 08:52
+  - Le Pont (46.668669, 6.324767) - worst gap 50 min on 2026-08-06 (not flagged): 08:32 to 09:22
+  - Lenk im Simmental (46.45858, 7.443519) - worst gap 50 min on 2026-08-06 (not flagged): 08:35 to 09:25
+  - Les Fumeaux (46.11008, 7.064608) - worst gap 50 min on 2026-08-06 (not flagged): 08:15 to 09:05
+  - Les Granges-Gérignoz (46.474167, 7.154946) - worst gap 50 min on 2026-08-06 (not flagged): 08:02 to 08:52
+  - Les Marécottes (46.112312, 7.011691) - worst gap 50 min on 2026-08-06 (not flagged): 08:43 to 09:33
+  - Mels (47.053822, 9.418078) - worst gap 50 min on 2026-08-06 (not flagged): 08:04 to 08:54
+  - Nieder-und Oberurnen (47.12236, 9.062369) - worst gap 50 min on 2026-08-06 (not flagged): 08:04 to 08:54
+  - Niederbipp Dorf (47.26582, 7.695139) - worst gap 50 min on 2026-08-09 (not flagged): 08:17 to 09:07
+  - Niederbipp Industrie (47.27864, 7.703169) - worst gap 50 min on 2026-08-09 (not flagged): 08:18 to 09:08
+  - Noiraigue (46.95489, 6.72178) - worst gap 50 min on 2026-08-06 (not flagged): 09:03 to 09:53
+  - Pontresina (46.490754, 9.896282) - worst gap 50 min on 2026-08-06 (not flagged): 08:05 to 08:55
+  - Reckingen VS (46.46822, 8.243879) - worst gap 50 min on 2026-08-06 (not flagged): 08:29 to 09:19
+  - Rietli (47.360699, 9.487125) - worst gap 50 min on 2026-08-06 (not flagged): last train at 19:10 to 20:00
+  - Rümikon AG (47.565352, 8.374084) - worst gap 50 min on 2026-08-06 (not flagged): 08:33 to 09:23
+  - Schönried (46.50454, 7.291099) - worst gap 50 min on 2026-08-06 (not flagged): 09:34 to 10:24
+  - Six-Fontaines (46.774223, 6.498772) - worst gap 50 min on 2026-08-08 (not flagged): 08:05 to 08:55
+  - Airolo (46.527597, 8.608838) - worst gap 51 min on 2026-08-06 (not flagged): 19:06 to 19:57
+  - Belmont-sur-Montreux (46.44204, 6.906119) - worst gap 51 min on 2026-08-06 (not flagged): 12:08 to 12:59
+  - Dotzigen (47.118924, 7.338055) - worst gap 51 min on 2026-08-06 (not flagged): 08:48 to 09:39
+  - Engelberg (46.819473, 8.402618) - worst gap 51 min on 2026-08-06 (not flagged): 08:02 to 08:53
+  - Faido (46.483099, 8.790711) - worst gap 51 min on 2026-08-06 (not flagged): 08:34 to 09:25
+  - Frinvillier Taubenloch (47.169532, 7.257396) - worst gap 51 min on 2026-08-06 (not flagged): 08:35 to 09:26
+  - Goppenstein (46.367717, 7.754904) - worst gap 51 min on 2026-08-06 (not flagged): 08:01 to 08:52
+  - Hasle LU (46.978062, 8.047001) - worst gap 51 min on 2026-08-06 (not flagged): 08:03 to 08:54
+  - Kleindietwil (47.146263, 7.790966) - worst gap 51 min on 2026-08-09 (not flagged): 08:31 to 09:22
+  - Klosters Dorf (46.883617, 9.875225) - worst gap 51 min on 2026-08-06 (not flagged): 08:33 to 09:24
+  - Mühlehorn (47.117802, 9.172998) - worst gap 51 min on 2026-08-06 (not flagged): 08:34 to 09:25
+  - Oey-Diemtigen (46.659889, 7.579158) - worst gap 51 min on 2026-08-06 (not flagged): 10:33 to 11:24
+  - Pontenet (47.238842, 7.254152) - worst gap 51 min on 2026-08-06 (not flagged): 09:01 to 09:52
+  - Salez Sennwald (47.241465, 9.502296) - worst gap 51 min on 2026-08-06 (not flagged): 08:33 to 09:24
+  - Sedrun (46.68106, 8.769779) - worst gap 51 min on 2026-08-06 (not flagged): 08:32 to 09:23
+  - Solothurn Baseltor (47.209863, 7.541597) - worst gap 51 min on 2026-08-09 (not flagged): 08:47 to 09:38
+  - Stoss AR (47.360786, 9.495121) - worst gap 51 min on 2026-08-06 (not flagged): last train at 19:09 to 20:00
+  - Arnegg (47.442053, 9.252095) - worst gap 52 min on 2026-08-09 (not flagged): 08:33 to 09:25
+  - Castrisch (46.778404, 9.232821) - worst gap 52 min on 2026-08-06 (not flagged): 08:33 to 09:25
+  - Champéry (46.17495, 6.871489) - worst gap 52 min on 2026-08-06 (not flagged): 08:48 to 09:40
+  - Filisur (46.675196, 9.682323) - worst gap 52 min on 2026-08-06 (not flagged): 08:04 to 08:56
+  - Kreuzlingen Bernrain (47.6425, 9.162161) - worst gap 52 min on 2026-08-09 (not flagged): 08:32 to 09:24
+  - Laufenburg (47.559769, 8.061293) - worst gap 52 min on 2026-08-06 (not flagged): 08:34 to 09:26
+  - Le Creux-des-Biches (47.20346, 6.940659) - worst gap 52 min on 2026-08-06 (not flagged): 08:30 to 09:22
+  - Les Emibois (47.231895, 6.98485) - worst gap 52 min on 2026-08-06 (not flagged): 08:31 to 09:23
+  - Les Plantaz (46.390869, 6.229341) - worst gap 52 min on 2026-08-09 (not flagged): 17:38 to 18:30
+  - Les Pléiades (46.48336, 6.909939) - worst gap 52 min on 2026-08-06 (not flagged): 08:35 to 09:27
+  - Lotzwil (47.189493, 7.788701) - worst gap 52 min on 2026-08-09 (not flagged): 08:32 to 09:24
+  - Mumpé Tujetsch (46.682001, 8.824444) - worst gap 52 min on 2026-08-06 (not flagged): 08:32 to 09:24
+  - Oberriet SG (47.323462, 9.571323) - worst gap 52 min on 2026-08-06 (not flagged): 08:33 to 09:25
+  - Saxon (46.149352, 7.173423) - worst gap 52 min on 2026-08-09 (not flagged): 09:03 to 09:55
+  - Sonvilier (47.141275, 6.969627) - worst gap 52 min on 2026-08-06 (not flagged): 08:03 to 08:55
+  - Turtmann (46.309342, 7.700021) - worst gap 52 min on 2026-08-09 (not flagged): 09:33 to 10:25
+  - Tüscherz (47.115, 7.1973) - worst gap 52 min on 2026-08-06 (not flagged): 09:03 to 09:55
+  - Villy (46.286858, 6.99431) - worst gap 52 min on 2026-08-08 (not flagged): 18:47 to 19:39
+  - Cavaglia (46.364239, 10.043956) - worst gap 53 min on 2026-08-06 (not flagged): 09:58 to 10:51
+  - Corcelles BE (47.285682, 7.45049) - worst gap 53 min on 2026-08-06 (not flagged): 08:01 to 08:54
+  - Corcelles Sud (46.82885, 6.957189) - worst gap 53 min on 2026-08-06 (not flagged): 14:33 to 15:26
+  - Gettnau (47.140141, 7.970138) - worst gap 53 min on 2026-08-09 (not flagged): 08:01 to 08:54
+  - La Combe (47.284328, 7.099512) - worst gap 53 min on 2026-08-06 (not flagged): 08:01 to 08:54
+  - La Heutte (47.189479, 7.225289) - worst gap 53 min on 2026-08-06 (not flagged): 08:33 to 09:26
+  - La Médettaz (46.108834, 7.007839) - worst gap 53 min on 2026-08-06 (not flagged): 08:42 to 09:35
+  - Lindenholz (47.154588, 7.790437) - worst gap 53 min on 2026-08-09 (not flagged): 08:30 to 09:23
+  - Locarno S. Antonio (46.168819, 8.786323) - worst gap 53 min on 2026-08-06 (not flagged): 10:30 to 11:23
+  - Madulain (46.586983, 9.938332) - worst gap 53 min on 2026-08-06 (not flagged): 09:32 to 10:25
+  - Monthey-Hôpital (46.25188, 6.940749) - worst gap 53 min on 2026-08-06 (not flagged): 09:17 to 10:10
+  - Mühlau (47.225055, 8.388536) - worst gap 53 min on 2026-08-06 (not flagged): 08:32 to 09:25
+  - Rabius-Surrein (46.732567, 8.957165) - worst gap 53 min on 2026-08-06 (not flagged): 08:03 to 08:56
+  - Salgesch (46.309481, 7.578998) - worst gap 53 min on 2026-08-09 (not flagged): 08:32 to 09:25
+  - Schachen LU (47.03796, 8.143249) - worst gap 53 min on 2026-08-06 (not flagged): 08:32 to 09:25
+  - Vuarennes (46.43912, 6.910969) - worst gap 53 min on 2026-08-06 (not flagged): 12:07 to 13:00
+  - - Château-d'Oex (46.475848, 7.143787) - worst gap 54 min on 2026-08-06 (not flagged): 08:00 to 08:54
+  - Bossière (46.509749, 6.699321) - worst gap 54 min on 2026-08-06 (not flagged): 08:02 to 08:56
+  - Brusio (46.259142, 10.124999) - worst gap 54 min on 2026-08-06 (not flagged): 08:02 to 08:56
+  - Buttes (46.888207, 6.553167) - worst gap 54 min on 2026-08-06 (not flagged): 09:31 to 10:25
+  - Celerina Staz (46.509735, 9.865045) - worst gap 54 min on 2026-08-08 (not flagged): last train at 19:06 to 20:00
+  - Enney (46.565403, 7.085237) - worst gap 54 min on 2026-08-06 (not flagged): 12:01 to 12:55
+  - Erstfeld (46.82034, 8.650439) - worst gap 54 min on 2026-08-06 (not flagged): 08:30 to 09:24
+  - Etiez (46.082951, 7.160579) - worst gap 54 min on 2026-08-06 (not flagged): 12:10 to 13:04
+  - Geschinen (46.49165, 8.282109) - worst gap 54 min on 2026-08-06 (not flagged): 08:27 to 09:21
+  - Innertkirchen Kraftwerk (46.702268, 8.23263) - worst gap 54 min on 2026-08-06 (not flagged): 09:02 to 09:56
+  - Kreuzstrasse (47.365627, 9.505236) - worst gap 54 min on 2026-08-06 (not flagged): last train at 19:06 to 20:00
+  - Küssnacht am Rigi (47.083583, 8.433536) - worst gap 54 min on 2026-08-06 (not flagged): 08:32 to 09:26
+  - La Roulaz (46.33132, 7.001479) - worst gap 54 min on 2026-08-06 (not flagged): 09:10 to 10:04
+  - Le Noirmont (47.223259, 6.956473) - worst gap 54 min on 2026-08-06 (not flagged): 08:30 to 09:24
+  - Nidfurn-Haslen (46.985835, 9.059261) - worst gap 54 min on 2026-08-06 (not flagged): 08:01 to 08:55
+  - Niederrickenbach (46.928112, 8.395941) - worst gap 54 min on 2026-08-06 (not flagged): 08:30 to 09:24
+  - Route de Morgins (46.232165, 6.921371) - worst gap 54 min on 2026-08-06 (not flagged): 10:17 to 11:11
+  - Sonzier (46.439326, 6.921514) - worst gap 54 min on 2026-08-06 (not flagged): 19:01 to 19:55
+  - Sorvilier (47.239399, 7.304803) - worst gap 54 min on 2026-08-06 (not flagged): 09:00 to 09:54
+  - Veytaux-Chillon (46.417624, 6.927906) - worst gap 54 min on 2026-08-06 (not flagged): 09:02 to 09:56
+  - Villars-sous-Mont (46.5438, 7.072939) - worst gap 54 min on 2026-08-06 (not flagged): 12:05 to 12:59
+  - Bernina Suot (46.445019, 9.969691) - worst gap 55 min on 2026-08-06 (not flagged): 09:30 to 10:25
+  - Frutigen (46.588721, 7.651341) - worst gap 55 min on 2026-08-06 (not flagged): 10:29 to 11:24
+  - La Vuarpillière (46.399101, 6.217042) - worst gap 55 min on 2026-08-09 (not flagged): 17:36 to 18:31
+  - Le Pâquier-Montbarry (46.594681, 7.059689) - worst gap 55 min on 2026-08-08 (not flagged): 09:00 to 09:55
+  - Mellikon (47.568439, 8.352511) - worst gap 55 min on 2026-08-06 (not flagged): 08:31 to 09:26
+  - Miralago (46.273209, 10.099678) - worst gap 55 min on 2026-08-06 (not flagged): 18:35 to 19:30
+  - Oberalp (46.660456, 8.67021) - worst gap 55 min on 2026-08-06 (not flagged): 08:59 to 09:54
+  - Ringoldingen (46.657561, 7.524576) - worst gap 55 min on 2026-08-06 (not flagged): 08:30 to 09:25
+  - St-Cergue Les Cheseaux (46.44688, 6.147279) - worst gap 55 min on 2026-08-08 (not flagged): 13:07 to 14:02
+  - Villeret (47.16019, 7.019777) - worst gap 55 min on 2026-08-06 (not flagged): 08:02 to 08:57
+  - Warmesberg (47.365345, 9.513222) - worst gap 55 min on 2026-08-06 (not flagged): last train at 19:05 to 20:00
+  - Bretonnières (46.715068, 6.474756) - worst gap 56 min on 2026-08-06 (not flagged): 08:31 to 09:27
+  - Bugnei (46.68235, 8.786459) - worst gap 56 min on 2026-08-06 (not flagged): 08:29 to 09:25
+  - Château-d'Œx (46.474754, 7.132093) - worst gap 56 min on 2026-08-06 (not flagged): 08:58 to 09:54
+  - Fiesch Feriendorf (46.39732, 8.130769) - worst gap 56 min on 2026-08-06 (not flagged): 17:57 to 18:53
+  - Le Sépey (46.36124, 7.052789) - worst gap 56 min on 2026-08-06 (not flagged): 08:57 to 09:53
+  - Les Arnoux (46.291641, 6.996744) - worst gap 56 min on 2026-08-08 (not flagged): 18:45 to 19:41
+  - Les Neys (46.23602, 6.924779) - worst gap 56 min on 2026-08-06 (not flagged): 10:16 to 11:12
+  - Sembrancher (46.076931, 7.145829) - worst gap 56 min on 2026-08-06 (not flagged): 12:09 to 13:05
+  - Solduno (46.169472, 8.777609) - worst gap 56 min on 2026-08-06 (not flagged): 10:28 to 11:24
+  - Tramelan (47.222873, 7.104305) - worst gap 56 min on 2026-08-06 (not flagged): 08:56 to 09:52
+  - Trélex (46.41372, 6.206419) - worst gap 56 min on 2026-08-09 (not flagged): 17:37 to 18:33
+  - Wynigen (47.10507, 7.663449) - worst gap 56 min on 2026-08-06 (not flagged): 08:30 to 09:26
+  - Alter Zoll (47.368584, 9.522043) - worst gap 57 min on 2026-08-06 (not flagged): last train at 19:03 to 20:00
+  - Büren an der Aare (47.138218, 7.371243) - worst gap 57 min on 2026-08-06 (not flagged): 08:46 to 09:43
+  - Chemex (46.245903, 6.931805) - worst gap 57 min on 2026-08-06 (not flagged): 09:15 to 10:12
+  - Grandval (47.283578, 7.421941) - worst gap 57 min on 2026-08-06 (not flagged): 08:00 to 08:57
+  - Gutenburg (47.181819, 7.793305) - worst gap 57 min on 2026-08-09 (not flagged): 08:28 to 09:25
+  - L'Asse (46.401772, 6.211841) - worst gap 57 min on 2026-08-09 (not flagged): 17:35 to 18:32
+  - Lüen-Castiel (46.831833, 9.613267) - worst gap 57 min on 2026-08-06 (not flagged): 08:27 to 09:24
+  - Madiswil (47.166975, 7.795857) - worst gap 57 min on 2026-08-09 (not flagged): 08:29 to 09:26
+  - Punt Muragl Staz (46.507557, 9.880112) - worst gap 57 min on 2026-08-08 (not flagged): last train at 19:03 to 20:00
+  - Tramelan-Dessous (47.222485, 7.112744) - worst gap 57 min on 2026-08-06 (not flagged): 08:57 to 09:54
+  - Chamby (46.449322, 6.913515) - worst gap 58 min on 2026-08-06 (not flagged): 08:58 to 09:56
+  - Croix-du-Nant (46.23967, 6.927449) - worst gap 58 min on 2026-08-06 (not flagged): 10:15 to 11:13
+  - Crémines (47.28561, 7.435482) - worst gap 58 min on 2026-08-06 (not flagged): 08:59 to 09:57
+  - Erlenbach im Simmental (46.659158, 7.555305) - worst gap 58 min on 2026-08-06 (not flagged): 10:30 to 11:28
+  - Fiesch (46.406089, 8.134153) - worst gap 58 min on 2026-08-06 (not flagged): 17:55 to 18:53
+  - Heiden (47.445997, 9.536518) - worst gap 58 min on 2026-08-06 (not flagged): 08:30 to 09:28
+  - Hohtenn (46.322464, 7.764094) - worst gap 58 min on 2026-08-06 (not flagged): 08:56 to 09:54
+  - Litzirüti (46.798125, 9.703167) - worst gap 58 min on 2026-08-06 (not flagged): 08:58 to 09:56
+  - Malleray Bévilard (47.238705, 7.275931) - worst gap 58 min on 2026-08-06 (not flagged): 08:57 to 09:55
+  - Preda (46.588272, 9.777374) - worst gap 58 min on 2026-08-06 (not flagged): 08:30 to 09:28
+  - St. Urban Ziegelei (47.2272, 7.836148) - worst gap 58 min on 2026-08-06 (not flagged): 08:55 to 09:53
+  - Sumvitg-Cumpadials (46.724064, 8.931024) - worst gap 58 min on 2026-08-06 (not flagged): 08:00 to 08:58
+  - Territet (46.426449, 6.922721) - worst gap 58 min on 2026-08-06 (not flagged): 09:00 to 09:58
+  - Tägerwilen Dorf (47.653717, 9.139559) - worst gap 58 min on 2026-08-09 (not flagged): 08:29 to 09:27
+  - Bitsch (46.33606, 8.017219) - worst gap 59 min on 2026-08-06 (not flagged): 18:28 to 19:27
+  - Bovernier (46.078693, 7.082156) - worst gap 59 min on 2026-08-06 (not flagged): 08:01 to 09:00
+  - Castione (46.22364, 9.041501) - worst gap 59 min on 2026-08-06 (not flagged): 18:04 to 19:03
+  - Champ-du-Moulin (46.959899, 6.774486) - worst gap 59 min on 2026-08-06 (not flagged): 08:58 to 09:57
+  - Châteauneuf-Conthey (46.21611, 7.3051) - worst gap 59 min on 2026-08-09 (not flagged): 14:59 to 15:58
+  - Court (47.240608, 7.342111) - worst gap 59 min on 2026-08-06 (not flagged): 12:27 to 13:26
+  - Gare de Riddes (46.172462, 7.217888) - worst gap 59 min on 2026-08-09 (not flagged): 09:00 to 09:59
+  - Gruben (46.49054, 7.280129) - worst gap 59 min on 2026-08-06 (not flagged): 08:29 to 09:28
+  - Hauptwil (47.476867, 9.251591) - worst gap 59 min on 2026-08-09 (not flagged): 08:30 to 09:29
+  - Immensee (47.09161, 8.462659) - worst gap 59 min on 2026-08-06 (not flagged): 08:29 to 09:28
+  - Münster (46.485363, 8.26654) - worst gap 59 min on 2026-08-06 (not flagged): 08:24 to 09:23
+  - Ollon VD (46.296853, 6.993232) - worst gap 59 min on 2026-08-08 (not flagged): 18:44 to 19:43
+  - Reuchenette-Péry (47.189815, 7.246947) - worst gap 59 min on 2026-08-06 (not flagged): 08:30 to 09:29
+  - Rüthi SG (47.286765, 9.536052) - worst gap 59 min on 2026-08-06 (not flagged): 08:29 to 09:28
+  - Saint-Cergue (46.448466, 6.160296) - worst gap 59 min on 2026-08-09 (not flagged): 17:04 to 18:03
+  - Solduno S. Martino (46.172, 8.770369) - worst gap 59 min on 2026-08-06 (not flagged): 10:27 to 11:26
+  - Susch (46.752056, 10.079457) - worst gap 59 min on 2026-08-06 (not flagged): 08:59 to 09:58
+  - Trélex dépôt (46.406612, 6.208841) - worst gap 59 min on 2026-08-09 (not flagged): 17:35 to 18:34
+  - Alle (47.424229, 7.128249) - worst gap 60 min on 2026-08-06 (not flagged): 16:59 to 17:59
+  - Allmend (46.594033, 7.931972) - worst gap 60 min on 2026-08-06 (not flagged): last train at 19:00 to 20:00
+  - Baulmes (46.788746, 6.524284) - worst gap 60 min on 2026-08-08 (not flagged): 08:00 to 09:00
+  - Bollement (47.296925, 7.123865) - worst gap 60 min on 2026-08-08 (not flagged): 16:58 to 17:58
+  - Caux (46.431141, 6.938515) - worst gap 60 min on 2026-08-06 (not flagged): 18:55 to 19:55
+  - Colombier NE (46.967639, 6.848942) - worst gap 60 min on 2026-08-06 (not flagged): 13:27 to 14:27
+  - Càmedo (46.15487, 8.610999) - worst gap 60 min on 2026-08-06 (not flagged): 17:25 to 18:25
+  - Gruyères (46.582639, 7.073183) - worst gap 60 min on 2026-08-08 (not flagged): 08:57 to 09:57
+  - Haut de Caux (46.43437, 6.947949) - worst gap 60 min on 2026-08-06 (not flagged): 18:59 to 19:59
+  - Lavorgo (46.440964, 8.839765) - worst gap 60 min on 2026-08-06 (not flagged): 18:32 to 19:32
+  - Le Trétien (46.102318, 6.997724) - worst gap 60 min on 2026-08-06 (not flagged): 08:38 to 09:38
+  - Les Sciernes (46.491463, 7.034222) - worst gap 60 min on 2026-08-06 (not flagged): 11:28 to 12:28
+  - Rekingen (47.570229, 8.327609) - worst gap 60 min on 2026-08-06 (not flagged): 08:28 to 09:28
+  - Rennaz (46.327358, 7.000885) - worst gap 60 min on 2026-08-06 (not flagged): 09:08 to 10:08
+  - Steinerberg (47.05227, 8.585241) - worst gap 60 min on 2026-08-06 (not flagged): 08:58 to 09:58
+  - Twann (47.09366, 7.156499) - worst gap 60 min on 2026-08-06 (not flagged): 08:59 to 09:59
+  - Vuiteboeuf (46.803757, 6.55374) - worst gap 60 min on 2026-08-06 (not flagged): 09:43 to 10:43
+  - Altstätten Stadt (47.376891, 9.537495) - worst gap 61 min on 2026-08-06 (FLAGGED): last train at 18:59 to 20:00
+  - Bernina Diavolezza (46.441746, 9.982277) - worst gap 61 min on 2026-08-06 (FLAGGED): 09:27 to 10:28
+  - Brienzwiler (46.745667, 8.090658) - worst gap 61 min on 2026-08-06 (FLAGGED): 18:58 to 19:59
+  - Davos Glaris (46.745348, 9.779844) - worst gap 61 min on 2026-08-06 (FLAGGED): 10:29 to 11:30
+  - Verdasio (46.16521, 8.649199) - worst gap 61 min on 2026-08-06 (FLAGGED): 10:56 to 11:57
+  - Bernina Lagalb (46.436416, 9.991536) - worst gap 64 min on 2026-08-06 (FLAGGED): 09:25 to 10:29
+  - Chamoson (46.18899, 7.240826) - worst gap 64 min on 2026-08-09 (FLAGGED): 14:57 to 16:01
+  - Cavigliano (46.183762, 8.721204) - worst gap 65 min on 2026-08-06 (FLAGGED): 15:31 to 16:36
+  - Le Prese (46.291069, 10.078339) - worst gap 65 min on 2026-08-06 (FLAGGED): 18:30 to 19:35
+  - Steinegg (47.320114, 9.430783) - worst gap 65 min on 2026-08-06 (FLAGGED): last train at 18:55 to 20:00
+  - Weissbad (47.31044, 9.435698) - worst gap 67 min on 2026-08-06 (FLAGGED): last train at 18:53 to 20:00
+  - Les Brenets (47.06721, 6.707391) - worst gap 68 min on 2026-08-06 (FLAGGED): 14:23 to 15:31
+  - Tegna (46.186024, 8.742764) - worst gap 68 min on 2026-08-06 (FLAGGED): 15:27 to 16:35
+  - Verscio (46.184563, 8.729478) - worst gap 68 min on 2026-08-06 (FLAGGED): 15:29 to 16:37
+  - Wengernalp (46.575562, 7.938942) - worst gap 68 min on 2026-08-06 (FLAGGED): last train at 18:52 to 20:00
+  - Brandegg (46.60918, 8.011176) - worst gap 69 min on 2026-08-06 (FLAGGED): last train at 18:51 to 20:00
+  - Ardon (46.208616, 7.270929) - worst gap 70 min on 2026-08-09 (FLAGGED): 14:54 to 16:04
+  - Corcapolo (46.16877, 8.67583) - worst gap 70 min on 2026-08-06 (FLAGGED): 11:52 to 13:02
+  - Les Echets (46.432182, 6.944893) - worst gap 70 min on 2026-08-06 (FLAGGED): last train at 18:50 to 20:00
+  - Schwende (47.300056, 9.43559) - worst gap 70 min on 2026-08-06 (FLAGGED): last train at 18:50 to 20:00
+
+--- NO DEPARTURES MATCHED ON ANY CHECKED DATE: likely a name-matching gap, not a real 12-hour service gap ---
+Check these by hand against the GTFS feed before treating them as a genuine low-frequency station:
+  - Aigle-Hôpital (46.31047, 6.966049)
+  - Apples (46.55088, 6.423579)
+  - Areuse Les Isles Littorail (46.954274, 6.848526)
+  - Arveyes (46.29125, 7.062689)
+  - Avenches (46.8846, 7.040919)
+  - Ballens (46.55226, 6.374459)
+  - Ballens-Froideville (46.54966, 6.390229)
+  - Basel (47.547587, 7.589706)
+  - Basel St. Jakob (47.5426, 7.619529)
+  - Bern Fischermätteli (46.941765, 7.412125)
+  - Bern Stöckacker (46.94635, 7.401179)
+  - Bern Wyler (46.966599, 7.460284)
+  - Bex Pont-Neuf (46.25052, 7.020819)
+  - Bex-Place-du-Marché (46.25091, 7.014429)
+  - Bière (46.53744, 6.336909)
+  - Blausee Mitholz (46.528965, 7.675556)
+  - Borgnone Cadanza (46.15852, 8.622499)
+  - Bouveret (46.385818, 6.853238)
+  - Brugg AG Ost (47.484043, 8.223762)
+  - Bussy-Chardonney (46.52678, 6.446509)
+  - Bévieux (46.25899, 7.030879)
+  - Capolago Lago (45.906017, 8.980862)
+  - Caslano (45.97774, 8.876289)
+  - Chardonney-Château (46.5347, 6.432559)
+  - Chez-le-Maître-Ecoles (46.599461, 6.222154)
+  - Chigny (46.51602, 6.472249)
+  - Château-d'Hauteville (46.46847, 6.865289)
+  - Château-de-Blonay (46.46835, 6.891749)
+  - Collombey (46.271191, 6.948756)
+  - Corcelles-Nord (46.835233, 6.960285)
+  - Corseaux-Cornalles (46.470725, 6.824186)
+  - Davos Kongress/Eisstadion (46.799343, 9.833651)
+  - Domdidier (46.868616, 7.011709)
+  - Dompierre FR (46.854572, 6.985568)
+  - Därligen (46.65976, 7.814729)
+  - Egg, Station (47.301323, 8.689673)
+  - Emmat (47.292436, 8.701837)
+  - Esslingen (47.287875, 8.709694)
+  - Faoug (46.90831, 7.074547)
+  - Fideris (46.922234, 9.733821)
+  - Fontannaz-Seulaz (46.2676, 7.055849)
+  - Forch, Bahnhof (47.325745, 8.649564)
+  - Foyer Dents-du-Midi (46.256436, 7.029949)
+  - Friedhof Enzenbühl (47.350971, 8.580276)
+  - Furna (46.939552, 9.708982)
+  - Gare de l'Isle-Mont-la-Ville (46.61727, 6.411179)
+  - Gare des Évouettes (46.362849, 6.879446)
+  - Genolier, route de la Colonie (46.43821, 6.212353)
+  - Genolier, village (46.434799, 6.217573)
+  - Grand-Moulin (46.25262, 7.023219)
+  - Grandgourt (47.46979, 7.048266)
+  - Grubenwald (46.579811, 7.382975)
+  - Gryon (46.27358, 7.059709)
+  - Gryon Barboleuse (46.28275, 7.070489)
+  - Gryon Bois-Gentil (46.27773, 7.067549)
+  - Gryon-Chalméry (46.27364, 7.051909)
+  - Haldenstein (46.876961, 9.533084)
+  - Hauteville (46.46626, 6.860889)
+  - Hinteregg (47.305746, 8.684357)
+  - Klosters Selfranga (46.856599, 9.882669)
+  - Kreuzplatz (47.364985, 8.554135)
+  - La Chiésaz (46.46951, 6.882129)
+  - La Clairière (46.28834, 7.067999)
+  - La Gottaz (46.50655, 6.484459)
+  - La Plaine (46.178656, 5.999955)
+  - La Ruaz (46.25308, 7.007719)
+  - La Verrerie (46.58752, 6.924879)
+  - Le Brassus (46.585797, 6.214208)
+  - Le Lieu (46.646977, 6.283365)
+  - Le Lussex (46.55688, 6.600909)
+  - Le Manège (46.55912, 6.432169)
+  - Le Marais (46.52747, 6.462589)
+  - Le Muids, bif. Gare (46.454788, 6.218678)
+  - Le Rocheray (46.624451, 6.250262)
+  - Le Sentier-L'Orient (46.605733, 6.231059)
+  - Le Solliat-La Golisse (46.614399, 6.239024)
+  - Le Séchey (46.65847, 6.306009)
+  - Leissigen (46.655118, 7.77498)
+  - Les Charbonnières (46.664291, 6.317034)
+  - Les Esserts-de-Rive (46.631977, 6.260359)
+  - Les Fontanelles (46.343132, 7.045451)
+  - Les Granges (46.720959, 6.541478)
+  - Les Posses (46.27117, 7.050889)
+  - Les Salines (46.25484, 7.027639)
+  - Ligerz (47.083788, 7.135156)
+  - Luzern Verkehrshaus (47.053883, 8.336964)
+  - Lötschberg Basistunnel (46.356884, 7.77385)
+  - Magliaso (45.981744, 8.884032)
+  - Magliaso Paese (45.983264, 8.890513)
+  - Maiacher (47.328117, 8.631805)
+  - Malans Ost (46.97612, 9.581215)
+  - Martigny-Expo (46.09729, 7.075572)
+  - Matran (46.788943, 7.096332)
+  - Mauraz (46.58492, 6.429719)
+  - Meggen (47.050164, 8.383036)
+  - Meggen Zentrum (47.044666, 8.373511)
+  - Merlischachen (47.067682, 8.409057)
+  - Montricher (46.59633, 6.393049)
+  - Mundaditsch (46.976952, 9.659818)
+  - Niederbottigen (46.942585, 7.367987)
+  - Orbe (46.724407, 6.530141)
+  - Pampigny-Sévery (46.57698, 6.432169)
+  - Ponte Tresa (45.969944, 8.860458)
+  - Pontebrolla (46.18564, 8.753309)
+  - Prélionne (46.50947, 6.480269)
+  - Reverolle (46.540416, 6.431031)
+  - Rive Droite Sa - Centre D'imagerie (46.207871, 6.144903)
+  - Rohrfluh (46.603096, 7.914373)
+  - Rosé (46.782485, 7.062181)
+  - Rothrist GB (47.295082, 7.856225)
+  - Ruchfeld (47.533932, 7.612081)
+  - Russin (46.187798, 6.017567)
+  - S-chanf Marathon (46.619778, 9.997004)
+  - S.Antonino (46.16042, 8.973927)
+  - Saint-Légier-Gare (46.470856, 6.872071)
+  - Scheuren (47.322583, 8.659524)
+  - Schiers Schlangenboden (46.961071, 9.7015)
+  - Seftigen (46.786893, 7.540272)
+  - Semsales (46.57335, 6.926929)
+  - Siggere (47.243038, 7.605038)
+  - Signaustrasse (47.363228, 8.557621)
+  - Simplontunnel (46.27634, 8.091198)
+  - Sisikon (46.94925, 8.620729)
+  - St-Cergue, bif. La Chèvrerie (46.451229, 6.173582)
+  - St-Eloi (46.72061, 6.532005)
+  - St-Gingolph (46.392175, 6.805919)
+  - St-Légier-Village (46.47102, 6.876569)
+  - St-Triphon-Village (46.30207, 6.975789)
+  - Station (47.312792, 8.674001)
+  - Stugl/Stuls (46.65026, 9.723239)
+  - Surava (46.667015, 9.620328)
+  - Tuilerie (46.5928, 6.414219)
+  - Täsch Monte Rosa (46.074532, 7.774757)
+  - Uetendorf (46.774841, 7.572927)
+  - Uetendorf Allmend (46.77312, 7.594889)
+  - Vaulruz-Sud (46.619239, 6.989986)
+  - Vevey-Funi (46.468175, 6.835639)
+  - Villars-Bozon (46.61046, 6.402359)
+  - Villaz-St-Pierre (46.7207, 6.960474)
+  - Vionnaz (46.314986, 6.916235)
+  - Vouvry (46.336947, 6.89797)
+  - Vuadens-Sud (46.617962, 7.020172)
+  - Vufflens-le-Château (46.52481, 6.473179)
+  - Wankdorf (46.965324, 7.472142)
+  - Weesen (47.129917, 9.094714)
+  - Weissenbach (46.603545, 7.374245)
+  - Weyermannshaus (46.9508, 7.418727)
+  - Wohlen Fulenbach (47.343437, 8.301089)
+  - Yens (46.51996, 6.427319)
+  - Yverdon-Champ Pittet (46.78215, 6.662319)
+  - Zollikerberg (47.346073, 8.603417)
+  - Zollikerberg Spital (47.347337, 8.597148)
+
+--- UNMATCHED GTFS STOP NAMES WITHIN 15 KM OF A SWISS STATION (possible naming mismatch) ---
+  - Collombey-Village (170x, 0.3 km from nearest match)
+  - Boudry Littorail (302x, 0.4 km from nearest match)
+  - Neuchâtel Place Pury Littorail (302x, 0.4 km from nearest match)
+  - Realp DFB (30x, 0.4 km from nearest match)
+  - S. Antonino (386x, 0.4 km from nearest match)
+  - Grindelwald Terminal (248x, 0.6 km from nearest match)
+  - Auvernier Littorail (304x, 0.6 km from nearest match)
+  - Zürich Selnau (576x, 0.6 km from nearest match)
+  - Goldau A4 (82x, 0.6 km from nearest match)
+  - Aarau Torfeld (369x, 0.7 km from nearest match)
+  - Neuchâtel Champ-Bougin (302x, 0.7 km from nearest match)
+  - Zürich Giesshübel (288x, 0.7 km from nearest match)
+  - Neuchâtel Serrières Ruau (304x, 0.7 km from nearest match)
+  - Zürich Brunau (336x, 0.7 km from nearest match)
+  - Findelbach (200x, 0.8 km from nearest match)
+  - Erzingen (Baden) (288x, 0.8 km from nearest match)
+  - Pied du barrage (128x, 0.9 km from nearest match)
+  - Rheinfelden (Baden) (192x, 0.9 km from nearest match)
+  - Konstanz (741x, 0.9 km from nearest match)
+  - Zürich Binz (288x, 1.0 km from nearest match)
+  - Zürich Saalsporthalle (336x, 1.0 km from nearest match)
+  - Gammenthal (6x, 1.1 km from nearest match)
+  - Boudry (96x, 1.1 km from nearest match)
+  - Tannay (384x, 1.2 km from nearest match)
+  - Sitterdorf (192x, 1.2 km from nearest match)
+  - Riffelalp (196x, 1.3 km from nearest match)
+  - Zürich Friesenberg (288x, 1.4 km from nearest match)
+  - Mussachen (6x, 1.4 km from nearest match)
+  - Zürich Manegg (336x, 1.5 km from nearest match)
+  - Eigergletscher (312x, 1.5 km from nearest match)
+  - Weil am Rhein-Ost (144x, 1.5 km from nearest match)
+  - Delle (280x, 1.5 km from nearest match)
+  - Neuthal (12x, 1.6 km from nearest match)
+  - Lörrach Dammstrasse (144x, 1.7 km from nearest match)
+  - Planalp (68x, 1.7 km from nearest match)
+  - Zürich Schweighof (288x, 1.7 km from nearest match)
+  - Herten (Baden) (192x, 1.7 km from nearest match)
+  - Kräbel (82x, 1.7 km from nearest match)
+  - Sihlwald (96x, 1.8 km from nearest match)
+  - Aemsigen (136x, 1.8 km from nearest match)
+  - Langnau-Gattikon (338x, 1.9 km from nearest match)
+  - Wildpark-Höfli (288x, 1.9 km from nearest match)
+  - Zürich Leimbach (336x, 2.0 km from nearest match)
+  - Weil am Rhein Pfädlistrasse (144x, 2.0 km from nearest match)
+  - Waldshut (192x, 2.0 km from nearest match)
+  - Grenzach (192x, 2.1 km from nearest match)
+  - Sood-Oberleimbach (338x, 2.1 km from nearest match)
+  - Breitlauenen (116x, 2.1 km from nearest match)
+  - Lörrach-Stetten (312x, 2.1 km from nearest match)
+  - Lustenau (310x, 2.2 km from nearest match)
+  - Zürich Triemli (288x, 2.2 km from nearest match)
+  - Adliswil (338x, 2.3 km from nearest match)
+  - Wyhlen (192x, 2.3 km from nearest match)
+  - Sihlau (312x, 2.3 km from nearest match)
+  - Uitikon Waldegg (288x, 2.3 km from nearest match)
+  - Schynige Platte (120x, 2.4 km from nearest match)
+  - Oberei bei Wasen i.E. (2x, 2.4 km from nearest match)
+  - Konstanz-Petershausen (210x, 2.4 km from nearest match)
+  - Weil am Rhein Gartenstadt (144x, 2.5 km from nearest match)
+  - Vallorcine (F) (252x, 2.5 km from nearest match)
+  - Saint-Louis (Haut-Rhin) (327x, 2.6 km from nearest match)
+  - Bietingen (192x, 2.6 km from nearest match)
+  - Riffelberg (196x, 2.6 km from nearest match)
+  - Konstanz-Wollmatingen (192x, 2.8 km from nearest match)
+  - Tirano (136x, 2.8 km from nearest match)
+  - Bürglen TG (336x, 2.8 km from nearest match)
+  - Konstanz-Fürstenberg (196x, 2.8 km from nearest match)
+  - Lörrach Museum/Burghof (312x, 2.8 km from nearest match)
+  - Weil am Rhein (320x, 3.0 km from nearest match)
+  - Lottstetten (136x, 3.0 km from nearest match)
+  - Ringlikon (288x, 3.0 km from nearest match)
+  - Annemasse (817x, 3.0 km from nearest match)
+  - Cantello Gaggiolo (168x, 3.1 km from nearest match)
+  - Pilatus Kulm (136x, 3.2 km from nearest match)
+  - Reichenau (Baden) (192x, 3.2 km from nearest match)
+  - Wasen i.E. (2x, 3.2 km from nearest match)
+  - Tiefenbach DFB (30x, 3.2 km from nearest match)
+  - Uetliberg (288x, 3.2 km from nearest match)
+  - Jestetten (196x, 3.4 km from nearest match)
+  - Fruttli (82x, 3.6 km from nearest match)
+  - Lörrach Hbf (312x, 3.6 km from nearest match)
+  - Brienzer Rothorn (68x, 3.6 km from nearest match)
+  - Bäretswil (12x, 3.6 km from nearest match)
+  - Pino-Tronzano (15x, 3.7 km from nearest match)
+  - Gletsch (34x, 3.7 km from nearest match)
+  - Rotenboden (196x, 3.7 km from nearest match)
+  - Joncherey (88x, 3.9 km from nearest match)
+  - Como S. Giovanni (452x, 4.1 km from nearest match)
+  - Hegne (192x, 4.1 km from nearest match)
+  - Haltingen (128x, 4.2 km from nearest match)
+  - Rigi Staffel (187x, 4.3 km from nearest match)
+  - Rigi Kulm (187x, 4.4 km from nearest match)
+  - Gornergrat (192x, 4.4 km from nearest match)
+  - Le Buet (160x, 4.5 km from nearest match)
+  - Jungfraujoch (312x, 4.5 km from nearest match)
+  - Rigi Staffelhöhe (101x, 4.6 km from nearest match)
+  - Folsogno-Dissimo (14x, 4.7 km from nearest match)
+  - Allensbach (194x, 4.7 km from nearest match)
+  - Rigi Klösterli (82x, 4.8 km from nearest match)
+  - Hard-Fussach (164x, 4.8 km from nearest match)
+  - Lörrach Schwarzwaldstrasse (282x, 4.9 km from nearest match)
+  - Saint-Julien-en-Genevois (76x, 5.0 km from nearest match)
+  - Rigi Wölfertschen-First (82x, 5.0 km from nearest match)
+  - Rigi Kaltbad-First (101x, 5.1 km from nearest match)
+  - Saint-Louis la Chaussée (71x, 5.3 km from nearest match)
+  - Gottmadingen (192x, 5.4 km from nearest match)
+  - Grubisbalm (101x, 5.6 km from nearest match)
+  - Freibergen (101x, 5.7 km from nearest match)
+  - Romiti Felsentor (101x, 5.7 km from nearest match)
+  - Lörrach Haagen/Messe (282x, 6.0 km from nearest match)
+  - Mittlerschwanden (101x, 6.1 km from nearest match)
+  - Grandvillars (88x, 6.1 km from nearest match)
+  - Muttbach-Belvédère (30x, 6.2 km from nearest match)
+  - Furka DFB (30x, 6.2 km from nearest match)
+  - Re (66x, 6.3 km from nearest match)
+  - Arcisate (168x, 6.4 km from nearest match)
+  - Montroc-le-Planet (160x, 6.4 km from nearest match)
+  - Como Camerlata (192x, 6.5 km from nearest match)
+  - Lauterach Unterfeld (164x, 6.5 km from nearest match)
+  - Eimeldingen (88x, 6.5 km from nearest match)
+  - Vitznau (101x, 6.7 km from nearest match)
+  - Lörrach Brombach/Hauingen (282x, 6.9 km from nearest match)
+  - Feldkirch (28x, 7.2 km from nearest match)
+  - Markelfingen (192x, 7.4 km from nearest match)
+  - Dornbirn (28x, 7.6 km from nearest match)
+  - Bregenz Riedenburg (164x, 7.7 km from nearest match)
+  - Morez (20x, 7.8 km from nearest match)
+  - Morteau (60x, 7.9 km from nearest match)
+  - Radolfzell (258x, 8.0 km from nearest match)
+  - Argentière (Haute-Savoie) (160x, 8.1 km from nearest match)
+  - Valleiry (76x, 8.1 km from nearest match)
+  - Induno Olona (168x, 8.2 km from nearest match)
+  - Maccagno (17x, 8.6 km from nearest match)
+  - Morvillars (88x, 8.8 km from nearest match)
+  - Malesco (70x, 9.1 km from nearest match)
+  - Morbier (20x, 9.3 km from nearest match)
+  - Singen (Htw)-Landesgartenschau (188x, 9.3 km from nearest match)
+  - Varese (168x, 9.3 km from nearest match)
+  - Steinen (D) (282x, 9.4 km from nearest match)
+  - Bregenz (246x, 9.4 km from nearest match)
+  - Efringen-Kirchen (128x, 9.5 km from nearest match)
+  - Reignier (159x, 9.6 km from nearest match)
+  - Schopfheim (196x, 9.6 km from nearest match)
+  - Schopfheim West (188x, 9.6 km from nearest match)
+  - Bartenheim (71x, 9.6 km from nearest match)
+  - Zornasco (18x, 9.7 km from nearest match)
+  - Labergement-Sainte-Marie (8x, 9.9 km from nearest match)
+  - Luino (I) (17x, 10.0 km from nearest match)
+  - Maulburg (188x, 10.0 km from nearest match)
+  - La Joux (F) (160x, 10.2 km from nearest match)
+  - Schopfheim-Schlattholz (188x, 10.2 km from nearest match)
+  - Böhringen-Rickelshausen (192x, 10.3 km from nearest match)
+  - Istein (88x, 10.3 km from nearest match)
+  - Singen (Hohentwiel) (610x, 10.3 km from nearest match)
+  - Colmegna (15x, 10.4 km from nearest match)
+  - Prestinone (18x, 10.4 km from nearest match)
+  - Mühlhausen (b Engen) (192x, 10.6 km from nearest match)
+  - Welschingen-Neuhausen (192x, 10.9 km from nearest match)
+  - Uhldingen-Mühlhofen (4x, 11.0 km from nearest match)
+  - Fahrnau (188x, 11.1 km from nearest match)
+  - Singen (Htw) Industriegebiet (192x, 11.6 km from nearest match)
+  - Machilly (107x, 11.8 km from nearest match)
+  - S. Maria Maggiore (70x, 11.8 km from nearest match)
+  - Iselle di Trasquera (52x, 11.8 km from nearest match)
+  - Überlingen Therme (8x, 11.9 km from nearest match)
+  - Nonnenhorn (40x, 12.0 km from nearest match)
+  - Les Tines (160x, 12.0 km from nearest match)
+  - Friedrichshafen Stadt (150x, 12.1 km from nearest match)
+  - Lindau-Reutin (88x, 12.1 km from nearest match)
+  - Wasserburg (Bodensee) (48x, 12.2 km from nearest match)
+  - Friedrichshafen-Hafen (24x, 12.3 km from nearest match)
+  - Überlingen (56x, 12.4 km from nearest match)
+  - Langenargen (42x, 12.5 km from nearest match)
+  - Thonon-les-Bains (110x, 12.5 km from nearest match)
+  - Sierentz (71x, 12.8 km from nearest match)
+  - Hausen-Raitbach (188x, 13.1 km from nearest match)
+  - Petit-Croix (31x, 13.2 km from nearest match)
+  - Evian-les-Bains (106x, 13.2 km from nearest match)
+  - Engen (192x, 13.3 km from nearest match)
+  - Kleinkems (88x, 13.4 km from nearest match)
+  - Bermatingen-Ahausen (2x, 13.5 km from nearest match)
+  - Les Praz-de-Chamonix (160x, 13.5 km from nearest match)
+  - Kressbronn (50x, 13.5 km from nearest match)
+  - Meroux (88x, 13.7 km from nearest match)
+  - Belfort-Montbéliard TGV (116x, 13.7 km from nearest match)
+  - Druogno (70x, 13.9 km from nearest match)
+  - Montreux-Vieux (53x, 13.9 km from nearest match)
+  - Löwental (2x, 14.0 km from nearest match)
+  - Markdorf (Baden) (10x, 14.0 km from nearest match)
+  - Varzo (48x, 14.2 km from nearest match)
+  - Pontarlier (54x, 14.4 km from nearest match)
+  - Salem (58x, 14.5 km from nearest match)
+  - Porto Valtravaglia (17x, 14.5 km from nearest match)
+  - Bons-en-Chablais (107x, 14.6 km from nearest match)
+
+=== END ===
