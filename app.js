@@ -16,6 +16,7 @@ const CATS=[
  {id:"consulate",label:"Consulates",color:"#eab308"},
 ];
 const COLOR=Object.fromEntries(CATS.map(c=>[c.id,c.color])); COLOR.station="#e30613";
+const RAIL_COLOR={highspeed:"#fbbf24",regular:"#38bdf8"};
 const LABEL=Object.fromEntries(CATS.map(c=>[c.id,c.label])); LABEL.station="Train station";
 // Screen-pixel circleMarker radii don't grow with the map, so they read as
 // shrinking the further you zoom in. Interpolate a bigger touch target at
@@ -65,7 +66,7 @@ function tentLongRef(ref){return ref==="zoo"||ref==="aquarium"||ref==="themepark
 function tentDefaultDisplay(ref){return (tentLongRef(ref)?UNIT_TABLE.tentLong:UNIT_TABLE.tentShort)[UNITS];}
 
 let STATIONS = STATIONS_GOOGLE.slice();
-const state={enabled:{},stationsOn:true,zones:true,minReviews:(function(){try{const v=parseInt(localStorage.getItem("minReviews"),10);return Number.isFinite(v)&&v>=0?v:5;}catch(e){return 5;}})()};
+const state={enabled:{},stationsOn:true,zones:true,railHighspeed:false,railRegular:false,minReviews:(function(){try{const v=parseInt(localStorage.getItem("minReviews"),10);return Number.isFinite(v)&&v>=0?v:5;}catch(e){return 5;}})()};
 CATS.forEach(c=>state.enabled[c.id]=false);
 
 /* ---- Map ---- */
@@ -78,6 +79,7 @@ const markerLayer=L.layerGroup().addTo(map);
 const maskLayer=L.layerGroup().addTo(map);
 const survLayer=L.layerGroup().addTo(map);
 const draftLayer=L.layerGroup().addTo(map);
+const railLayer=L.layerGroup().addTo(map);
 
 function stars(r){return "★".repeat(Math.round(r))+"☆".repeat(5-Math.round(r));}
 function gmapsLink(name,lat,lng){const q=name?"https://www.google.com/maps/search/"+encodeURIComponent(name)+"/@"+lat+","+lng+",17z":"https://www.google.com/maps/search/?api=1&query="+lat+"%2C"+lng;return `<a class="pop-link" href="${q}" target="_blank" rel="noopener">Verify on Google Maps</a>`;}
@@ -107,6 +109,12 @@ function addRow(id,label,color,checked){const row=document.createElement("label"
   row.innerHTML=`<input type="checkbox" ${checked?"checked":""}><span class="box"></span><span class="swatch" style="background:${color}"></span><span class="name">${label}</span><span class="count" id="count-${id}"></span>`;
   layersEl.appendChild(row);return row.querySelector("input");}
 addRow("station","Train stations",COLOR.station,true).addEventListener("change",e=>{state.stationsOn=e.target.checked;render();});
+const railHighspeedBox=addRow("rail-highspeed","High-speed rail (in zone)",RAIL_COLOR.highspeed,false);
+railHighspeedBox.disabled=true;
+railHighspeedBox.addEventListener("change",e=>{state.railHighspeed=e.target.checked;drawRailLayer();});
+const railRegularBox=addRow("rail-regular","Other rail lines (in zone)",RAIL_COLOR.regular,false);
+railRegularBox.disabled=true;
+railRegularBox.addEventListener("change",e=>{state.railRegular=e.target.checked;drawRailLayer();});
 CATS.forEach(c=>addRow(c.id,c.label,c.color,false).addEventListener("change",e=>{state.enabled[c.id]=e.target.checked;render();}));
 document.getElementById("zones").addEventListener("change",e=>{state.zones=e.target.checked;render();});
 const debouncedRender=debounce(()=>{render();try{localStorage.setItem("minReviews",String(state.minReviews));}catch(e){}},120);
@@ -268,6 +276,45 @@ function highspeedBand(km){
   if(!multi) return null;
   return turf.buffer(multi,Math.max(km,0.02),{units:"kilometers",steps:8});
 }
+// Keeps only the portion of a rail line's points that falls inside a region
+// (Polygon or MultiPolygon), for the "rail lines in zone" display layer.
+// turf.lineIntersect(line,region) segments the region's rings internally
+// (via lineSegment), so it finds every boundary crossing regardless of
+// whether region is a Polygon or a MultiPolygon - no need for the
+// polygonToLine Feature/FeatureCollection split SWISS_LINE above has to
+// handle. Each crossing's distance-along-the-line comes from
+// nearestPointOnLine's location property, the cut points are sorted, and
+// each resulting piece is kept only if its own midpoint tests inside the
+// region - correct for any number of crossings, including zero (fully in
+// or fully out).
+function clipLineToRegion(points,region){
+  if(points.length<2) return [];
+  const line=turf.lineString(points);
+  const totalKm=turf.length(line,{units:"kilometers"});
+  if(totalKm<=0) return [];
+  const cuts=new Set([0,totalKm]);
+  try{
+    const hits=turf.lineIntersect(line,region);
+    for(const f of hits.features){
+      const np=turf.nearestPointOnLine(line,f,{units:"kilometers"});
+      const loc=np.properties.location;
+      if(loc>1e-4&&loc<totalKm-1e-4) cuts.add(loc);
+    }
+  }catch(e){}
+  const sorted=[...cuts].sort((a,b)=>a-b);
+  const out=[];
+  for(let i=0;i<sorted.length-1;i++){
+    const a=sorted[i],b=sorted[i+1];
+    if(b-a<1e-6) continue;
+    let seg;
+    try{seg=turf.lineSliceAlong(line,a,b,{units:"kilometers"});}catch(e){continue;}
+    const coords=seg.geometry.coordinates;
+    if(coords.length<2) continue;
+    const mid=turf.point(coords[coords.length>>1]);
+    if(turf.booleanPointInPolygon(mid,region)) out.push(coords);
+  }
+  return out;
+}
 // turf.isobands wants one Point per grid cell, in row-major order, elevation
 // on the given zProperty; nodata cells keep their position with a null
 // elevation rather than being omitted, since isobands needs a complete
@@ -359,6 +406,7 @@ let DISTRICTS=[];
 let TRANSIT_LINES=[];
 let TRANSIT_BY_STATION=new Map();
 let HIGHSPEED_LINES=[];
+let RAIL_LINES=[];
 let ELEVATION_GRID=null;
 let elevationFC=null, elevationFlat=null;
 function municipalityAt(lat,lng){
@@ -485,12 +533,36 @@ function compute(){
   computeCache={clueRefs:clues.slice(0,i),region};
   return region;
 }
+function railCount(id,n){const el=document.getElementById("count-"+id);if(el)el.textContent=n?n.toLocaleString():"";}
+// Draws whichever of HIGHSPEED_LINES/RAIL_LINES are toggled on, each clipped
+// to the current possible area (or all of Switzerland before any clue - see
+// SWISS_FEATURE fallback below, matching drawDeduction's own pre-clue
+// default). Independent of render()'s station/place pipeline, so toggling
+// either checkbox only needs to call this, not recompute the deduction.
+function drawRailLayer(){
+  railLayer.clearLayers();
+  if(!state.railHighspeed&&!state.railRegular){railCount("rail-highspeed",0);railCount("rail-regular",0);return;}
+  const region=lastRegion||SWISS_FEATURE;
+  const draw=(lines,color,weight,opacity,id)=>{
+    let n=0;
+    for(const l of lines){
+      if(!l.points)continue;
+      const segs=clipLineToRegion(l.points,region);
+      if(!segs.length)continue;
+      n++;
+      for(const seg of segs) L.polyline(seg.map(c=>[c[1],c[0]]),{color,weight,opacity,interactive:false}).addTo(railLayer);
+    }
+    railCount(id,n);
+  };
+  if(state.railHighspeed) draw(HIGHSPEED_LINES,RAIL_COLOR.highspeed,2.5,.9,"rail-highspeed"); else railCount("rail-highspeed",0);
+  if(state.railRegular) draw(RAIL_LINES,RAIL_COLOR.regular,1.5,.6,"rail-regular"); else railCount("rail-regular",0);
+}
 let drawToken=0;
 function drawDeduction(){
   maskLayer.clearLayers();survLayer.clearLayers();
   const st=document.getElementById("area-status");
   if(!clues.length){
-    activeFilter=null;lastRegion=null;st.innerHTML="";render();
+    activeFilter=null;lastRegion=null;st.innerHTML="";render();drawRailLayer();
     const mask0=turf.difference(WORLD_MASK,SWISS_FEATURE);
     if(mask0) L.geoJSON(mask0,{style:{stroke:false,fillColor:"#0b0f14",fillOpacity:.6},interactive:false,pane:"maskPane"}).addTo(maskLayer);
     return;
@@ -503,13 +575,13 @@ function drawDeduction(){
     if(my!==drawToken)return;
     lastRegion=region;
     if(!region){
-      activeFilter=new Set();render();
+      activeFilter=new Set();render();drawRailLayer();
       L.geoJSON(WORLD_MASK,{style:{stroke:false,fillColor:"#0b0f14",fillOpacity:.62},interactive:false,pane:"maskPane"}).addTo(maskLayer);
       st.innerHTML='<b style="color:#ff6b6b">No area fits these clues.</b><br>Re-check the most recent answer.';
       return;
     }
     activeFilter=computeViableStations(region);
-    render();
+    render();drawRailLayer();
     const mask=turf.difference(WORLD_MASK,region);
     if(mask) L.geoJSON(mask,{style:{stroke:false,fillColor:"#0b0f14",fillOpacity:.6},interactive:false,pane:"maskPane"}).addTo(maskLayer);
     L.geoJSON(region,{style:{color:"#e30613",weight:2,fill:false},interactive:false}).addTo(survLayer);
@@ -1174,10 +1246,24 @@ async function loadHighSpeedLines(){
     HIGHSPEED_LINES=d.lines||[];
     highspeedLineCache=null;
     document.querySelectorAll("[data-highspeed]").forEach(o=>{o.disabled=false;});
+    railHighspeedBox.disabled=false;
     highspeedStatus(`${HIGHSPEED_LINES.length} high-speed lines loaded.`);
   }catch(e){
     document.querySelectorAll("[data-highspeed]").forEach(o=>{o.disabled=true;});
+    railHighspeedBox.disabled=true;
     highspeedStatus("High-speed line questions need data/highspeed-lines.json.");
+  }
+}
+async function loadRailLines(){
+  try{
+    const r=await fetch("data/rail-lines.json",{cache:"no-cache"});
+    if(!r.ok) throw new Error("missing");
+    const d=await r.json();
+    RAIL_LINES=d.lines||[];
+    railRegularBox.disabled=false;
+  }catch(e){
+    RAIL_LINES=[];
+    railRegularBox.disabled=true;
   }
 }
 function elevationStatus(msg){const el=document.getElementById("elevation-note"); if(el) el.textContent=msg;}
@@ -1257,7 +1343,7 @@ async function replayShareLink(){
   const v=params.get("v");
   if(v!==String(SHARE_VERSION)){
     shareBanner(`This link uses share format v=${v||"?"}, which this build of the map does not understand. Loading the map normally instead.`,"warn");
-    loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines(); loadHighSpeedLines(); loadElevation();
+    loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines(); loadHighSpeedLines(); loadRailLines(); loadElevation();
     return;
   }
   const z=parseNum(params.get("z"));
@@ -1265,7 +1351,7 @@ async function replayShareLink(){
   const f=params.get("f")||"";
   const cRaw=params.get("c")||"";
   shareBanner("Loading shared map…","");
-  await Promise.allSettled([loadStations(),loadPlaces(),loadOsm(),loadDistricts(),loadTransitLines(),loadHighSpeedLines(),loadElevation()]);
+  await Promise.allSettled([loadStations(),loadPlaces(),loadOsm(),loadDistricts(),loadTransitLines(),loadHighSpeedLines(),loadRailLines(),loadElevation()]);
   if(z!==null&&UNIT_TABLE.zone.km.includes(z)){
     HIDE_RADIUS_KM=z;
     renderZoneOptions();
@@ -1326,6 +1412,6 @@ if(location.hash){ replayShareLink(); } else {
     const saved=JSON.parse(localStorage.getItem("clues"));
     if(Array.isArray(saved)&&saved.length) clues=saved;
   }catch(e){}
-  loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines(); loadHighSpeedLines(); loadElevation();
+  loadStations(); loadPlaces(); loadOsm(); loadDistricts(); loadTransitLines(); loadHighSpeedLines(); loadRailLines(); loadElevation();
   renderClues();
 }
