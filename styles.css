@@ -154,8 +154,12 @@
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important}.spin{animation:none}}
 
-  .leaflet-control-locate{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;width:40px;height:40px;font-size:18px;line-height:1;cursor:pointer}
-  .leaflet-control-locate:hover{border-color:var(--red)}
+  .leaflet-control-location{display:flex;flex-direction:column;background:var(--panel);border-radius:8px;overflow:hidden}
+  .leaflet-control-location button{background:var(--panel);color:var(--ink);border:0;width:40px;height:40px;font-size:18px;line-height:1;cursor:pointer}
+  .leaflet-control-location button+button{border-top:1px solid var(--line)}
+  .leaflet-control-location button:hover:not(:disabled){background:var(--panel-2);color:#fff}
+  .leaflet-control-location button.on{background:#17446d;color:#fff}
+  .leaflet-control-location button:disabled{color:#56616d;cursor:not-allowed}
   #zone-radius{margin-left:4px;background:var(--panel);border:1px solid rgba(227,6,19,.35);border-radius:7px;color:var(--ink);font-family:inherit;font-size:12px;padding:6px;flex:0 0 auto}
 
 .fld select{background:var(--panel-2);border:1px solid var(--line);border-radius:7px;color:var(--ink);font-family:inherit;font-size:13px;padding:8px 9px;width:100%}

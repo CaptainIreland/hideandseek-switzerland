@@ -681,7 +681,11 @@ document.querySelectorAll(".coord").forEach(box=>box.addEventListener("paste",e=
 }));
 document.querySelectorAll(".me").forEach(btn=>{
   const k=btn.dataset.pick; if(!PICKS[k]) return;
-  btn.addEventListener("click",()=>{ mePending=k; map.locate({setView:true,maxZoom:14,enableHighAccuracy:true}); });
+  btn.addEventListener("click",()=>{
+    if(latestLocation){fillFromLocation(k,latestLocation);return;}
+    mePending=k;
+    startLocationTracking();
+  });
 });
 function clearDraft(keys){ (keys||Object.keys(draftMarks)).forEach(k=>{if(draftMarks[k]){draftLayer.removeLayer(draftMarks[k]);delete draftMarks[k];}}); }
 function showDraft(key,lat,lng){
@@ -1171,37 +1175,79 @@ document.getElementById("cancel-edit").addEventListener("click",()=>{
 document.getElementById("clear-clues").addEventListener("click",()=>{clues=[];exitEditUI();clearDraft();renderClues();});
 
 /* ---- My location ---- */
+let meDot=null,meRing=null,latestLocation=null,locationTracking=false;
+let locationTrackButton=null,locationCentreButton=null;
+function updateLocationControls(){
+  if(locationTrackButton){
+    locationTrackButton.classList.toggle("on",locationTracking);
+    locationTrackButton.setAttribute("aria-pressed",locationTracking?"true":"false");
+    locationTrackButton.title=locationTracking?"Stop automatic location updates":"Start automatic location updates";
+    locationTrackButton.setAttribute("aria-label",locationTrackButton.title);
+  }
+  if(locationCentreButton) locationCentreButton.disabled=!latestLocation;
+}
+function startLocationTracking(){
+  if(locationTracking) return;
+  locationTracking=true;
+  updateLocationControls();
+  map.locate({watch:true,setView:false,enableHighAccuracy:true});
+}
+function stopLocationTracking(){
+  if(!locationTracking) return;
+  locationTracking=false;
+  map.stopLocate();
+  updateLocationControls();
+}
+function fillFromLocation(key,e){
+  const m=PICKS[key];
+  if(!m) return;
+  document.getElementById(m[0]).value=e.latlng.lat.toFixed(5);
+  document.getElementById(m[1]).value=e.latlng.lng.toFixed(5);
+  showDraft(key,e.latlng.lat,e.latlng.lng);
+  if(e.accuracy>100){
+    flash(`Location accuracy is about ${Math.round(e.accuracy)} m, worse than the recommended 100 m. Consider waiting for a better fix or picking manually.`);
+  }
+  document.body.classList.remove("nav-open");
+  updateThermoDistance();
+}
 const LocateControl=L.Control.extend({
   onAdd(){
-    const b=L.DomUtil.create("button","leaflet-control-locate");
-    b.type="button"; b.title="Show my location"; b.innerHTML="◎";
-    L.DomEvent.on(b,"click",e=>{L.DomEvent.stop(e);map.locate({setView:true,maxZoom:14,enableHighAccuracy:true});});
-    return b;
+    const box=L.DomUtil.create("div","leaflet-control-location leaflet-bar");
+    locationTrackButton=L.DomUtil.create("button","leaflet-control-locate",box);
+    locationTrackButton.type="button"; locationTrackButton.innerHTML="◎";
+    locationCentreButton=L.DomUtil.create("button","leaflet-control-centre",box);
+    locationCentreButton.type="button"; locationCentreButton.title="Centre map on my location";
+    locationCentreButton.setAttribute("aria-label","Centre map on my location");
+    locationCentreButton.innerHTML="⌖";
+    L.DomEvent.disableClickPropagation(box);
+    L.DomEvent.on(locationTrackButton,"click",e=>{
+      L.DomEvent.stop(e);
+      if(locationTracking) stopLocationTracking(); else startLocationTracking();
+    });
+    L.DomEvent.on(locationCentreButton,"click",e=>{
+      L.DomEvent.stop(e);
+      if(latestLocation) map.panTo(latestLocation.latlng);
+    });
+    updateLocationControls();
+    return box;
   }
 });
 map.addControl(new LocateControl({position:"topright"}));
-let meDot=null, meRing=null;
 map.on("locationfound",e=>{
+  latestLocation=e;
   if(meDot){map.removeLayer(meDot);map.removeLayer(meRing);}
   meDot=L.circleMarker(e.latlng,{radius:6,color:"#fff",weight:2,fillColor:"#2875c7",fillOpacity:1}).addTo(map);
   meRing=L.circle(e.latlng,{radius:Math.max(e.accuracy,8),color:"#2875c7",weight:1,opacity:.5,fillOpacity:.08}).addTo(map);
+  updateLocationControls();
   if(mePending){
-    const key=mePending, m=PICKS[key];
+    const key=mePending;
     mePending=null;
-    if(m){
-      document.getElementById(m[0]).value=e.latlng.lat.toFixed(5);
-      document.getElementById(m[1]).value=e.latlng.lng.toFixed(5);
-      showDraft(key,e.latlng.lat,e.latlng.lng);
-      if(e.accuracy>100){
-        flash(`Location accuracy is about ${Math.round(e.accuracy)} m, worse than the recommended 100 m. Consider waiting for a better fix or picking manually.`);
-      }
-      document.body.classList.remove("nav-open");
-      updateThermoDistance();
-    }
+    fillFromLocation(key,e);
   }
 });
-map.on("locationerror",()=>{
+map.on("locationerror",e=>{
   mePending=null;
+  if(e&&e.code===1) stopLocationTracking();
   setStatus("Location unavailable. It needs HTTPS (or localhost) and permission.",false); hideStatus(3500);
 });
 
