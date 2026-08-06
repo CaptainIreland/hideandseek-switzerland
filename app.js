@@ -659,6 +659,26 @@ function armPick(key,latFld,lngFld,color,btn){
 }
 const PICKS={radar:["rad-lat","rad-lng","#e30613"],thermoA:["th-alat","th-alng","#f0a500"],thermoB:["th-blat","th-blng","#22c55e"],match:["mt-lat","mt-lng","#a855f7"],measure:["ms-lat","ms-lng","#22c55e"],tentacle:["tn-lat","tn-lng","#ec4899"]};
 document.querySelectorAll(".pick").forEach(btn=>{const k=btn.dataset.pick;const m=PICKS[k];if(m)btn.addEventListener("click",()=>armPick(k,m[0],m[1],m[2],btn));});
+// Coordinates copied from mapping apps normally arrive as "lat, lng". Let
+// users paste the pair into either half of any coordinate control while
+// leaving ordinary one-value pastes to the browser. Range checks prevent a
+// malformed pair from replacing both existing fields.
+function parseCoordinatePair(text){
+  const parts=String(text||"").trim().split(",").map(v=>v.trim());
+  if(parts.length!==2||parts.some(v=>!v)) return null;
+  const lat=Number(parts[0]),lng=Number(parts[1]);
+  if(!Number.isFinite(lat)||!Number.isFinite(lng)||Math.abs(lat)>90||Math.abs(lng)>180) return null;
+  return parts;
+}
+document.querySelectorAll(".coord").forEach(box=>box.addEventListener("paste",e=>{
+  if(!e.target.matches("input")) return;
+  const pair=parseCoordinatePair(e.clipboardData&&e.clipboardData.getData("text"));
+  const fields=box.querySelectorAll("input");
+  if(!pair||fields.length<2) return;
+  e.preventDefault();
+  fields[0].value=pair[0]; fields[1].value=pair[1];
+  fields.forEach(field=>field.dispatchEvent(new Event("input",{bubbles:true})));
+}));
 document.querySelectorAll(".me").forEach(btn=>{
   const k=btn.dataset.pick; if(!PICKS[k]) return;
   btn.addEventListener("click",()=>{ mePending=k; map.locate({setView:true,maxZoom:14,enableHighAccuracy:true}); });
