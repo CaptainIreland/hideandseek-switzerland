@@ -37,7 +37,7 @@ let UNITS=(function(){try{const v=localStorage.getItem("units");return (v==="mi"
 function setUnits(u){UNITS=u;try{localStorage.setItem("units",u);}catch(e){}}
 const UNIT_TABLE={
   zone:{mi:[0.25,0.5,1],km:[0.5,1,2]},
-  radar:{mi:[0.25,0.5,1,3,5,10,25,50,100],km:[0.5,1,2,5,10,15,40,80,180]},
+  radar:{mi:[0.25,0.5,1,3,5,10,25,50,100],km:[0.5,1,2,5,10,15,40,80,160]},
   tentShort:{mi:1,km:2},
   tentLong:{mi:15,km:25},
   thermo:{mi:[0.5,3,10,50],km:[1,5,15,75]}
