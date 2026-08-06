@@ -59,7 +59,7 @@ const ASSUMPTIONS = [
    body:"Later data changes never silently rewrite an existing clue. Editing a clue (the pencil icon) repopulates the right tool's form and replaces that clue in place on the next commit, rather than appending a new one.",
    tags:["clues"]},
   {id:"q-units", section:"questions", title:"Imperial and metric are parallel rule sets, not conversions",
-   body:"The Large-game question pad has two official value sets (10 mi radar and 15 km radar are different questions, not the same distance in two units). Toggling units never touches an existing clue: each clue's label is baked in at add time from whatever unit was active then, and stays that way regardless of later toggling.",
+   body:"The Large-game question pad has two official value sets (10 mi radar and 15 km radar are different questions, not the same distance in two units). The selected value is converted exactly to kilometres for geometry, so 1/2 mi and 1 km remain distinct distances. Toggling units never touches an existing clue: each clue's label is baked in at add time from whatever unit was active then, and stays that way regardless of later toggling.",
    tags:["units","clues"]},
 
   // --- Data thresholds & filtering ---

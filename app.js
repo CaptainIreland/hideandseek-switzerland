@@ -26,8 +26,7 @@ function radiusForZoom(zoom){
   const t=Math.max(0,Math.min(1,(zoom-8)/(14-8)));
   return {station:4+t*(8-4), place:5+t*(9-5)};
 }
-let HIDE_RADIUS_KM=(function(){try{const v=parseFloat(localStorage.getItem("hideRadiusKm"));return Number.isFinite(v)&&v>0?v:1;}catch(e){return 1;}})();
-const MI=1.609344; const hideRadiusM=()=>HIDE_RADIUS_KM*1000;
+const MI=1.609344;
 // Imperial and metric are parallel official rule sets, not conversions of each
 // other (10 mi radar != 16.1 km radar; the metric question says 15 km). UNIT_TABLE
 // holds the paired values from the Large-game question pad. Geometry is always
@@ -42,12 +41,32 @@ const UNIT_TABLE={
   tentLong:{mi:15,km:25},
   thermo:{mi:[0.5,3,10,50],km:[1,5,15,75]}
 };
-// The question the group says they played, i.e. the minimum distance the asker
-// must have moved for the thermometer answer to be valid. Canonical km,
-// like every other distance; the toggle only changes which values it can be.
-let THERMO_QUESTION_KM=UNIT_TABLE.thermo.km[0];
 function toKm(v,unit){return unit==="mi"?v*MI:v;}
 function fromKm(km,unit){return unit==="mi"?km/MI:km;}
+function presetKms(group,unit){return UNIT_TABLE[group][unit].map(v=>toKm(v,unit));}
+function presetIndex(km,group,unit){
+  return presetKms(group,unit).findIndex(v=>Math.abs(v-km)<1e-9);
+}
+// Older builds stored the metric half of a zone pair even in imperial mode.
+// Translate that saved value on load; exact imperial values never equal these
+// integer/half-kilometre legacy values, so already-correct values stay intact.
+let HIDE_RADIUS_KM=(function(){
+  const fallback=toKm(UNIT_TABLE.zone[UNITS][1],UNITS);
+  try{
+    const v=parseFloat(localStorage.getItem("hideRadiusKm"));
+    if(!Number.isFinite(v)||v<=0) return fallback;
+    if(UNITS==="mi"){
+      const legacy=UNIT_TABLE.zone.km.indexOf(v);
+      if(legacy>=0) return toKm(UNIT_TABLE.zone.mi[legacy],"mi");
+    }
+    return v;
+  }catch(e){return fallback;}
+})();
+const hideRadiusM=()=>HIDE_RADIUS_KM*1000;
+// The question the group says they played, i.e. the minimum distance the asker
+// must have moved for the thermometer answer to be valid. Store its exact
+// distance in kilometres, converting from the active rulebook value if needed.
+let THERMO_QUESTION_KM=toKm(UNIT_TABLE.thermo[UNITS][0],UNITS);
 function fmtDist(km,unit){
   unit=unit||UNITS;
   if(unit==="km") return km<1?Math.round(km*1000)+" m":km.toFixed(1)+" km";
@@ -145,12 +164,13 @@ function renderRadarPresets(){
 function renderZoneOptions(){
   const sel=document.getElementById("zone-radius");
   if(!sel) return;
-  const kms=UNIT_TABLE.zone.km, mis=UNIT_TABLE.zone.mi;
-  sel.innerHTML=kms.map((kv,i)=>{
-    const text=UNITS==="mi"?presetGlyph(mis[i])+" mi":(kv<1?Math.round(kv*1000)+" m":kv+" km");
-    return `<option value="${kv}">${text}</option>`;
+  const shown=UNIT_TABLE.zone[UNITS], values=presetKms("zone",UNITS);
+  sel.innerHTML=shown.map((v,i)=>{
+    const text=UNITS==="mi"?presetGlyph(v)+" mi":(v<1?Math.round(v*1000)+" m":v+" km");
+    return `<option value="${values[i]}">${text}</option>`;
   }).join("");
-  sel.value=String(HIDE_RADIUS_KM);
+  const active=presetIndex(HIDE_RADIUS_KM,"zone",UNITS);
+  if(active>=0) sel.selectedIndex=active;
 }
 const TENT_CATS=[["museum","Museums"],["library","Libraries"],["cinema","Movie theatres"],["hospital","Hospitals"],["zoo","Zoos"],["aquarium","Aquariums"],["themepark","Amusement parks"]];
 function renderTentacleOptions(){
@@ -163,11 +183,11 @@ function renderTentacleOptions(){
 function renderThermoPresets(){
   const box=document.getElementById("th-presets");
   if(!box) return;
-  const kms=UNIT_TABLE.thermo.km, mis=UNIT_TABLE.thermo.mi;
-  box.innerHTML=kms.map((kv,i)=>{
-    const text=UNITS==="mi"?presetGlyph(mis[i])+" mi":(kv<1?Math.round(kv*1000)+" m":kv+" km");
-    const on=kv===THERMO_QUESTION_KM;
-    return `<button data-km="${kv}" class="${on?"on":""}" aria-pressed="${on}">${text}</button>`;
+  const shown=UNIT_TABLE.thermo[UNITS], values=presetKms("thermo",UNITS);
+  box.innerHTML=shown.map((v,i)=>{
+    const text=UNITS==="mi"?presetGlyph(v)+" mi":(v<1?Math.round(v*1000)+" m":v+" km");
+    const on=Math.abs(values[i]-THERMO_QUESTION_KM)<1e-9;
+    return `<button data-km="${values[i]}" class="${on?"on":""}" aria-pressed="${on}">${text}</button>`;
   }).join("");
 }
 // Shared by the units toggle and by startEdit() restoring a clue's creation
@@ -184,12 +204,19 @@ function refreshUnitUI(){
 document.getElementById("units-seg").addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
   const u=b.dataset.u; if(!u||u===UNITS) return;
+  const zoneIndex=presetIndex(HIDE_RADIUS_KM,"zone",UNITS);
+  const thermoIndex=presetIndex(THERMO_QUESTION_KM,"thermo",UNITS);
   setUnits(u);
+  if(zoneIndex>=0){
+    HIDE_RADIUS_KM=presetKms("zone",UNITS)[zoneIndex];
+    try{localStorage.setItem("hideRadiusKm",String(HIDE_RADIUS_KM));}catch(e){}
+  }
+  if(thermoIndex>=0) THERMO_QUESTION_KM=presetKms("thermo",UNITS)[thermoIndex];
   refreshUnitUI();
   if(clues.length){
     shareBanner("Switching units mid-game. Existing clues keep the distances they were created with.","warn");
     drawDeduction();
-  }
+  } else render();
 });
 document.getElementById("all-on").addEventListener("click",()=>{state.stationsOn=true;state.railHighspeed=true;state.railRegular=true;CATS.forEach(c=>state.enabled[c.id]=true);document.querySelectorAll('#layers input').forEach(i=>i.checked=true);render();drawRailLayer();});
 document.getElementById("all-off").addEventListener("click",()=>{state.stationsOn=false;state.railHighspeed=false;state.railRegular=false;CATS.forEach(c=>state.enabled[c.id]=false);document.querySelectorAll('#layers input').forEach(i=>i.checked=false);render();drawRailLayer();});
@@ -1371,9 +1398,12 @@ async function replayShareLink(){
   const cRaw=params.get("c")||"";
   shareBanner("Loading shared map…","");
   await Promise.allSettled([loadStations(),loadPlaces(),loadOsm(),loadDistricts(),loadTransitLines(),loadHighSpeedLines(),loadRailLines(),loadElevation()]);
-  if(z!==null&&UNIT_TABLE.zone.km.includes(z)){
+  const zoneUnit=z===null?null:["mi","km"].find(u=>presetIndex(z,"zone",u)>=0);
+  if(zoneUnit){
+    setUnits(zoneUnit);
     HIDE_RADIUS_KM=z;
-    renderZoneOptions();
+    try{localStorage.setItem("hideRadiusKm",String(HIDE_RADIUS_KM));}catch(e){}
+    refreshUnitUI();
   }
   if(r!==null){
     state.minReviews=Math.max(0,Math.min(50,Math.round(r)));
