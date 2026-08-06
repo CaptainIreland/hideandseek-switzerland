@@ -64,7 +64,7 @@ const ASSUMPTIONS = [
 
   // --- Data thresholds & filtering ---
   {id:"t-min-reviews", section:"thresholds", title:"Minimum Google reviews: a live slider on top of a fixed per-category floor",
-   body:"The Places tab's \"Minimum Google reviews\" slider is what you actually control: a single number, default 5, adjustable 0 to 50, applied the same way to every target-place category (not stations). It sits on top of a per-category floor baked into the shipped dataset when it was built and not adjustable in the app (hospital 50, airport 100, museum 10, park and amusement park 20, library, cinema and golf 5, zoo 10, aquarium 0, consulate 5). Review count turned out to be the only strong signal for whether a place is the real thing, since type filtering alone barely helps (Google's primary type for a dental surgery is genuinely \"hospital\"). Practical effect: for a category like airport, nothing below 100 reviews was ever fetched into the dataset at all, so sliding the filter down to 0 will not reveal anything below that built-in floor.",
+   body:"The Places tab's \"Minimum Google reviews\" slider is what you actually control: a single number, default 5, adjustable 0 to 50, applied the same way to every target-place category (not stations). It sits on top of a per-category floor baked into the shipped dataset when it was built and not adjustable in the app (hospital 50, airport 100, museum 10, park and amusement park 20, library, cinema and golf 5, zoo 10, aquarium 0, consulate 5). Airports that pass their review floor are additionally audited against Google Flights. Review count turned out to be the only strong signal for whether a place is the real thing, since type filtering alone barely helps (Google's primary type for a dental surgery is genuinely \"hospital\").",
    tags:["google","thresholds"]},
   {id:"t-elevation-peaks", section:"thresholds", title:"Mountain peaks are filtered to 2000 m and above",
    body:"Peaks below that elevation are dropped from the mountain layer entirely.",
@@ -98,7 +98,7 @@ const ASSUMPTIONS = [
 
   // --- Known gaps & limitations ---
   {id:"g-airport-audit", section:"gaps", title:"Airports needed more than a review count",
-   body:"Of the original 17 review-count-proxy airport entries, only 3 have confirmed scheduled commercial service (Geneva, Zurich, St. Gallen-Altenrhein) per a manual Google Flights check; the other 14 were general aviation, military or charter-only fields, or not an airfield at all. See data/airport-audit-report.txt for the full breakdown.",
+   body:"Of the 17 review-count-proxy airport entries, 5 have flights displayed to or from the airport on Google Flights: Bern, Geneva, Sion, St. Gallen-Altenrhein and Zurich. Seasonal and charter flights count. The manual audit is persisted in the filter so rerunning it cannot restore the rejected fields. See data/airport-audit-report.txt for the full breakdown.",
    tags:["google","thresholds","gaps"]},
   {id:"g-coastline", section:"gaps", title:"Coastline and landmass return null answers",
    body:"Switzerland is landlocked (coastline) and one contiguous piece (landmass), so both count as automatically answered under the rulebook's own definitions. Documented, not implemented as a live check.",

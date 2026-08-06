@@ -62,13 +62,18 @@ MIN_REVIEWS = {
     "zoo": 10, "aquarium": 0, "themepark": 20, "golf": 5,
     "airport": 100, "consulate": 5,
 }
-# WARNING: airport's threshold is only a proxy. data/places.json's committed
-# airport list was additionally hand-curated against Google Flights (see
-# data/airport-audit-report.txt) to drop general aviation/military/charter
-# fields this review-count filter alone cannot tell apart. Re-running this
-# script regenerates the full review-count-proxy list from data/places-raw.json
-# and silently discards that manual curation, even with no fresh sweep - redo
-# the Google Flights check before committing data/places.json again.
+# Google offers no Flights API, so this is the persisted result of the manual
+# check documented in data/airport-audit-report.txt. Review count cannot tell a
+# passenger airport from a busy general-aviation field. An airport counts when
+# Google Flights displays a flight to or from that airport; seasonal and charter
+# flights count too. Re-audit and update this set after a fresh Places sweep.
+GOOGLE_FLIGHTS_AIRPORTS = {
+    "Bern Airport",
+    "Geneva Airport",
+    "Sion Airport",
+    "St. Gallen–Altenrhein Airport",
+    "Zurich Airport",
+}
 # Only applied with --strict-medical. Some genuine hospitals carry these tags,
 # so the review threshold usually does this job better.
 MEDICAL_PRACTICE = {"hospital": {"doctor", "medical_clinic", "medical_lab"}}
@@ -93,7 +98,8 @@ def main():
     lines.append(f"Mode: {'loose, all review thresholds off' if loose else 'per-category thresholds'}"
                  f"{f', overridden to {override} everywhere' if override is not None else ''}"
                  f"{', medical practices excluded' if strict_medical else ''}")
-    lines.append(f"{'category':11s} {'raw':>6s} {'kept':>6s} {'type':>6s} {'medical':>8s} {'reviews':>8s}")
+    lines.append(f"{'category':11s} {'raw':>6s} {'kept':>6s} {'type':>6s} "
+                 f"{'medical':>8s} {'reviews':>8s} {'flights':>8s}")
     for category, rows in sorted(raw.items()):
         banned = EXCLUDE_TYPES.get(category, set())
         medical = MEDICAL_PRACTICE.get(category, set()) if strict_medical else set()
@@ -103,7 +109,7 @@ def main():
             min_reviews = override
         else:
             min_reviews = MIN_REVIEWS.get(category, 0)
-        kept, by_type, by_medical, by_reviews = [], 0, 0, 0
+        kept, by_type, by_medical, by_reviews, by_flights = [], 0, 0, 0, 0
         reasons = Counter()
         for row in rows:
             types = set(row[6]) if len(row) > 6 and row[6] else set()
@@ -118,18 +124,23 @@ def main():
             if min_reviews and (row[4] or 0) < min_reviews:
                 by_reviews += 1
                 continue
+            if category == "airport" and row[0] not in GOOGLE_FLIGHTS_AIRPORTS:
+                by_flights += 1
+                continue
             kept.append([row[0], row[1], row[2], row[3], row[4]])
         out[category] = kept
         lines.append(f"{category:11s} {len(rows):6d} {len(kept):6d} {by_type:6d} "
-                     f"{by_medical:8d} {by_reviews:8d}  (min {min_reviews})")
+                     f"{by_medical:8d} {by_reviews:8d} {by_flights:8d}  "
+                     f"(min {min_reviews})")
         if reasons:
             top = ", ".join(f"{t} ({n})" for t, n in reasons.most_common(4))
             lines.append(f"            excluded mostly by: {top}")
 
     lines.append("Columns: raw, kept, then dropped by secondary type, "
-                 "by medical practice rule, by review count.")
-    lines.append("Airports need a manual pass: the rulebook counts an airport as "
-                 "commercial only if Google Flights shows flights to or from it.")
+                 "by medical practice rule, by review count, by the persisted "
+                 "Google Flights audit.")
+    lines.append("Airport eligibility is stored in GOOGLE_FLIGHTS_AIRPORTS; re-audit "
+                 "that set after a fresh Places sweep.")
     lines.append("=== END ===")
     report = "\n".join(lines)
     print("\n" + report)

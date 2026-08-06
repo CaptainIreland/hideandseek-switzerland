@@ -1,81 +1,59 @@
-=== AIRPORT COMMERCIAL-SERVICE AUDIT ===
+=== AIRPORT GOOGLE FLIGHTS AUDIT ===
 
-Manual audit, 2026-08-03. Cross-checked each of the 17 review-count-proxy
-airport entries (MIN_REVIEWS["airport"]=100 in scripts/filter_places.py)
-against Google Flights (scheduled routes shown to/from the airport) and
-Google Maps, corroborated independently via web search where Google Flights
-alone was ambiguous between charter and scheduled service. This is a
-one-time manual/web pass, not a reproducible script sweep - there is no
-Google Flights API in this pipeline - so a future re-check means repeating
-this by hand against the fresh candidate list, not re-running a script.
+Manual audit, 2026-08-03, corrected 2026-08-06. Cross-checked the 17 entries
+produced by the 100-review proxy against Google Flights and Google Maps.
 
-Airports checked: 17
-Commercial (kept): 3
-Not commercial (removed): 14
+The rule is satisfied when Google Flights displays a flight to or from the
+airport. It does not require year-round or scheduled service, so seasonal and
+charter flights count. This is a manual/web pass because Google Flights has no
+API. After a fresh Places sweep, repeat the check and update
+GOOGLE_FLIGHTS_AIRPORTS in scripts/filter_places.py.
 
---- COMMERCIAL: scheduled flights confirmed ---
-  - Geneva Airport - major international hub, scheduled flights year-round.
-  - Zurich Airport - major international hub, scheduled flights year-round.
-  - St. Gallen-Altenrhein Airport - Peoples Viennaline, about 11x/week
-    nonstop to Vienna, year-round scheduled service.
+Google Flights-visible (kept): 5
+No Google Flights flight (removed): 12
 
---- NOT COMMERCIAL: removed ---
+--- GOOGLE FLIGHTS-VISIBLE: kept ---
+  - Bern Airport - Google Flights displays seasonal Helvetic flights from
+    BRN, including Palma, Heraklion, Monastir, Kos and Djerba.
+  - Geneva Airport - major international hub, with flights displayed
+    year-round.
+  - Sion Airport - Google Flights displays a seasonal weekly Helvetic flight
+    between SIR and Palma. Its charter classification does not disqualify it.
+  - St. Gallen-Altenrhein Airport - Google Flights displays Peoples
+    Viennaline flights between ACH and Vienna.
+  - Zurich Airport - major international hub, with flights displayed
+    year-round.
+
+--- NO FLIGHT DISPLAYED BY GOOGLE FLIGHTS: removed ---
   - Air Ballonteam Stefan Zeberli GmbH - a hot-air-balloon touring company
-    near St. Margrethen, not an airfield at all (no runway); Google Flights
-    has no results for this location.
-  - Airfield Langenthal - small grass strip ("Flugplatz Bleienbach"),
-    general aviation, no scheduled service.
-  - Aerodrome Epagny - "Aerodrome de la Gruyere", general aviation/gliding,
-    no scheduled service.
-  - Bern Airport - only seasonal Helvetic/Sky Alps Mediterranean holiday
-    charter flights (Heraklion, Kos, Rhodes, Palma, Cagliari, Olbia) since
-    SkyWork Airlines (its last scheduled carrier) collapsed in 2018; multiple
-    aviation sources describe current traffic as "seasonal and charter"
-    only, and Google Flights shows no bookable flight, just driving-time/
-    hotel fallbacks.
-  - Birrfeld Airport - general aviation/flight school, no scheduled service.
-  - Emmen Airport - Militaerflugplatz Emmen, a Swiss Air Force base, no
-    civilian scheduled service.
-  - Engadin Airport (Samedan) - high-altitude general-aviation/glacier-
-    flight strip; Google Flights recognises the place but redirects to
-    Bergamo (BGY) or St. Gallen-Altenrhein (ACH) instead of listing any
-    flight of its own.
-  - Flugplatz Speck Fehraltorf - small grass strip, general aviation;
-    Google Flights only treats "Fehraltorf" as a municipality and suggests
-    nearby Zurich Airport instead.
-  - Flugplatz Wangen-Lachen - lake-shore general-aviation strip, no
-    scheduled service.
-  - Grenchen Airport - general aviation/flight school, no scheduled service.
-  - Lausanne Airport (La Blecherette) - general aviation airfield, no
-    scheduled service.
-  - Lugano Airport - lost its last scheduled carrier when Swiss/Adria's
-    Etihad Regional service ended (Swiss International Air Lines ceased
-    operations there in September 2019); now general and business aviation
-    only. Google Flights recognises the place but redirects to Milan
-    Malpensa (MXP) instead of listing a LUG flight.
-  - Luzern-Beromuenster Airport - general aviation airfield, no scheduled
-    service.
-  - Sion Airport - primarily a Swiss Air Force fighter base, with civil
-    aviation as a secondary activity; Helvetic's once-weekly seasonal Palma
-    de Mallorca flight (May-October) is described by aviation sources as an
-    "occasional charter", not regular scheduled service, and Google Flights
-    shows no bookable flight for it, only driving-time/hotel fallbacks.
+    near St. Margrethen, not an airfield at all.
+  - Airfield Langenthal - small general-aviation grass strip.
+  - Aerodrome Epagny - general aviation and gliding.
+  - Birrfeld Airport - general aviation and flight school.
+  - Emmen Airport - Swiss Air Force base, with no civilian passenger flight
+    displayed.
+  - Engadin Airport (Samedan) - general aviation and glacier flights; Google
+    Flights directs travellers to other airports.
+  - Flugplatz Speck Fehraltorf - general-aviation grass strip; Google Flights
+    treats Fehraltorf as a municipality and suggests Zurich Airport.
+  - Flugplatz Wangen-Lachen - general-aviation strip.
+  - Grenchen Airport - general aviation and flight school.
+  - Lausanne Airport (La Blecherette) - general aviation.
+  - Lugano Airport - general and business aviation; Google Flights' generic
+    Lugano city pages use nearby airports, not a flight from LUG.
+  - Luzern-Beromuenster Airport - general aviation.
 
 --- METHOD ---
-For each airport: checked Google Flights (searching by name and/or nearest
-IATA/ICAO code) and cross-referenced the pin on Google Maps to confirm it
-was the same place, then independently corroborated via web search (airline
-route pages, aviation-industry sources, Wikipedia) where Google Flights
-alone left it ambiguous whether traffic was scheduled or seasonal/charter
-(this applied to Bern and Sion in particular, both of which have real but
-non-scheduled leisure-charter activity that could otherwise look like a
-false negative).
+For each airport, search Google Flights by airport name and IATA/ICAO code and
+cross-reference its Google Maps pin. A positive result must identify the
+airport itself in the itinerary. Generic city pages that use a nearby airport,
+or itineraries beginning with a rail connection, do not qualify. Service labels
+such as scheduled, seasonal and charter are deliberately ignored.
 
 --- ASIDE ---
-Basel Airport (EuroAirport Basel-Mulhouse-Freiburg) has genuine year-round
-scheduled service alongside Zurich and Geneva, but never appeared in this
-17-entry list at all - Google addresses it in Saint-Louis, France, so it
-falls outside the Switzerland places sweep by geography, not by the review
-threshold. Not a bug in this list; noted for completeness.
+Basel Airport (EuroAirport Basel-Mulhouse-Freiburg) has flights displayed by
+Google Flights, but never appeared in this 17-entry list. Google addresses it
+in Saint-Louis, France, so it falls outside the Switzerland Places sweep by
+geography. That is consistent with this project's map-boundary rule.
 
 === END ===
