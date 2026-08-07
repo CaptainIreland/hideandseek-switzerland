@@ -392,15 +392,40 @@ function elevationBand(thresholdM){
 }
 let activeFilter=null, lastRegion=null;
 function lineDistKm(pt,lineF){
+  if(!lineF)return Infinity;
+  if(lineF.type==="FeatureCollection"){
+    let best=Infinity;
+    for(const f of lineF.features)best=Math.min(best,lineDistKm(pt,f));
+    return best;
+  }
   const g=lineF.geometry||lineF;
   if(g.type==="LineString")return turf.pointToLineDistance(pt,lineF,{units:"kilometers"});
   let best=Infinity;
-  for(const cs of g.coordinates)best=Math.min(best,turf.pointToLineDistance(pt,turf.lineString(cs),{units:"kilometers"}));
+  if(g.type==="MultiLineString")for(const cs of g.coordinates)best=Math.min(best,turf.pointToLineDistance(pt,turf.lineString(cs),{units:"kilometers"}));
   return best;
 }
 function computeViableStations(region,blocked=new Set()){
-  const parts=polys(region).map(p=>({p,bb:turf.bbox(p),line:null}));
   const hideKm=hideRadiusM()/1000;
+  // One outward buffer turns "station centre inside OR its hiding circle
+  // touches the region" into a cheap point-in-polygon test. This matters for
+  // border bands: their inner rings otherwise require thousands of repeated
+  // point-to-line scans and leave the redraw visibly stuck on Computing.
+  try{
+    const expanded=turf.buffer(region,hideKm,{units:"kilometers",steps:8});
+    if(expanded){
+      const bb=turf.bbox(expanded),set=new Set();
+      for(let i=0;i<STATIONS.length;i++){
+        if(blocked.has(i))continue;
+        const lat=STATIONS[i][1],lng=STATIONS[i][2];
+        if(lng<bb[0]||lng>bb[2]||lat<bb[1]||lat>bb[3])continue;
+        if(turf.booleanPointInPolygon(turf.point([lng,lat]),expanded))set.add(i);
+      }
+      return set;
+    }
+  }catch(e){}
+  // Conservative fallback for an invalid/degenerate polygon Turf cannot
+  // buffer. Keep it bounding-box gated because line-distance checks are slow.
+  const parts=polys(region).map(p=>({p,bb:turf.bbox(p),line:null}));
   const margLat=(hideKm+0.05)/111;
   const set=new Set();
   for(let i=0;i<STATIONS.length;i++){
@@ -574,19 +599,19 @@ function blockedStationIndexes(clueList=clues){
   for(let i=start;i<clueList.length;i++){
     const clue=clueList[i];
     if(!clueIsActive(clue)||clue.kind!=="station-block"||!clue.share)continue;
-    const i=stationIndexAt(clue.share.lat,clue.share.lng);
-    if(i>=0)blocked.add(i);
+    const stationIndex=stationIndexAt(clue.share.lat,clue.share.lng);
+    if(stationIndex>=0)blocked.add(stationIndex);
   }
   return blocked;
 }
 function computeBaseRegion(clueList){
   let region=turf.feature(JSON.parse(JSON.stringify(SWISS_GEO)));
   for(const clue of clueList){
-    if(!region)break;
     if(!clueIsActive(clue)||clue.kind==="station-block")continue;
-    // Confirming the hider's station supersedes all earlier deductions. The
-    // whole hiding zone becomes possible again; only later clues may narrow it.
-    region=clue.kind==="station"?clip(SWISS_FEATURE,clue.poly,"i"):clip(region,clue.poly,clue.mode);
+    // Identifying the hider's station is definitive. Its complete hiding zone
+    // replaces every earlier deduction; only clues after it may narrow again.
+    if(clue.kind==="station")region=clip(SWISS_FEATURE,clue.poly,"i");
+    else if(region)region=clip(region,clue.poly,clue.mode);
   }
   return region;
 }
@@ -629,10 +654,10 @@ function compute(){
   if(k>0&&k===computeCache.clueRefs.length){region=computeCache.region;i=k;}
   else{region=turf.feature(JSON.parse(JSON.stringify(SWISS_GEO)));i=0;}
   for(;i<clues.length;i++){
-    if(!region)break;
     if(!clueIsActive(clues[i]))continue;
     if(clues[i].kind==="station-block")continue;
-    region=clues[i].kind==="station"?clip(SWISS_FEATURE,clues[i].poly,"i"):clip(region,clues[i].poly,clues[i].mode);
+    if(clues[i].kind==="station")region=clip(SWISS_FEATURE,clues[i].poly,"i");
+    else if(region)region=clip(region,clues[i].poly,clues[i].mode);
   }
   computeCache={clueRefs:clues.slice(0,i),region};
   return region;
@@ -674,22 +699,24 @@ function drawRailLayer(){
 }
 let drawToken=0;
 function drawDeduction(){
-  maskLayer.clearLayers();survLayer.clearLayers();
+  const my=++drawToken;
   const st=document.getElementById("area-status");
   if(!clues.length){
+    maskLayer.clearLayers();survLayer.clearLayers();
     activeFilter=null;lastRegion=null;st.innerHTML="";render();drawRailLayer();
     const mask0=turf.difference(WORLD_MASK,SWISS_FEATURE);
     if(mask0) L.geoJSON(mask0,{style:{stroke:false,fillColor:"#0b0f14",fillOpacity:.6},interactive:false,pane:"maskPane"}).addTo(maskLayer);
     return;
   }
   st.innerHTML="Computing\u2026";
-  const my=++drawToken;
   setTimeout(()=>{
     if(my!==drawToken)return;
+    try{
     const region=compute();
     if(my!==drawToken)return;
     lastRegion=region;
     if(!region){
+      maskLayer.clearLayers();survLayer.clearLayers();
       activeFilter=new Set();render();drawRailLayer();
       L.geoJSON(WORLD_MASK,{style:{stroke:false,fillColor:"#0b0f14",fillOpacity:.62},interactive:false,pane:"maskPane"}).addTo(maskLayer);
       st.innerHTML='<b style="color:#ff6b6b">No area fits these clues.</b><br>Re-check the most recent answer.';
@@ -698,12 +725,23 @@ function drawDeduction(){
     activeFilter=computeViableStations(region,blockedStationIndexes());
     render();drawRailLayer();
     const mask=turf.difference(WORLD_MASK,region);
+    maskLayer.clearLayers();survLayer.clearLayers();
     if(mask) L.geoJSON(mask,{style:{stroke:false,fillColor:"#0b0f14",fillOpacity:.6},interactive:false,pane:"maskPane"}).addTo(maskLayer);
     L.geoJSON(region,{style:{color:"#e30613",weight:2,fill:false},interactive:false}).addTo(survLayer);
     const areaTxt=fmtArea(turf.area(region)/1e6);
     const activeCount=clues.filter(clueIsActive).length;
     const clueTxt=activeCount===clues.length?`${clues.length} clue${clues.length>1?"s":""}`:`${activeCount} of ${clues.length} clues active`;
     st.innerHTML=`Possible area: <b>${areaTxt}</b> \u00b7 ${clueTxt} \u00b7 <b>${activeFilter.size.toLocaleString()}</b> of ${STATIONS.length.toLocaleString()} stations in play`;
+    }catch(err){
+      console.error("Could not redraw deduction",err);
+      if(my===drawToken){
+        st.innerHTML='<b style="color:#ff6b6b">Could not redraw this clue.</b><br>The previous map has been kept.<br>';
+        const detail=document.createElement("span");
+        detail.className="hint";
+        detail.textContent=err&&err.message?err.message:String(err);
+        st.appendChild(detail);
+      }
+    }
   },25);
 }
 
@@ -1151,7 +1189,9 @@ function rebuildTnList(){
 }
 function rebuildStList(){
   const dl=document.getElementById("st-list"); if(!dl) return;
-  const pts=[...remainingStationIndexesForForm()].map(i=>({name:STATIONS[i][0]||"Station",lat:STATIONS[i][1],lng:STATIONS[i][2]}));
+  // Identification replaces every earlier clue, so no earlier deduction or
+  // manual station ruling may remove its station from this list.
+  const pts=STATIONS.map(s=>({name:s[0]||"Station",lat:s[1],lng:s[2]}));
   pts.sort((a,b)=>a.name.localeCompare(b.name));
   dl.innerHTML=pts.map(p=>`<option value="${stationChoiceValue(p).replace(/"/g,"&quot;")}"></option>`).join("");
 }
@@ -1200,7 +1240,7 @@ function updateStationMode(){
   const hint=document.getElementById("station-hint");
   if(hint) hint.textContent=blocked
     ? "Only stations still in play are listed. Ruling one out greys its exclusive hiding-zone coverage, but keeps every overlap covered by another remaining station."
-    : "Marks the hider's hiding zone as confirmed. Its complete zone becomes possible again, superseding earlier clues; clues added afterwards can narrow it.";
+    : "Marks the hider's complete hiding zone as confirmed. It replaces all earlier clues; clues added afterwards can narrow it.";
   const button=document.getElementById("add-station");
   if(button&&editingIndex==null&&!blocked)button.textContent="Add clue";
   if(tool==="station"){
