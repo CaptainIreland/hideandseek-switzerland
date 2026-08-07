@@ -567,7 +567,12 @@ function stationIndexAt(lat,lng){
 }
 function blockedStationIndexes(clueList=clues){
   const blocked=new Set();
-  for(const clue of clueList){
+  let start=0;
+  for(let i=clueList.length-1;i>=0;i--){
+    if(clueIsActive(clueList[i])&&clueList[i].kind==="station"){start=i+1;break;}
+  }
+  for(let i=start;i<clueList.length;i++){
+    const clue=clueList[i];
     if(!clueIsActive(clue)||clue.kind!=="station-block"||!clue.share)continue;
     const i=stationIndexAt(clue.share.lat,clue.share.lng);
     if(i>=0)blocked.add(i);
@@ -579,7 +584,9 @@ function computeBaseRegion(clueList){
   for(const clue of clueList){
     if(!region)break;
     if(!clueIsActive(clue)||clue.kind==="station-block")continue;
-    region=clip(region,clue.poly,clue.mode);
+    // Confirming the hider's station supersedes all earlier deductions. The
+    // whole hiding zone becomes possible again; only later clues may narrow it.
+    region=clue.kind==="station"?clip(SWISS_FEATURE,clue.poly,"i"):clip(region,clue.poly,clue.mode);
   }
   return region;
 }
@@ -624,7 +631,8 @@ function compute(){
   for(;i<clues.length;i++){
     if(!region)break;
     if(!clueIsActive(clues[i]))continue;
-    region=clip(region,clues[i].poly,clues[i].mode);
+    if(clues[i].kind==="station-block")continue;
+    region=clues[i].kind==="station"?clip(SWISS_FEATURE,clues[i].poly,"i"):clip(region,clues[i].poly,clues[i].mode);
   }
   computeCache={clueRefs:clues.slice(0,i),region};
   return region;
@@ -1192,7 +1200,7 @@ function updateStationMode(){
   const hint=document.getElementById("station-hint");
   if(hint) hint.textContent=blocked
     ? "Only stations still in play are listed. Ruling one out greys its exclusive hiding-zone coverage, but keeps every overlap covered by another remaining station."
-    : "Marks the hider's hiding zone as confirmed. The possible area collapses to that station's zone at the current hiding-zone radius.";
+    : "Marks the hider's hiding zone as confirmed. Its complete zone becomes possible again, superseding earlier clues; clues added afterwards can narrow it.";
   const button=document.getElementById("add-station");
   if(button&&editingIndex==null&&!blocked)button.textContent="Add clue";
   if(tool==="station"){
