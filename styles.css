@@ -97,8 +97,11 @@
   .clue{display:flex;align-items:flex-start;gap:8px;background:var(--panel-2);border:1px solid var(--line);
     border-radius:8px;padding:9px 10px;margin-bottom:7px;font-size:12.5px;line-height:1.35}
   .clue.editing{border-color:var(--red);background:rgba(227,6,19,.1)}
+  .clue.effect-off{opacity:.55;border-style:dashed}
   .clue .idx{color:var(--red);font-weight:700;font-family:'Space Grotesk',sans-serif}
   .clue-actions{display:flex;gap:2px;margin-left:auto;flex:0 0 auto}
+  .clue .effect{background:none;border:none;color:var(--ink-dim);cursor:pointer;font-size:15px;line-height:1;padding:2px 4px}
+  .clue .effect:hover{color:#fff}
   .clue .edit{background:none;border:none;color:var(--ink-dim);cursor:pointer;font-size:13px;line-height:1;padding:2px 4px}
   .clue .edit:hover{color:#fff}
   .clue .x{background:none;border:none;color:var(--ink-dim);cursor:pointer;font-size:15px;line-height:1;padding:2px 4px}

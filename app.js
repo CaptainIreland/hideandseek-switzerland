@@ -554,6 +554,7 @@ const REF_LABEL={station:"train station",border:"international border",canton:"c
 // back to recomputing from that point) - adding one clue at the end, the
 // common case, then only clips that one clue instead of replaying the list.
 let computeCache={clueRefs:[],region:null};
+function clueIsActive(clue){return clue.enabled!==false;}
 function compute(){
   let k=0;
   const maxK=Math.min(computeCache.clueRefs.length,clues.length);
@@ -563,6 +564,7 @@ function compute(){
   else{region=turf.feature(JSON.parse(JSON.stringify(SWISS_GEO)));i=0;}
   for(;i<clues.length;i++){
     if(!region)break;
+    if(!clueIsActive(clues[i]))continue;
     region=clip(region,clues[i].poly,clues[i].mode);
   }
   computeCache={clueRefs:clues.slice(0,i),region};
@@ -632,7 +634,9 @@ function drawDeduction(){
     if(mask) L.geoJSON(mask,{style:{stroke:false,fillColor:"#0b0f14",fillOpacity:.6},interactive:false,pane:"maskPane"}).addTo(maskLayer);
     L.geoJSON(region,{style:{color:"#e30613",weight:2,fill:false},interactive:false}).addTo(survLayer);
     const areaTxt=fmtArea(turf.area(region)/1e6);
-    st.innerHTML=`Possible area: <b>${areaTxt}</b> \u00b7 ${clues.length} clue${clues.length>1?"s":""} \u00b7 <b>${activeFilter.size.toLocaleString()}</b> of ${STATIONS.length.toLocaleString()} stations in play`;
+    const activeCount=clues.filter(clueIsActive).length;
+    const clueTxt=activeCount===clues.length?`${clues.length} clue${clues.length>1?"s":""}`:`${activeCount} of ${clues.length} clues active`;
+    st.innerHTML=`Possible area: <b>${areaTxt}</b> \u00b7 ${clueTxt} \u00b7 <b>${activeFilter.size.toLocaleString()}</b> of ${STATIONS.length.toLocaleString()} stations in play`;
   },25);
 }
 
@@ -922,9 +926,11 @@ function highlightStation(lat,lng){
 function addClue(clue){
   if(!clue||!clue.poly){flash("Could not build that clue. Check the inputs.");return false;}
   if(editingIndex!=null){
+    clue.enabled=clueIsActive(clues[editingIndex]);
     clues[editingIndex]=clue;
     exitEditUI();
   } else {
+    clue.enabled=true;
     clues.push(clue);
   }
   renderClues();
@@ -942,9 +948,15 @@ function renderClues(){
   document.getElementById("clear-clues").hidden=!clues.length;
   if(!clues.length){ list.innerHTML='<p class="hint" id="clue-empty">No clues yet. Add one above and the map narrows down.</p>'; drawDeduction(); return; }
   list.innerHTML="";
-  clues.forEach((c,i)=>{const d=document.createElement("div");d.className="clue"+(i===editingIndex?" editing":"");
-    d.innerHTML=`<div>${c.label}</div><div class="clue-actions"><button class="edit" data-i="${i}" title="Edit">✏️</button><button class="x" data-i="${i}" title="Remove">×</button></div>`;
+  clues.forEach((c,i)=>{const d=document.createElement("div");const active=clueIsActive(c);d.className="clue"+(i===editingIndex?" editing":"")+(active?"":" effect-off");
+    const effectLabel=active?"Hide this clue's effect":"Show this clue's effect";
+    d.innerHTML=`<div>${c.label}</div><div class="clue-actions"><button class="effect" data-i="${i}" title="${effectLabel}" aria-label="${effectLabel}" aria-pressed="${active}">${active?"◉":"○"}</button><button class="edit" data-i="${i}" title="Edit">✏️</button><button class="x" data-i="${i}" title="Remove">×</button></div>`;
     list.appendChild(d);});
+  list.querySelectorAll(".effect").forEach(x=>x.addEventListener("click",()=>{
+    const idx=+x.dataset.i;
+    clues[idx]={...clues[idx],enabled:!clueIsActive(clues[idx])};
+    renderClues();
+  }));
   list.querySelectorAll(".edit").forEach(x=>x.addEventListener("click",()=>{startEdit(+x.dataset.i);}));
   list.querySelectorAll(".x").forEach(x=>x.addEventListener("click",()=>{
     const idx=+x.dataset.i;
@@ -1396,7 +1408,7 @@ async function loadElevation(){
 
 
 /* ========================= SHARE LINK ========================= */
-// #v=3&z=<zone km>&r=<min reviews>&f=<stations>.<places>&c=<clue>~<clue>...
+// #v=4&z=<zone km>&r=<min reviews>&f=<stations>.<places>&c=<clue>~<clue>...
 // Clue fields are | separated, coordinates to 5dp, distances always canonical
 // kilometres. Geometry is rebuilt from these inputs on load, never shipped as
 // GeoJSON, so it matches whatever clip()/circle()/voronoi logic the
@@ -1404,18 +1416,19 @@ async function loadElevation(){
 // the unit it was created in, purely so its label can still read the way the
 // sender saw it -- imperial and metric are parallel rule sets, not
 // conversions, so that label must never be silently re-derived.
-const SHARE_VERSION=3;
+const SHARE_VERSION=4;
 function fmt5(n){return Number(n).toFixed(5);}
 function parseNum(s){if(s===undefined||s===null||s==="")return null;const n=parseFloat(s);return Number.isFinite(n)?n:null;}
-function encodeClueShare(s){
+function encodeClueShare(s,active){
   if(!s) return null;
+  const effect=active?1:0;
   switch(s.t){
-    case "R": return ["R",fmt5(s.lat),fmt5(s.lng),s.km,s.hit?1:0,s.unit].join("|");
-    case "T": return ["T",fmt5(s.aLat),fmt5(s.aLng),fmt5(s.bLat),fmt5(s.bLng),s.hotter?1:0,s.questionKm,s.unit].join("|");
-    case "M": return ["M",s.mode,fmt5(s.lat),fmt5(s.lng),s.same?1:0].join("|");
-    case "S": return ["S",s.ref,fmt5(s.lat),fmt5(s.lng),s.closer?1:0,s.unit].join("|");
-    case "N": return ["N",s.ref,fmt5(s.lat),fmt5(s.lng),s.km,s.pLat!=null?fmt5(s.pLat):"",s.pLng!=null?fmt5(s.pLng):"",s.unit].join("|");
-    case "P": return ["P",fmt5(s.lat),fmt5(s.lng)].join("|");
+    case "R": return ["R",fmt5(s.lat),fmt5(s.lng),s.km,s.hit?1:0,s.unit,effect].join("|");
+    case "T": return ["T",fmt5(s.aLat),fmt5(s.aLng),fmt5(s.bLat),fmt5(s.bLng),s.hotter?1:0,s.questionKm,s.unit,effect].join("|");
+    case "M": return ["M",s.mode,fmt5(s.lat),fmt5(s.lng),s.same?1:0,effect].join("|");
+    case "S": return ["S",s.ref,fmt5(s.lat),fmt5(s.lng),s.closer?1:0,s.unit,effect].join("|");
+    case "N": return ["N",s.ref,fmt5(s.lat),fmt5(s.lng),s.km,s.pLat!=null?fmt5(s.pLat):"",s.pLng!=null?fmt5(s.pLng):"",s.unit,effect].join("|");
+    case "P": return ["P",fmt5(s.lat),fmt5(s.lng),effect].join("|");
     default: return null;
   }
 }
@@ -1425,21 +1438,24 @@ function buildShareUrl(){
   p.set("z",String(HIDE_RADIUS_KM));
   p.set("r",String(state.minReviews));
   p.set("f",`${STATIONS.length}.${TARGETS.length}`);
-  p.set("c",clues.map(c=>encodeClueShare(c.share)).filter(Boolean).join("~"));
+  p.set("c",clues.map(c=>encodeClueShare(c.share,clueIsActive(c))).filter(Boolean).join("~"));
   return location.origin+location.pathname+"#"+p.toString();
 }
 async function decodeClueShare(fields){
   const t=fields[0];
   const lat=i=>parseNum(fields[i]), lng=i=>parseNum(fields[i]);
+  let result,effectIndex;
   switch(t){
-    case "R": return buildRadarClue(lat(1),lng(2),parseNum(fields[3]),fields[5]||"mi",fields[4]==="1");
-    case "T": return buildThermoClue(lat(1),lng(2),lat(3),lng(4),fields[5]==="1",parseNum(fields[6]),fields[7]||"mi");
-    case "M": return buildMatchClue(fields[1],lat(2),lng(3),fields[4]==="1");
-    case "S": return await buildMeasureClue(fields[1],lat(2),lng(3),fields[4]==="1",fields[5]||"mi");
-    case "N": return buildTentacleClue(fields[1],lat(2),lng(3),parseNum(fields[4]),fields[7]||"mi",parseNum(fields[5]),parseNum(fields[6]));
-    case "P": return buildStationClue(lat(1),lng(2));
+    case "R": result=buildRadarClue(lat(1),lng(2),parseNum(fields[3]),fields[5]||"mi",fields[4]==="1");effectIndex=6;break;
+    case "T": result=buildThermoClue(lat(1),lng(2),lat(3),lng(4),fields[5]==="1",parseNum(fields[6]),fields[7]||"mi");effectIndex=8;break;
+    case "M": result=buildMatchClue(fields[1],lat(2),lng(3),fields[4]==="1");effectIndex=5;break;
+    case "S": result=await buildMeasureClue(fields[1],lat(2),lng(3),fields[4]==="1",fields[5]||"mi");effectIndex=6;break;
+    case "N": result=buildTentacleClue(fields[1],lat(2),lng(3),parseNum(fields[4]),fields[7]||"mi",parseNum(fields[5]),parseNum(fields[6]));effectIndex=8;break;
+    case "P": result=buildStationClue(lat(1),lng(2));effectIndex=3;break;
     default: return {error:"Unrecognised clue type '"+t+"'."};
   }
+  if(result&&result.clue) result.clue.enabled=fields[effectIndex]!=="0";
+  return result;
 }
 function shareBanner(html,tone){
   const el=document.getElementById("share-banner");

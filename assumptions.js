@@ -81,7 +81,7 @@ const ASSUMPTIONS = [
 
   // --- Sharing & versioning ---
   {id:"s-hash-format", section:"sharing", title:"A shared map lives entirely in the URL hash",
-   body:"The format is #v=3&z=<zone km>&r=<min reviews>&f=<stations>.<places>&c=<clue>~<clue>..., never the query string, so a shared link never touches a server.",
+   body:"The format is #v=4&z=<zone km>&r=<min reviews>&f=<stations>.<places>&c=<clue>~<clue>..., never the query string, so a shared link never touches a server. Each clue also carries whether its effect is currently shown.",
    tags:["sharing"]},
   {id:"s-fingerprint", section:"sharing", title:"The fingerprint flags a mismatched dataset",
    body:"The f value is a fingerprint of the sender's station and place counts; a mismatch against the recipient's own counts shows a prominent banner, since the two sides may then disagree on answers.",
@@ -90,7 +90,7 @@ const ASSUMPTIONS = [
    body:"A named tentacle place, or an identified station, resolves by nearest coordinate on replay, since a recipient's dataset may differ slightly from the sender's.",
    tags:["sharing"]},
   {id:"s-version-bump", section:"sharing", title:"SHARE_VERSION bumps whenever the wire format changes",
-   body:"Currently 3, for the thermometer's minimum-distance question field and the station clue type. Old links just show a graceful \"this build does not understand that format\" banner rather than misparsing.",
+   body:"Currently 4, for per-clue effect visibility. Old links just show a graceful \"this build does not understand that format\" banner rather than misparsing.",
    tags:["sharing"]},
   {id:"s-autosave", section:"sharing", title:"Clues auto-save to this browser between visits",
    body:"With no share hash in the URL, the current clue list is saved to and restored from this browser's local storage automatically, so closing and reopening the tab does not lose your progress.",
