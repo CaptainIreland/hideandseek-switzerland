@@ -165,7 +165,8 @@
     </div>
     <div class="pfoot">
       Base map and stations &copy; OpenStreetMap contributors · Target place details from Google · Elevation data &copy; swisstopo.<br>
-      Unofficial fan project. Not affiliated with Jet Lag: The Game.
+      Unofficial fan project. Not affiliated with Jet Lag: The Game.<br>
+      <span id="build-revision">Commit: unavailable locally</span>
     </div>
   </aside>
   <div id="map"></div>
@@ -193,6 +194,15 @@ window.depsReady=Promise.all([
 ]);
 </script>
 <script>
+fetch("revision.txt",{cache:"no-store"}).then(r=>{
+  if(!r.ok)throw new Error("revision unavailable");
+  return r.text();
+}).then(text=>{
+  const match=text.match(/\b[0-9a-f]{40}\b/i);
+  if(!match)return;
+  const el=document.getElementById("build-revision");
+  if(el)el.textContent=`Commit: ${match[0].slice(0,7)}`;
+}).catch(()=>{});
 window.depsReady.then(()=>{
   const s=document.createElement("script");
   s.src="app.js";
