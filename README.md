@@ -16,7 +16,7 @@ Then open http://localhost:4173. The location button needs HTTPS or localhost. O
 
 - Every Swiss railway station and halt, each with a hiding zone ring (quarter, half, or one mile presets)
 - Target places for tentacle-style questions (hospitals, museums, libraries, cinemas, zoos, aquariums, theme parks) with a minimum Google reviews filter
-- A Narrow down tab: enter radar, thermometer, and within answers, and the map keeps only the area that fits every clue
+- A Narrow down tab: enter radar, thermometer, and within answers, confirm the hider's station, or manually rule out checked stations while preserving overlapping hiding zones
 - Live phone location with a GPS (Global Positioning System) accuracy ring
 - No in-app Google key or live data fetch: every dataset is committed to the repository and baked into app.js, so the map works fully offline once loaded, and every player is working off the same data
 

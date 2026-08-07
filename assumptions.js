@@ -52,11 +52,11 @@ const ASSUMPTIONS = [
   {id:"q-tentacles", section:"questions", title:"Tentacles measure from the asker, not the named place",
    body:"The radius is measured from the asker, and only places inside that radius are candidates. Naming a place keeps the part of the asker's disc nearest that place; not in range removes the whole disc. Official radii: 1 mile (2 km) for museums, libraries, movie theatres and hospitals; 15 miles (25 km) for zoos, aquariums and amusement parks. Train stations are not a tentacle category.",
    tags:["thresholds"]},
-  {id:"q-station", section:"questions", title:"Station identified is the strongest possible clue",
-   body:"Not one of the five rulebook question types; built as an ordinary clue type instead so it gets sharing, editing and the viability filter for free. Its polygon uses whatever the hiding-zone radius is at the moment it is built, so it tracks the shared radius setting rather than being frozen independently of it.",
+  {id:"q-station", section:"questions", title:"Stations can be identified or manually ruled out",
+   body:"Identifying the hider's station is not one of the five rulebook question types; it is the strongest possible clue and keeps only that station's hiding zone. The Station tool can also select and rule out several stations still in play at once. Each becomes a separate clue. That removes those stations and greys only coverage exclusive to ruled-out stations, preserving every overlap covered by another remaining station. Both operations use the current shared hiding-zone radius.",
    tags:["clues"]},
   {id:"q-frozen-geometry", section:"questions", title:"A clue's geometry freezes the moment it is added",
-   body:"Later data changes never silently rewrite an existing clue. Editing a clue (the pencil icon) repopulates the right tool's form and replaces that clue in place on the next commit, rather than appending a new one.",
+   body:"Later data changes never silently rewrite an existing clue. The exception is a manually ruled-out station: its exclusive coverage is recalculated when other station rulings change so shared overlaps remain protected. Editing a clue (the pencil icon) repopulates the right tool's form and replaces that clue in place on the next commit, rather than appending a new one.",
    tags:["clues"]},
   {id:"q-units", section:"questions", title:"Imperial and metric are parallel rule sets, not conversions",
    body:"The Large-game question pad has two official value sets (10 mi radar and 15 km radar are different questions, not the same distance in two units). The selected value is converted exactly to kilometres for geometry, so 1/2 mi and 1 km remain distinct distances. Toggling units never touches an existing clue: each clue's label is baked in at add time from whatever unit was active then, and stays that way regardless of later toggling.",
@@ -81,7 +81,7 @@ const ASSUMPTIONS = [
 
   // --- Sharing & versioning ---
   {id:"s-hash-format", section:"sharing", title:"A shared map lives entirely in the URL hash",
-   body:"The format is #v=4&z=<zone km>&r=<min reviews>&f=<stations>.<places>&c=<clue>~<clue>..., never the query string, so a shared link never touches a server. Each clue also carries whether its effect is currently shown.",
+   body:"The format is #v=5&z=<zone km>&r=<min reviews>&f=<stations>.<places>&c=<clue>~<clue>..., never the query string, so a shared link never touches a server. Each clue also carries whether its effect is currently shown. Version 5 adds manually ruled-out station clues.",
    tags:["sharing"]},
   {id:"s-fingerprint", section:"sharing", title:"The fingerprint flags a mismatched dataset",
    body:"The f value is a fingerprint of the sender's station and place counts; a mismatch against the recipient's own counts shows a prominent banner, since the two sides may then disagree on answers.",

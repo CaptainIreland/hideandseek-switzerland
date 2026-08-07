@@ -136,9 +136,15 @@
         </div>
 
         <div class="tool-form" id="form-station" hidden>
-          <label class="fld">Station<input id="st-name" type="text" list="st-list" placeholder="Start typing a station name"><datalist id="st-list"></datalist></label>
+          <div class="ans" data-ans="station"><button data-v="identified" class="on" aria-pressed="true">Hider is here</button><button data-v="blocked" aria-pressed="false">Rule station out</button></div>
+          <label class="fld" id="st-single-field">Station<input id="st-name" type="text" list="st-list" placeholder="Start typing a station name"><datalist id="st-list"></datalist></label>
+          <div id="st-block-fields" hidden>
+            <label class="fld">Search remaining stations<input id="st-search" type="search" placeholder="Start typing a station name"></label>
+            <div class="station-options" id="st-options" role="group" aria-label="Stations to rule out"></div>
+            <p class="hint" id="st-selected-count">No stations selected.</p>
+          </div>
           <button class="add" id="add-station">Add clue</button>
-          <p class="hint">Marks the hider's hiding zone as confirmed. The possible area collapses to that station's zone at the current hiding-zone radius.</p>
+          <p class="hint" id="station-hint">Marks the hider's hiding zone as confirmed. The possible area collapses to that station's zone at the current hiding-zone radius.</p>
         </div>
 
         <div class="divide"></div>

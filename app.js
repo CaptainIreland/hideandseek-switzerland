@@ -398,12 +398,13 @@ function lineDistKm(pt,lineF){
   for(const cs of g.coordinates)best=Math.min(best,turf.pointToLineDistance(pt,turf.lineString(cs),{units:"kilometers"}));
   return best;
 }
-function computeViableStations(region){
+function computeViableStations(region,blocked=new Set()){
   const parts=polys(region).map(p=>({p,bb:turf.bbox(p),line:null}));
   const hideKm=hideRadiusM()/1000;
   const margLat=(hideKm+0.05)/111;
   const set=new Set();
   for(let i=0;i<STATIONS.length;i++){
+    if(blocked.has(i))continue;
     const lat=STATIONS[i][1],lng=STATIONS[i][2];
     const margLng=margLat/Math.max(0.2,Math.cos(lat*Math.PI/180));
     let pt=null;
@@ -555,7 +556,65 @@ const REF_LABEL={station:"train station",border:"international border",canton:"c
 // common case, then only clips that one clue instead of replaying the list.
 let computeCache={clueRefs:[],region:null};
 function clueIsActive(clue){return clue.enabled!==false;}
+function stationIndexAt(lat,lng){
+  let best=-1,score=Infinity;
+  for(let i=0;i<STATIONS.length;i++){
+    const dLat=STATIONS[i][1]-lat,dLng=STATIONS[i][2]-lng;
+    const d=dLat*dLat+dLng*dLng;
+    if(d<score){score=d;best=i;}
+  }
+  return best;
+}
+function blockedStationIndexes(clueList=clues){
+  const blocked=new Set();
+  for(const clue of clueList){
+    if(!clueIsActive(clue)||clue.kind!=="station-block"||!clue.share)continue;
+    const i=stationIndexAt(clue.share.lat,clue.share.lng);
+    if(i>=0)blocked.add(i);
+  }
+  return blocked;
+}
+function computeBaseRegion(clueList){
+  let region=turf.feature(JSON.parse(JSON.stringify(SWISS_GEO)));
+  for(const clue of clueList){
+    if(!region)break;
+    if(!clueIsActive(clue)||clue.kind==="station-block")continue;
+    region=clip(region,clue.poly,clue.mode);
+  }
+  return region;
+}
+// Ruling out a station removes only coverage that belongs exclusively to
+// ruled-out stations. Any overlap with a station still in play is protected.
+// This is derived from the current clue set rather than frozen into each clue,
+// so toggling or removing several station rulings always gives the union of
+// the stations that genuinely remain.
+function applyStationBlocks(region,blocked){
+  if(!region||!blocked.size)return region;
+  const viable=computeViableStations(region);
+  const cut=[...blocked].filter(i=>viable.has(i));
+  if(!cut.length)return region;
+  const cutZones=dissolveUnion(cut.map(i=>circle(STATIONS[i][1],STATIONS[i][2],HIDE_RADIUS_KM)));
+  if(!cutZones)return region;
+  const nearRemaining=[];
+  const maxKm=HIDE_RADIUS_KM*2+0.02;
+  for(const i of viable){
+    if(blocked.has(i))continue;
+    const p=STATIONS[i],from=turf.point([p[2],p[1]]);
+    for(const j of cut){
+      const b=STATIONS[j];
+      if(turf.distance(from,turf.point([b[2],b[1]]),{units:"kilometers"})<=maxKm){nearRemaining.push(i);break;}
+    }
+  }
+  const protectedZones=dissolveUnion(nearRemaining.map(i=>circle(STATIONS[i][1],STATIONS[i][2],HIDE_RADIUS_KM)));
+  const exclusive=protectedZones?turf.difference(cutZones,protectedZones):cutZones;
+  return exclusive?clip(region,exclusive,"d"):region;
+}
 function compute(){
+  const blocked=blockedStationIndexes();
+  if(blocked.size){
+    computeCache={clueRefs:[],region:null};
+    return applyStationBlocks(computeBaseRegion(clues),blocked);
+  }
   let k=0;
   const maxK=Math.min(computeCache.clueRefs.length,clues.length);
   while(k<maxK&&computeCache.clueRefs[k]===clues[k])k++;
@@ -628,7 +687,7 @@ function drawDeduction(){
       st.innerHTML='<b style="color:#ff6b6b">No area fits these clues.</b><br>Re-check the most recent answer.';
       return;
     }
-    activeFilter=computeViableStations(region);
+    activeFilter=computeViableStations(region,blockedStationIndexes());
     render();drawRailLayer();
     const mask=turf.difference(WORLD_MASK,region);
     if(mask) L.geoJSON(mask,{style:{stroke:false,fillColor:"#0b0f14",fillOpacity:.6},interactive:false,pane:"maskPane"}).addTo(maskLayer);
@@ -701,7 +760,7 @@ function showDraft(key,lat,lng){
 /* ---- Tool + answer selection ---- */
 const TOOLS=["radar","thermo","match","measure","tentacle","station"];
 let tool="radar", editingIndex=null;
-const ans={radar:"miss",thermo:"hotter",match:"same",matchmode:"canton",measure:"closer",tent:"named"};
+const ans={radar:"miss",thermo:"hotter",match:"same",matchmode:"canton",measure:"closer",tent:"named",station:"identified"};
 function setTool(t){
   // Switching away from the tool of a clue mid-edit would otherwise leave every
   // other form's Add button reading "Update clue" from startEdit(), letting a
@@ -917,6 +976,22 @@ function buildStationClue(lat,lng){
     label:`<span class="idx">!</span> Station identified · ${station.name}<br><span class="hint">@ ${station.lat.toFixed(3)}, ${station.lng.toFixed(3)}</span>`,
     poly:circle(station.lat,station.lng,HIDE_RADIUS_KM), mode:"i", share:{t:"P",lat:station.lat,lng:station.lng}}};
 }
+function stationChoiceValue(place){return `${place.name} [${place.lat.toFixed(5)}, ${place.lng.toFixed(5)}]`;}
+let stationBlockSelection=new Set();
+function buildStationBlockClue(lat,lng){
+  if(lat==null||lng==null) return {error:"Pick a station from the list."};
+  const i=stationIndexAt(lat,lng);
+  if(i<0) return {error:"No stations loaded."};
+  const basis=editingIndex==null?clues:clues.filter((_,j)=>j!==editingIndex);
+  const base=computeBaseRegion(basis);
+  if(!base) return {error:"No stations remain inside the possible area."};
+  const remaining=computeViableStations(base,blockedStationIndexes(basis));
+  if(!remaining.has(i)) return {error:"That station has already been ruled out by the active clues."};
+  const station=STATIONS[i];
+  return {clue:{kind:"station-block",
+    label:`<span class="idx">×</span> Station ruled out · ${station[0]||"Station"}<br><span class="hint">exclusive coverage removed; shared coverage kept</span>`,
+    poly:null,mode:"d",share:{t:"B",lat:station[1],lng:station[2]}}};
+}
 let stationHighlight=null;
 function highlightStation(lat,lng){
   if(stationHighlight) map.removeLayer(stationHighlight);
@@ -924,7 +999,7 @@ function highlightStation(lat,lng){
   map.flyTo([lat,lng],Math.max(map.getZoom(),14));
 }
 function addClue(clue){
-  if(!clue||!clue.poly){flash("Could not build that clue. Check the inputs.");return false;}
+  if(!clue||(!clue.poly&&clue.kind!=="station-block")){flash("Could not build that clue. Check the inputs.");return false;}
   if(editingIndex!=null){
     clue.enabled=clueIsActive(clues[editingIndex]);
     clues[editingIndex]=clue;
@@ -938,8 +1013,11 @@ function addClue(clue){
 }
 function exitEditUI(){
   editingIndex=null;
+  stationBlockSelection.clear();
+  const search=document.getElementById("st-search");if(search)search.value="";
   const cb=document.getElementById("cancel-edit"); if(cb) cb.hidden=true;
   document.querySelectorAll(".add").forEach(b=>b.textContent="Add clue");
+  if(ans.station==="blocked")updateStationSelectionCount();
 }
 function saveClues(){try{localStorage.setItem("clues",JSON.stringify(clues));}catch(e){}}
 function renderClues(){
@@ -1032,12 +1110,23 @@ function startEdit(i){
     case "P": {
       setTool("station");
       const place=nearestOf(setFor("station"),s.lat,s.lng).place;
-      document.getElementById("st-name").value=place?place.name:"";
+      document.getElementById("st-name").value=place?stationChoiceValue(place):"";
+      stationBlockSelection.clear();
+      setAns("station","identified");
+      break;
+    }
+    case "B": {
+      setTool("station");
+      const place=nearestOf(setFor("station"),s.lat,s.lng).place;
+      document.getElementById("st-name").value=place?stationChoiceValue(place):"";
+      stationBlockSelection=new Set([stationIndexAt(s.lat,s.lng)]);
+      setAns("station","blocked");
       break;
     }
     default: return;
   }
   editingIndex=i;
+  if(s.t==="P"||s.t==="B")updateStationMode();
   document.querySelectorAll(".add").forEach(b=>b.textContent="Update clue");
   const cb=document.getElementById("cancel-edit"); if(cb) cb.hidden=false;
   renderClues();
@@ -1054,8 +1143,61 @@ function rebuildTnList(){
 }
 function rebuildStList(){
   const dl=document.getElementById("st-list"); if(!dl) return;
-  const pts=setFor("station").slice().sort((a,b)=>a.name.localeCompare(b.name)).slice(0,400);
-  dl.innerHTML=pts.map(p=>`<option value="${String(p.name).replace(/"/g,"&quot;")}"></option>`).join("");
+  const pts=[...remainingStationIndexesForForm()].map(i=>({name:STATIONS[i][0]||"Station",lat:STATIONS[i][1],lng:STATIONS[i][2]}));
+  pts.sort((a,b)=>a.name.localeCompare(b.name));
+  dl.innerHTML=pts.map(p=>`<option value="${stationChoiceValue(p).replace(/"/g,"&quot;")}"></option>`).join("");
+}
+function remainingStationIndexesForForm(){
+  if(editingIndex==null&&activeFilter!==null)return new Set(activeFilter);
+  const basis=editingIndex==null?clues:clues.filter((_,i)=>i!==editingIndex);
+  const region=computeBaseRegion(basis);
+  return region?computeViableStations(region,blockedStationIndexes(basis)):new Set();
+}
+function renderStationBlockOptions(){
+  const box=document.getElementById("st-options"); if(!box)return;
+  const remaining=remainingStationIndexesForForm();
+  for(const i of [...stationBlockSelection])if(!remaining.has(i))stationBlockSelection.delete(i);
+  const q=(document.getElementById("st-search").value||"").trim().toLowerCase();
+  const matches=[...remaining].filter(i=>{
+    if(!q)return true;
+    const s=STATIONS[i];
+    return `${s[0]||"Station"} ${s[1].toFixed(5)} ${s[2].toFixed(5)}`.toLowerCase().includes(q);
+  }).sort((a,b)=>(STATIONS[a][0]||"").localeCompare(STATIONS[b][0]||""));
+  box.innerHTML="";
+  for(const i of matches){
+    const s=STATIONS[i],label=document.createElement("label"),input=document.createElement("input"),text=document.createElement("span");
+    label.className="station-option";
+    input.type="checkbox";input.value=String(i);input.checked=stationBlockSelection.has(i);
+    text.textContent=`${s[0]||"Station"} [${s[1].toFixed(5)}, ${s[2].toFixed(5)}]`;
+    input.addEventListener("change",()=>{
+      if(input.checked)stationBlockSelection.add(i);else stationBlockSelection.delete(i);
+      updateStationSelectionCount();
+    });
+    label.append(input,text);box.appendChild(label);
+  }
+  if(!matches.length)box.innerHTML='<p class="hint station-option">No remaining stations match that search.</p>';
+  updateStationSelectionCount();
+}
+function updateStationSelectionCount(){
+  const el=document.getElementById("st-selected-count");if(!el)return;
+  const n=stationBlockSelection.size;
+  el.textContent=n?`${n} station${n===1?"":"s"} selected.`:"No stations selected.";
+  const button=document.getElementById("add-station");
+  if(button&&editingIndex==null&&ans.station==="blocked")button.textContent=n?`Add ${n} clue${n===1?"":"s"}`:"Add clues";
+}
+function updateStationMode(){
+  const blocked=ans.station==="blocked";
+  document.getElementById("st-single-field").hidden=blocked;
+  document.getElementById("st-block-fields").hidden=!blocked;
+  const hint=document.getElementById("station-hint");
+  if(hint) hint.textContent=blocked
+    ? "Only stations still in play are listed. Ruling one out greys its exclusive hiding-zone coverage, but keeps every overlap covered by another remaining station."
+    : "Marks the hider's hiding zone as confirmed. The possible area collapses to that station's zone at the current hiding-zone radius.";
+  const button=document.getElementById("add-station");
+  if(button&&editingIndex==null&&!blocked)button.textContent="Add clue";
+  if(tool==="station"){
+    if(blocked)renderStationBlockOptions();else rebuildStList();
+  }
 }
 function updateThermoDistance(){
   const el=document.getElementById("th-dist");
@@ -1169,11 +1311,37 @@ document.getElementById("rad-presets").addEventListener("click",e=>{
   document.getElementById("rad-mi").value=b.dataset.v;
 });
 document.getElementById("st-name").addEventListener("focus",rebuildStList);
+document.getElementById("st-search").addEventListener("input",renderStationBlockOptions);
+document.querySelector('.ans[data-ans="station"]').addEventListener("click",updateStationMode);
 document.getElementById("add-station").addEventListener("click",()=>{
+  if(ans.station==="blocked"){
+    const selected=[...stationBlockSelection];
+    if(!selected.length){flash("Select at least one station to rule out.");return;}
+    const built=[];
+    for(const i of selected){
+      const s=STATIONS[i],r=buildStationBlockClue(s[1],s[2]);
+      if(r.error){flash(r.error);return;}
+      built.push(r.clue);
+    }
+    if(editingIndex!=null){
+      const wasActive=clueIsActive(clues[editingIndex]);
+      built[0].enabled=wasActive;clues[editingIndex]=built[0];
+      for(let i=1;i<built.length;i++){built[i].enabled=true;clues.push(built[i]);}
+      exitEditUI();
+    }else{
+      for(const clue of built){clue.enabled=true;clues.push(clue);}
+    }
+    stationBlockSelection.clear();
+    document.getElementById("st-search").value="";
+    document.getElementById("st-options").innerHTML="";
+    updateStationSelectionCount();
+    renderClues();
+    return;
+  }
   const q=(document.getElementById("st-name").value||"").trim().toLowerCase();
   if(!q){flash("Type or pick the station name.");return;}
   const pts=setFor("station");
-  const station=pts.find(p=>p.name.toLowerCase()===q)||pts.find(p=>p.name.toLowerCase().includes(q));
+  const station=pts.find(p=>stationChoiceValue(p).toLowerCase()===q)||pts.find(p=>p.name.toLowerCase()===q)||pts.find(p=>p.name.toLowerCase().includes(q));
   if(!station){flash("No station matches that name.");return;}
   const r=buildStationClue(station.lat,station.lng);
   if(r.error){flash(r.error);return;}
@@ -1181,6 +1349,7 @@ document.getElementById("add-station").addEventListener("click",()=>{
   highlightStation(station.lat,station.lng);
   document.getElementById("st-name").value="";
 });
+updateStationMode();
 document.getElementById("cancel-edit").addEventListener("click",()=>{
   exitEditUI(); clearDraft(); renderClues();
 });
@@ -1408,7 +1577,7 @@ async function loadElevation(){
 
 
 /* ========================= SHARE LINK ========================= */
-// #v=4&z=<zone km>&r=<min reviews>&f=<stations>.<places>&c=<clue>~<clue>...
+// #v=5&z=<zone km>&r=<min reviews>&f=<stations>.<places>&c=<clue>~<clue>...
 // Clue fields are | separated, coordinates to 5dp, distances always canonical
 // kilometres. Geometry is rebuilt from these inputs on load, never shipped as
 // GeoJSON, so it matches whatever clip()/circle()/voronoi logic the
@@ -1416,7 +1585,7 @@ async function loadElevation(){
 // the unit it was created in, purely so its label can still read the way the
 // sender saw it -- imperial and metric are parallel rule sets, not
 // conversions, so that label must never be silently re-derived.
-const SHARE_VERSION=4;
+const SHARE_VERSION=5;
 function fmt5(n){return Number(n).toFixed(5);}
 function parseNum(s){if(s===undefined||s===null||s==="")return null;const n=parseFloat(s);return Number.isFinite(n)?n:null;}
 function encodeClueShare(s,active){
@@ -1429,6 +1598,7 @@ function encodeClueShare(s,active){
     case "S": return ["S",s.ref,fmt5(s.lat),fmt5(s.lng),s.closer?1:0,s.unit,effect].join("|");
     case "N": return ["N",s.ref,fmt5(s.lat),fmt5(s.lng),s.km,s.pLat!=null?fmt5(s.pLat):"",s.pLng!=null?fmt5(s.pLng):"",s.unit,effect].join("|");
     case "P": return ["P",fmt5(s.lat),fmt5(s.lng),effect].join("|");
+    case "B": return ["B",fmt5(s.lat),fmt5(s.lng),effect].join("|");
     default: return null;
   }
 }
@@ -1452,6 +1622,7 @@ async function decodeClueShare(fields){
     case "S": result=await buildMeasureClue(fields[1],lat(2),lng(3),fields[4]==="1",fields[5]||"mi");effectIndex=6;break;
     case "N": result=buildTentacleClue(fields[1],lat(2),lng(3),parseNum(fields[4]),fields[7]||"mi",parseNum(fields[5]),parseNum(fields[6]));effectIndex=8;break;
     case "P": result=buildStationClue(lat(1),lng(2));effectIndex=3;break;
+    case "B": result=buildStationBlockClue(lat(1),lng(2));effectIndex=3;break;
     default: return {error:"Unrecognised clue type '"+t+"'."};
   }
   if(result&&result.clue) result.clue.enabled=fields[effectIndex]!=="0";

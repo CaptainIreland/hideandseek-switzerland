@@ -91,6 +91,12 @@
   .ans button{flex:1;background:var(--panel-2);border:1px solid var(--line);color:var(--ink-dim);border-radius:7px;
     padding:9px 4px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit}
   .ans button.on{border-color:var(--red);color:#fff;background:var(--red-soft)}
+  .station-options{max-height:220px;overflow-y:auto;margin-top:7px;border:1px solid var(--line);border-radius:8px;background:var(--panel-2)}
+  .station-option{display:flex;align-items:flex-start;gap:8px;padding:8px 9px;border-bottom:1px solid var(--line);cursor:pointer;font-size:12px;line-height:1.3}
+  .station-option:last-child{border-bottom:0}
+  .station-option:hover{background:rgba(255,255,255,.04)}
+  .station-option input{margin:2px 0 0;accent-color:var(--red);flex:0 0 auto}
+  .station-option span{min-width:0}
   .add{background:var(--red);border:none;color:#fff;border-radius:8px;padding:11px;font-size:13px;font-weight:700;
     cursor:pointer;font-family:'Space Grotesk',sans-serif;margin-top:2px}
   .add:hover{filter:brightness(1.08)}
